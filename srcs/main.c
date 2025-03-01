@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/02/27 19:20:40 by myokono          ###   ########.fr       */
+/*   Updated: 2025/02/28 21:13:59 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,15 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	char	*input;
 
-	(void)argc;
-	(void)argv;
 	shell = init_shell(envp);
 	setup_signals();
+	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
+	{
+		process_input(ft_strdup(argv[2]), shell);
+		free_shell(shell);
+		clear_history();
+		return (shell->exit_status);
+	}
 	while (shell->running)
 	{
 		input = readline("minishell$ ");
