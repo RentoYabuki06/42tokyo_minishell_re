@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/02/27 12:17:39 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/08 13:58:42 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,22 +223,12 @@ static int	execute_command(t_command *cmd, t_shell *shell)
  */
 int	execute_commands(t_shell *shell)
 {
-	// t_command	*current;
-	int			status;
-
 	if (!shell->commands)
 		return (0);
 
-	/* 単一コマンドの場合 */
 	if (!shell->commands->next)
 		return (execute_command(shell->commands, shell));
-
-	/* パイプラインを処理 */
 	if (setup_pipes(shell->commands) != SUCCESS)
 		return (1);
-
-	/* パイプラインコマンドを実行 */
-	status = execute_pipeline(shell->commands, shell);
-
-	return (status);
+	return (execute_pipeline(shell->commands, shell));
 }
