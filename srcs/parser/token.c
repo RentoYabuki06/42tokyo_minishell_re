@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/02/27 12:10:19 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/08 13:35:43 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*token;
 
-	token = safe_malloc(sizeof(t_token));
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
 	token->type = type;
 	token->value = value;
 	token->next = NULL;
@@ -43,10 +45,8 @@ void	add_token(t_token **tokens, t_token *new_token)
 		*tokens = new_token;
 		return ;
 	}
-	
 	current = *tokens;
 	while (current->next)
 		current = current->next;
-	
 	current->next = new_token;
 }

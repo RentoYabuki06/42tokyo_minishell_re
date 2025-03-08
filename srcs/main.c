@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/02/28 21:13:59 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/08 13:59:06 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 /* Global variable for signal handling */
 int		g_signal_status = 0;
 
-/**
- * Function to initialize the shell
- * @param envp Array of environment variables
- * @return Initialized shell structure
- */
 t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
-	shell = safe_malloc(sizeof(t_shell));
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		return (NULL);
 	shell->tokens = NULL;
 	shell->commands = NULL;
 	shell->env_list = init_env_list(envp);
@@ -34,10 +31,6 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-/**
- * Function to free the shell's memory
- * @param shell Shell structure
- */
 void	free_shell(t_shell *shell)
 {
 	t_env	*tmp;
@@ -66,24 +59,13 @@ void	free_shell(t_shell *shell)
 	free(shell);
 }
 
-/**
- * Function to process the input line
- * @param input Input string
- * @param shell Shell structure
- * @return Processing result
- */
 static int	process_input(char *input, t_shell *shell)
 {
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
-	add_history(input);
+	// add_history(input);
 	shell->tokens = tokenize(input, shell);
-	if (!shell->tokens)
-	{
-		free(input);
-		return (ERROR);
-	}
-	if (parse(shell) != SUCCESS)
+	if (!shell->tokens || parse(shell) != SUCCESS)
 	{
 		free(input);
 		return (ERROR);
@@ -97,27 +79,25 @@ static int	process_input(char *input, t_shell *shell)
 	return (SUCCESS);
 }
 
-/**
- * Main function
- * @param argc Number of arguments
- * @param argv Argument array
- * @param envp Environment variable array
- * @return Exit status
- */
+static int	do_one_command(char *input, t_shell *shell)
+{
+	process_input(ft_strdup(input), shell);
+	free_shell(shell);
+	clear_history();
+	exit (shell->exit_status);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	char	*input;
 
 	shell = init_shell(envp);
+	if (!shell)
+		return (ERROR);
 	setup_signals();
 	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
-	{
-		process_input(ft_strdup(argv[2]), shell);
-		free_shell(shell);
-		clear_history();
-		return (shell->exit_status);
-	}
+		do_one_command(argv[2], shell);
 	while (shell->running)
 	{
 		input = readline("minishell$ ");
