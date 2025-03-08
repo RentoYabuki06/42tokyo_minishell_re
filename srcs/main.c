@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/02/28 21:13:59 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/06 23:05:20 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,6 @@ static int	process_input(char *input, t_shell *shell)
 	return (SUCCESS);
 }
 
-/**
- * Main function
- * @param argc Number of arguments
- * @param argv Argument array
- * @param envp Environment variable array
- * @return Exit status
- */
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
