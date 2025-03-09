@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/03/09 22:32:50 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/09 23:40:39 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	process_input(char *input, t_shell *shell)
 	free_commands(shell->commands);
 	shell->commands = NULL;
 	free(input);
-	return (SUCCESS);
+	return (shell->exit_status);
 }
 
 static int	do_one_command(char *input, t_shell *shell)
@@ -91,6 +91,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	char	*input;
+	int		status;	
 
 	shell = init_shell(envp);
 	if (!shell)
@@ -106,9 +107,9 @@ int	main(int argc, char **argv, char **envp)
 			// printf("exit\n");
 			break ;
 		}
-		process_input(input, shell);
+		status = process_input(input, shell);
 	}
 	free_shell(shell);
 	clear_history();
-	return (shell->exit_status);
+	return (status);
 }
