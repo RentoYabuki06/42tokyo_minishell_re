@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/02/27 12:22:53 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:32:30 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	int	point_pos;
-	int	cursor_pos;
 
 	(void)sig;
 	point_pos = rl_point;
-	cursor_pos = rl_point;
 	rl_on_new_line();
 	rl_point = point_pos;
 	rl_redisplay();

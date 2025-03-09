@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/03/09 22:30:18 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:37:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_n_flag(char *str)
 			return (0);
 		i++;
 	}
-	return (i > 1); // "-" だけの場合はフラグではない
+	return (i > 1);
 }
 
 int	builtin_echo(t_command *cmd, t_shell *shell)
@@ -35,10 +35,7 @@ int	builtin_echo(t_command *cmd, t_shell *shell)
 
 	(void)shell;
 	if (!cmd->args[1])
-	{
-		ft_putstr_fd("\n", cmd->output_fd);
-		return (0);
-	}
+		return (ft_putstr_fd("\n", cmd->output_fd), 0);
 	i = 1;
 	n_flag = 0;
 	while (cmd->args[i] && is_n_flag(cmd->args[i]))
