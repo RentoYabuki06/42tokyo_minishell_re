@@ -16,8 +16,9 @@ void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal_status = 1;
-	write(STDOUT_FILENO, "minishell$^C\n", 13);
 	rl_on_new_line();
+	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
