@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/03/08 13:50:13 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:42:21 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	execute_pipeline(t_command *commands, t_shell *shell)
 			if (is_builtin(current->args[0]))
 				exit(execute_builtin(current, shell));
 			else
-				exit(execute_external(current, shell));
+				exit(execute_external_forked(current, shell));
 		}
 
 		/* 親プロセス: 次のコマンドへ */
