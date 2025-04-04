@@ -6,111 +6,11 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 17:54:41 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 18:12:33 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/**
- * 指定されたコマンドがビルトインコマンドかチェックする関数
- * @param cmd コマンド名
- * @return ビルトインコマンドならば1、そうでなければ0
- */
-int	is_builtin(char *cmd)
-{
-	if (!cmd)
-		return (0);
-	return (ft_strcmp(cmd, "echo") == 0
-		|| ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "pwd") == 0
-		|| ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0
-		|| ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "exit") == 0);
-}
-
-/**
- * ビルトインコマンドを実行する関数
- * @param cmd コマンド構造体
- * @param shell シェル構造体
- * @return コマンドの終了ステータス
- */
-int	execute_builtin(t_command *cmd, t_shell *shell)
-{
-	char	*command;
-	int		status;
-
-	command = cmd->args[0];
-	status = 0;
-
-	/* 各ビルトインコマンドに分岐 */
-	if (ft_strcmp(command, "echo") == 0)
-		status = builtin_echo(cmd, shell);
-	else if (ft_strcmp(command, "cd") == 0)
-		status = builtin_cd(cmd, shell);
-	else if (ft_strcmp(command, "pwd") == 0)
-		status = builtin_pwd(cmd, shell);
-	else if (ft_strcmp(command, "export") == 0)
-		status = builtin_export(cmd, shell);
-	else if (ft_strcmp(command, "unset") == 0)
-		status = builtin_unset(cmd, shell);
-	else if (ft_strcmp(command, "env") == 0)
-		status = builtin_env(cmd, shell);
-	else if (ft_strcmp(command, "exit") == 0)
-		status = builtin_exit(cmd, shell);
-
-	return (status);
-}
-
-/**
- * パスからコマンド実行ファイルを探す関数
- * @param cmd コマンド名
- * @param env_list 環境変数リスト
- * @return 実行ファイルのパス（見つからない場合はNULL）
- */
-char	*find_executable(char *cmd, t_env *env_list)
-{
-	char	*path_env;
-	char	**paths;
-	char	*exec_path;
-	int		i;
-
-	/* 絶対パスまたは相対パスの場合は直接チェック */
-	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
-
-	/* PATH環境変数を取得 */
-	path_env = get_env_value(env_list, "PATH");
-	if (!path_env)
-		return (NULL);
-
-	/* PATHを分割 */
-	paths = ft_split(path_env, ':');
-	if (!paths)
-		return (NULL);
-
-	/* 各パスでコマンドを検索 */
-	i = 0;
-	while (paths[i])
-	{
-		exec_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
-		if (access(exec_path, X_OK) == 0)
-		{
-			free_array(paths);
-			return (exec_path);
-		}
-		free(exec_path);
-		i++;
-	}
-
-	free_array(paths);
-	return (NULL);
-}
 
 /**
  * 外部コマンドを実行する関数
@@ -226,20 +126,13 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
-
 	return (status);
 }
 
-/**
- * すべてのコマンドを実行する関数
- * @param shell シェル構造体
- * @return 最後のコマンドの終了ステータス
- */
 int	execute_commands(t_shell *shell)
 {
 	if (!shell->commands)
 		return (0);
-
 	if (!shell->commands->next)
 		return (execute_command(shell->commands, shell));
 	if (setup_pipes(shell->commands) != SUCCESS)
@@ -247,13 +140,10 @@ int	execute_commands(t_shell *shell)
 	return (execute_pipeline(shell->commands, shell));
 }
 
-
-
-
 int	do_one_command(char *input, t_shell *shell)
 {
 	process_input(ft_strdup(input), shell);
 	free_shell(shell);
-	clear_history();
+	rl_clear_history();
 	exit (shell->exit_status);
 }
