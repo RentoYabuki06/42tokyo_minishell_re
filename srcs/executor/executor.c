@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 17:30:31 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:54:41 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,10 @@ char	*find_executable(char *cmd, t_env *env_list)
  * @param shell シェル構造体
  * @return コマンドの終了ステータス
  */
-int	execute_external(t_command *cmd, t_shell *shell)
+int	execute_external_forked(t_command *cmd, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
 	char	*exec_path;
 
-	/* コマンドが存在するか確認 */
 	exec_path = find_executable(cmd->args[0], shell->env_list);
 	if (!exec_path)
 	{
@@ -132,7 +129,25 @@ int	execute_external(t_command *cmd, t_shell *shell)
 		return (127);
 	}
 
-	/* 子プロセスを作成 */
+	execve(exec_path, cmd->args, shell->env_array);
+
+	system_error(exec_path);
+	free(exec_path);
+	exit(126); // execve失敗時は子プロセスから exit
+}
+int	execute_external_standalone(t_command *cmd, t_shell *shell)
+{
+	pid_t	pid;
+	int		status;
+	char	*exec_path;
+
+	exec_path = find_executable(cmd->args[0], shell->env_list);
+	if (!exec_path)
+	{
+		command_error(cmd->args[0], "command not found");
+		return (127);
+	}
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -143,7 +158,7 @@ int	execute_external(t_command *cmd, t_shell *shell)
 
 	if (pid == 0)
 	{
-		/* 子プロセス: リダイレクトを設定 */
+		// 子プロセス内でリダイレクト
 		if (cmd->input_fd != STDIN_FILENO)
 		{
 			dup2(cmd->input_fd, STDIN_FILENO);
@@ -155,26 +170,25 @@ int	execute_external(t_command *cmd, t_shell *shell)
 			close(cmd->output_fd);
 		}
 
-		/* コマンドを実行 */
 		execve(exec_path, cmd->args, shell->env_array);
-		
-		/* execveが失敗した場合 */
+
+		// execve 失敗時
 		system_error(exec_path);
 		free(exec_path);
 		exit(126);
 	}
 
-	/* 親プロセス: 終了を待機 */
 	free(exec_path);
 	waitpid(pid, &status, 0);
-	
+
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
-	
+
 	return (1);
 }
+
 
 /**
  * 単一コマンドを実行する関数
@@ -205,7 +219,7 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 	if (is_builtin(cmd->args[0]))
 		status = execute_builtin(cmd, shell);
 	else
-		status = execute_external(cmd, shell);
+		status = execute_external_standalone(cmd, shell);
 
 	/* 標準入出力を復元 */
 	dup2(saved_stdin, STDIN_FILENO);

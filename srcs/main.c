@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/03/09 23:40:39 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:54:20 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_shell(t_shell *shell)
 	free(shell);
 }
 
-static int	process_input(char *input, t_shell *shell)
+int	process_input(char *input, t_shell *shell)
 {
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
@@ -118,6 +118,6 @@ int	main(int argc, char **argv, char **envp)
 		do_one_command(argv[2], shell);
 	status = shell_loop(shell);
 	free_shell(shell);
-	clear_history();
+	rl_clear_history();
 	return (status);
 }

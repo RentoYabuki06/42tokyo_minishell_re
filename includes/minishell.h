@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 17:31:00 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:51:28 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_shell
 
 /* メイン関数 */
 int		main(int argc, char **argv, char **envp);
+int		process_input(char *input, t_shell *shell);
 
 /* 初期化と終了処理 */
 t_shell	*init_shell(char **envp);
@@ -125,7 +126,8 @@ char	*expand_variables(char *str, t_shell *shell);
 /* コマンド実行 */
 int		execute_commands(t_shell *shell);
 int		execute_builtin(t_command *cmd, t_shell *shell);
-int		execute_external(t_command *cmd, t_shell *shell);
+int		execute_external_standalone(t_command *cmd, t_shell *shell);
+int		execute_external_forked(t_command *cmd, t_shell *shell);
 int		is_builtin(char *cmd);
 char	*find_executable(char *cmd, t_env *env_list);
 
