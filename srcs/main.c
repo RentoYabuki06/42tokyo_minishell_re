@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 17:30:19 by myokono          ###   ########.fr       */
+/*   Updated: 2025/03/09 23:40:39 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	process_input(char *input, t_shell *shell)
 	free_commands(shell->commands);
 	shell->commands = NULL;
 	free(input);
-	return (SUCCESS);
+	return (shell->exit_status);
 }
 
 static int	shell_loop(t_shell *shell)
