@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/03/08 13:58:42 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:30:31 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,4 +231,15 @@ int	execute_commands(t_shell *shell)
 	if (setup_pipes(shell->commands) != SUCCESS)
 		return (1);
 	return (execute_pipeline(shell->commands, shell));
+}
+
+
+
+
+int	do_one_command(char *input, t_shell *shell)
+{
+	process_input(ft_strdup(input), shell);
+	free_shell(shell);
+	clear_history();
+	exit (shell->exit_status);
 }

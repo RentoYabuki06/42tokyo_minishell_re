@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/03/08 13:59:06 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:30:19 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	process_input(char *input, t_shell *shell)
 {
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
-	// add_history(input);
+	add_history(input);
 	shell->tokens = tokenize(input, shell);
 	if (!shell->tokens || parse(shell) != SUCCESS)
 	{
@@ -79,36 +79,45 @@ static int	process_input(char *input, t_shell *shell)
 	return (SUCCESS);
 }
 
-static int	do_one_command(char *input, t_shell *shell)
+static int	shell_loop(t_shell *shell)
 {
-	process_input(ft_strdup(input), shell);
-	free_shell(shell);
-	clear_history();
-	exit (shell->exit_status);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_shell	*shell;
 	char	*input;
+	int		status;
 
-	shell = init_shell(envp);
-	if (!shell)
-		return (ERROR);
-	setup_signals();
-	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
-		do_one_command(argv[2], shell);
+	status = 0;
 	while (shell->running)
 	{
+		if (g_signal_status)
+		{
+			shell->exit_status = 128 + g_signal_status;
+			g_signal_status = 0;
+			continue ;
+		}
 		input = readline("minishell$ ");
 		if (!input)
 		{
 			printf("exit\n");
 			break ;
 		}
-		process_input(input, shell);
+		status = process_input(input, shell);
 	}
+	return (status);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell	*shell;
+	int		status;
+
+	setup_signals();
+	shell = init_shell(envp);
+	if (!shell)
+		return (ERROR);
+	setup_signals();
+	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
+		do_one_command(argv[2], shell);
+	status = shell_loop(shell);
 	free_shell(shell);
 	clear_history();
-	return (shell->exit_status);
+	return (status);
 }
