@@ -63,7 +63,7 @@ static int	process_input(char *input, t_shell *shell)
 {
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
-	// add_history(input);
+	add_history(input);
 	shell->tokens = tokenize(input, shell);
 	if (!shell->tokens || parse(shell) != SUCCESS)
 	{
@@ -79,36 +79,44 @@ static int	process_input(char *input, t_shell *shell)
 	return (shell->exit_status);
 }
 
-static int	do_one_command(char *input, t_shell *shell)
+static int	shell_loop(t_shell *shell)
 {
-	process_input(ft_strdup(input), shell);
-	free_shell(shell);
-	clear_history();
-	exit (shell->exit_status);
+	char	*input;
+	int		status;
+
+	status = 0;
+	while (shell->running)
+	{
+		if (g_signal_status)
+		{
+			shell->exit_status = 128 + g_signal_status;
+			g_signal_status = 0;
+			continue ;
+		}
+		input = readline("minishell$ ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
+		status = process_input(input, shell);
+	}
+	return (status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	char	*input;
-	int		status;	
+	int		status;
 
+	setup_signals();
 	shell = init_shell(envp);
 	if (!shell)
 		return (ERROR);
 	setup_signals();
 	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
 		do_one_command(argv[2], shell);
-	while (shell->running)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-		{
-			// printf("exit\n");
-			break ;
-		}
-		status = process_input(input, shell);
-	}
+	status = shell_loop(shell);
 	free_shell(shell);
 	clear_history();
 	return (status);
