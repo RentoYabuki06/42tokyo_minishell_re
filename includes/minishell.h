@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 19:56:39 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:23:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	handle_dollar_double_quote(char *input, int *i, \
 int	handle_double_quote(char *input, int *i, char **result, t_shell *shell);
 int	expand_env_var(char *input, int *i, char **result, t_shell *shell);
 int	is_space(char c);
+int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell);
 
 /* パーサー (構文解析) */
 int		parse(t_shell *shell);
