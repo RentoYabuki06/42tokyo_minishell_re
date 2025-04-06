@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 19:31:55 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:27:27 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_shell	*init_shell(char **envp)
 	shell->commands = NULL;
 	shell->env_list = init_env_list(envp);
 	shell->env_array = env_list_to_array(shell->env_list);
+	if (!shell->env_list || !shell->env_array)
+	{
+		free_shell(shell);
+		return (NULL);
+	}
 	shell->exit_status = 0;
 	shell->running = 1;
 	return (shell);

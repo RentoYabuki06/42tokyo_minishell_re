@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:25:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 19:19:57 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:35:16 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ static void	update_pwd_env(t_shell *shell, char *old_pwd)
 	if (old_pwd)
 		add_env_node(&shell->env_list, "OLDPWD", old_pwd);
 	update_env_array(shell);
+	if (shell->env_array == NULL)
+	{
+		free_shell(shell);
+		system_error("update_env_array");
+		return ;
+	}
 }
 
 int	builtin_cd(t_command *cmd, t_shell *shell)

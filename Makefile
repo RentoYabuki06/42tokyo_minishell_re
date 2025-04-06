@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+         #
+#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/04 19:32:39 by ryabuki          ###   ########.fr        #
+#    Updated: 2025/04/06 14:29:28 by myokono          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(BUILTINS_DIR)/env.c \
 	$(BUILTINS_DIR)/exit.c \
 	$(UTILS_DIR)/env_utils.c \
+	$(UTILS_DIR)/env_init.c \
 	$(UTILS_DIR)/error.c \
 	$(UTILS_DIR)/memory.c \
 	$(UTILS_DIR)/utils.c \
