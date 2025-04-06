@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 14:27:27 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:10:38 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,7 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-void	free_shell(t_shell *shell)
-{
-	t_env	*tmp;
-	t_env	*current;
 
-	if (!shell)
-		return ;
-	if (shell->tokens)
-		free_tokens(shell->tokens);
-	if (shell->commands)
-		free_commands(shell->commands);
-	if (shell->env_list)
-	{
-		current = shell->env_list;
-		while (current)
-		{
-			tmp = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
-			current = tmp;
-		}
-	}
-	if (shell->env_array)
-		free_array(shell->env_array);
-	free(shell);
-}
 
 int	process_input(char *input, t_shell *shell)
 {
