@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/06 14:29:28 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/06 16:04:48 by ryabuki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,11 @@ $(LIBFT):
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LIBS) -o $(NAME)
 	@echo "$(NAME) has been created!"
+
+test: $(NAME)
+	@echo "Running tests..."
+	@bash ./mytester.sh
+	@echo "Tests completed!"
 
 clean:
 	$(MAKE) -C ./libft clean
