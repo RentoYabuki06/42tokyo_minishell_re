@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 17:59:00 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 20:09:54 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	process_input(char *input, t_shell *shell)
 	shell->tokens = tokenize(input, shell);
 	if (shell->tokens == NULL|| parse(shell) != SUCCESS)
 	{
-		shell->running = 0;
 		free(input);
 		return (ERROR);
 	}

@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 19:58:28 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 20:12:54 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ static int	handle_word(char *input, int *i, char **result)
 	}
 	return (SUCCESS);
 }
-
 
 static int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 {
