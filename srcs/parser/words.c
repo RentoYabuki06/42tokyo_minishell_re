@@ -26,8 +26,10 @@ static int	handle_word(char *input, int *i, char **result)
 		(*i)++;
 	}
 	segment = ft_substr(input, start, *i - start);
-	*result = ft_strjoin(*result, segment);
+	char *temp_result = ft_strjoin(*result, segment);
 	free(segment);
+	free(*result);
+	*result = temp_result;
 	if (!*result)
 	{
 		error_message("Memory allocation error");
