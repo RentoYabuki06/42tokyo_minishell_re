@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 17:02:44 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:11:23 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	int		status;
-
 	setup_signals();
 	shell = init_shell(envp);
 	if (!shell)

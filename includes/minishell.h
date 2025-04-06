@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 17:04:07 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:12:19 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <dirent.h>
 # include <string.h>
 # include <errno.h>
+# include <stdbool.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -149,6 +150,9 @@ int		builtin_exit(t_command *cmd, t_shell *shell);
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
+void	ignore_signals(void);
+void	setup_child_signals(void);
+void	defalut_signals(void);
 
 /* エラーハンドリング */
 void	error_message(char *msg);
@@ -158,5 +162,6 @@ void	system_error(char *prefix);
 /* メモリ管理 */
 void	*safe_malloc(size_t size);
 void	free_array(char **array);
+void	free_env_list(t_env *env_list);
 
 #endif

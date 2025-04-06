@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 16:39:27 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:14:14 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,23 @@ t_env	*init_env_list(char **envp)
 	}
 	return (env_list);
 }
+
+void	free_env_list(t_env *env_list)
+{
+	t_env	*current;
+	t_env	*next;
+
+	current = env_list;
+	while (current)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+}
+
 
 static int	count_env_list(t_env *env_list)
 {
