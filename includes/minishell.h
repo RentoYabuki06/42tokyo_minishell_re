@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 17:51:28 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:00:15 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,9 @@ int		builtin_exit(t_command *cmd, t_shell *shell);
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
+void	ignore_signals(void);
+void	setup_child_signals(void);
+void	defalut_signals(void);
 
 /* エラーハンドリング */
 void	error_message(char *msg);

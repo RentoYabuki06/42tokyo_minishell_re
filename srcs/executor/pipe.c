@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 17:42:21 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:06:13 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	setup_pipes(t_command *commands)
  */
 void	setup_child_io(t_command *cmd)
 {
+	setup_child_signals();
 	/* 入力リダイレクトを設定 */
 	if (cmd->input_fd != STDIN_FILENO)
 	{
@@ -100,6 +101,7 @@ int	execute_pipeline(t_command *commands, t_shell *shell)
 		}
 
 		pid = fork();
+		ignore_signals();
 		if (pid == -1)
 		{
 			system_error("fork");
@@ -109,6 +111,7 @@ int	execute_pipeline(t_command *commands, t_shell *shell)
 		if (pid == 0)
 		{
 			/* 子プロセス */
+			defalut_signals();
 			setup_child_io(current);
 			
 			if (is_builtin(current->args[0]))
