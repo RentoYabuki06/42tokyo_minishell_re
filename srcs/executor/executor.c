@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 18:12:33 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:15:37 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 		return (127);
 	}
 
+	ignore_signals();
 	pid = fork();
 	if (pid == -1)
 	{
@@ -69,7 +70,8 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 			dup2(cmd->output_fd, STDOUT_FILENO);
 			close(cmd->output_fd);
 		}
-
+		defalut_signals();
+		setup_child_signals();
 		execve(exec_path, cmd->args, shell->env_array);
 
 		// execve 失敗時
@@ -84,8 +86,11 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
 		return (128 + WTERMSIG(status));
-
+	}
 	return (1);
 }
 
