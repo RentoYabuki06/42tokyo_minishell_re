@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 17:12:19 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:43:40 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef enum e_token_type
 	TOKEN_EOF
 }	t_token_type;
 
-/* トークン構造体 */
 typedef struct s_token
 {
 	t_token_type	type;
@@ -113,7 +112,7 @@ char	*get_env_value(t_env *env_list, char *key);
 t_token	*tokenize(char *input, t_shell *shell);
 void	free_tokens(t_token *tokens);
 t_token	*create_token(t_token_type type, char *value);
-void	add_token(t_token **tokens, t_token *new_token);
+int		add_token(t_token **tokens, t_token *new_token);
 
 /* パーサー (構文解析) */
 int		parse(t_shell *shell);

@@ -6,44 +6,12 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:35:52 by myokono           #+#    #+#             */
-/*   Updated: 2025/03/09 23:21:40 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 18:09:01 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
- * 文字列連結を行い、古い文字列を解放する関数
- * @param s1 元の文字列（解放される）
- * @param s2 連結する文字列
- * @return 連結された新しい文字列
- */
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*result;
-
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	return (result);
-}
-
-/**
- * 空白文字かどうかを判定する関数
- * @param c 判定する文字
- * @return 空白文字であれば1、そうでなければ0
- */
-static int	is_space(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
-
-/**
- * トークンの区切り文字かどうかを判定する関数
- * @param c 判定する文字
- * @return 区切り文字であれば1、そうでなければ0
- */
 static int	is_delimiter(char c)
 {
 	return (is_space(c) || c == '|' || c == '<' || c == '>' || c == '\0');
@@ -124,42 +92,7 @@ static char	*interpret_escapes(char *str)
 	return (result);
 }
 
-/**
- * スペシャルトークン（パイプ、リダイレクト）を処理する関数
- * @param input 入力文字列
- * @param i 現在の位置へのポインタ
- * @param tokens トークンリストへのポインタ
- * @return 処理に成功すれば0、失敗すれば-1
- */
-static int	handle_special_token(char *input, int *i, t_token **tokens)
-{
-	if (input[*i] == '|')
-	{
-		add_token(tokens, create_token(TOKEN_PIPE, ft_strdup("|")));
-		(*i)++;
-	}
-	else if (input[*i] == '<' && input[*i + 1] == '<')
-	{
-		add_token(tokens, create_token(TOKEN_HEREDOC, ft_strdup("<<")));
-		(*i) += 2;
-	}
-	else if (input[*i] == '>' && input[*i + 1] == '>')
-	{
-		add_token(tokens, create_token(TOKEN_APPEND, ft_strdup(">>")));
-		(*i) += 2;
-	}
-	else if (input[*i] == '<')
-	{
-		add_token(tokens, create_token(TOKEN_REDIRECT_IN, ft_strdup("<")));
-		(*i)++;
-	}
-	else if (input[*i] == '>')
-	{
-		add_token(tokens, create_token(TOKEN_REDIRECT_OUT, ft_strdup(">")));
-		(*i)++;
-	}
-	return (0);
-}
+
 
 /**
  * 特殊クォート形式 $'' の処理を行う関数
@@ -494,12 +427,73 @@ static int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *she
 	return (0);
 }
 
-/**
- * 入力文字列をトークン化する関数
- * @param input 入力文字列
- * @param shell シェル構造体
- * @return トークンリスト
- */
+
+
+
+
+
+
+
+
+
+
+
+
+static int	is_space(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
+}
+
+static int	add_token_safe(t_token **tokens, t_token_type type, \
+	const char *literal)
+{
+	char	*value;
+	t_token	*token;
+
+	value = ft_strdup(literal);
+	if (!value)
+		return (ERROR);
+	token = create_token(type, value);
+	if (!token)
+	{
+		free(value);
+		return (ERROR);
+	}
+	if (add_token(tokens, token) != SUCCESS)
+	{
+		free(value);
+		free(token);
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
+static int	handle_special_token(char *input, int *i, t_token **tokens)
+{
+	int	pos;
+
+	pos = *i;
+	if (input[*i] == '|' && add_token_safe(tokens, TOKEN_PIPE, "|") == SUCCESS)
+		(*i)++;
+	else if (input[*i] == '<' && input[*i + 1] == '<' && \
+		add_token_safe(tokens, TOKEN_HEREDOC, "<<") == SUCCESS)
+		*i += 2;
+	else if (input[*i] == '>' && input[*i + 1] == '>' && \
+		add_token_safe(tokens, TOKEN_APPEND, ">>") == SUCCESS)
+		*i += 2;
+	else if (input[*i] == '<' && add_token_safe(tokens, TOKEN_REDIRECT_IN, "<") \
+		== SUCCESS)
+		(*i)++;
+	else if (input[*i] == '>' && add_token_safe(tokens, TOKEN_REDIRECT_OUT, \
+		">") == SUCCESS)
+		(*i)++;
+	if (pos == *i)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+
 t_token	*tokenize(char *input, t_shell *shell)
 {
 	t_token	*tokens;
@@ -514,18 +508,12 @@ t_token	*tokenize(char *input, t_shell *shell)
 		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
 			if (handle_special_token(input, &i, &tokens) == -1)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
+				return (free_tokens(tokens), NULL);
 		}
 		else
 		{
 			if (handle_word_token(input, &i, &tokens, shell) == -1)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
+				return (free_tokens(tokens), NULL);
 		}
 	}
 	return (tokens);

@@ -6,11 +6,29 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 15:11:21 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 18:08:39 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+void	free_env_list(t_env *env_list)
+{
+	t_env	*current;
+	t_env	*next;
+
+	current = env_list;
+	while (current)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+}
+
 
 /**
  * 文字列配列を解放する関数
@@ -31,10 +49,6 @@ void	free_array(char **array)
 	free(array);
 }
 
-/**
- * トークンリストを解放する関数
- * @param tokens 解放するトークンリスト
- */
 void	free_tokens(t_token *tokens)
 {
 	t_token	*tmp;

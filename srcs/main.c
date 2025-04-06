@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 17:11:23 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:59:00 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int	process_input(char *input, t_shell *shell)
 		return (SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
-	if (!shell->tokens || parse(shell) != SUCCESS)
+	if (shell->tokens == NULL|| parse(shell) != SUCCESS)
 	{
+		shell->running = 0;
 		free(input);
 		return (ERROR);
 	}
@@ -85,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	int		status;
+
 	setup_signals();
 	shell = init_shell(envp);
 	if (!shell)
