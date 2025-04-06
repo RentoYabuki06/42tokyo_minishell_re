@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 15:00:15 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/06 16:02:15 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,5 +162,6 @@ void	system_error(char *prefix);
 /* メモリ管理 */
 void	*safe_malloc(size_t size);
 void	free_array(char **array);
+void	free_env_list(t_env *env_list);
 
 #endif
