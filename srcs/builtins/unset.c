@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 14:36:08 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 02:00:58 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,9 @@ static int	is_valid_identifier(char *key)
 			return (0);
 		i++;
 	}
-	
 	return (1);
 }
 
-/**
- * unsetコマンドを実装する関数
- * @param cmd コマンド構造体
- * @param shell シェル構造体
- * @return 成功すれば0、失敗すれば1
- */
 int	builtin_unset(t_command *cmd, t_shell *shell)
 {
 	int	i;
@@ -53,8 +46,6 @@ int	builtin_unset(t_command *cmd, t_shell *shell)
 
 	i = 1;
 	status = 0;
-	
-	/* 各引数を処理 */
 	while (cmd->args[i])
 	{
 		if (!is_valid_identifier(cmd->args[i]))
@@ -63,14 +54,9 @@ int	builtin_unset(t_command *cmd, t_shell *shell)
 			status = 1;
 		}
 		else
-		{
-			/* 環境変数を削除 */
 			remove_env_node(&shell->env_list, cmd->args[i]);
-		}
 		i++;
 	}
-	
-	/* 環境変数配列を更新 */
 	update_env_array(shell);
 	if (!shell->env_array)
 	{

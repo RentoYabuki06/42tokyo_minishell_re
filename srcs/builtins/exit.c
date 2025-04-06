@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 16:44:18 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/07 02:04:41 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 	if (cmd->args[2] != NULL)
 	{
 		error_message("exit: too many arguments");
-		return (1);
+		return (ERROR);
 	}
 	shell->running = 0;
 	shell->exit_status = (unsigned char)ft_atoll(cmd->args[1]);
