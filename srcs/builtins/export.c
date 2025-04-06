@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 14:35:57 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:46:00 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	print_sorted_env(t_env *env_list, int fd)
 	}
 
 	/* 環境変数の配列を作成 */
-	env_array = (t_env **)safe_malloc(sizeof(t_env *) * count);
+	env_array = (t_env **)malloc(sizeof(t_env *) * count);
 	current = env_list;
 	i = 0;
 	while (current)

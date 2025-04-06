@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 21:23:57 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:45:50 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	command_error(char *cmd, char *msg);
 void	system_error(char *prefix);
 
 /* メモリ管理 */
-void	*safe_malloc(size_t size);
+
 void	free_array(char **array);
 void	free_env_list(t_env *env_list);
 

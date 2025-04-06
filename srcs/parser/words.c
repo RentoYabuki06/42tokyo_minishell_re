@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:27:23 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:45:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static int	is_delimiter(char c)
+{
+	return (is_space(c) || c == '|' || c == '<' || c == '>' || c == '\0');
+}
 
 static int	handle_word(char *input, int *i, char **result)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: myokono <myokono@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/06 21:25:16 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/06 21:47:20 by myokono          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(PARSER_DIR)/single_quote.c \
 	$(PARSER_DIR)/double_quote.c \
 	$(PARSER_DIR)/env.c \
+	$(PARSER_DIR)/command.c \
 	$(EXECUTOR_DIR)/executor.c \
 	$(EXECUTOR_DIR)/executor_builtin.c \
 	$(EXECUTOR_DIR)/pipe.c \

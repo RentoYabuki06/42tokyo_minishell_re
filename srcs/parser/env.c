@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:26:27 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:45:12 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static char	*get_last_command_path(t_shell *shell)
 	return ("/bin/bash");
 }
 
-static int	is_delimiter(char c)
-{
-	return (is_space(c) || c == '|' || c == '<' || c == '>' || c == '\0');
-}
+
 
 int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 {
