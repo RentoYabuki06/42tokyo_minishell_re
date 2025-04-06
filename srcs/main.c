@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 20:09:54 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:07:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,31 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
+static char	*get_last_argument(t_command *commands)
+{
+	t_command	*cmd;
+	char		**args;
+	int			i;
+
+	cmd = commands;
+	if (!cmd)
+		return (NULL);
+	while (cmd && cmd->next)
+		cmd = cmd->next;
+	args = cmd->args;
+	if (!args || !args[0])
+		return (NULL);
+	i = 0;
+	while (args[i + 1])
+		i++;
+	return (ft_strdup(args[i]));
+}
+
+
 int	process_input(char *input, t_shell *shell)
 {
+	char	*last_arg;
+
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
 	add_history(input);
@@ -48,6 +71,13 @@ int	process_input(char *input, t_shell *shell)
 		return (ERROR);
 	}
 	shell->exit_status = execute_commands(shell);
+	last_arg = get_last_argument(shell->commands);
+	if (last_arg)
+	{
+		add_env_node(&shell->env_list, "_", last_arg);
+		update_env_array(shell);
+		free(last_arg);
+	}
 	free_tokens(shell->tokens);
 	shell->tokens = NULL;
 	free_commands(shell->commands);

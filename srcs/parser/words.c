@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 20:12:54 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:08:04 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*get_last_command_path(t_shell *shell)
 {
-	// 通常は $_ 環境変数が設定されているはず
 	char	*path;
 
 	path = get_env_value(shell->env_list, "_");
