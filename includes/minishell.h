@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 17:43:40 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 19:56:39 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,13 @@ t_token	*tokenize(char *input, t_shell *shell);
 void	free_tokens(t_token *tokens);
 t_token	*create_token(t_token_type type, char *value);
 int		add_token(t_token **tokens, t_token *new_token);
+int	handle_dollar_single_quote(char *input, int *i, char **result);
+int	handle_single_quote(char *input, int *i, char **result);
+int	handle_dollar_double_quote(char *input, int *i, \
+	char **result, t_shell *shell);
+int	handle_double_quote(char *input, int *i, char **result, t_shell *shell);
+int	expand_env_var(char *input, int *i, char **result, t_shell *shell);
+int	is_space(char c);
 
 /* パーサー (構文解析) */
 int		parse(t_shell *shell);
