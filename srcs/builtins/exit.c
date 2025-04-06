@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/05 12:24:39 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 16:44:18 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-static int	is_valid_numeric(char *str)
+static bool	is_valid_numeric(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
+	if (str[i] == '\0')
+		return (false);
+	while (str[i] != '\0')
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
+		if (ft_isdigit(str[i]) == false)
+			return (false);
 		i++;
 	}
-	return (1);
+	return (true);
 }
 
 static void	parse_sign_and_index(const char *str, int *sign, int *i)
@@ -72,8 +72,6 @@ static long long	ft_atoll(const char *str)
 
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
-	long long	exit_code;
-
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
@@ -88,13 +86,12 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 		shell->exit_status = 255;
 		return (255);
 	}
-	exit_code = ft_atoll(cmd->args[1]);
 	if (cmd->args[2] != NULL)
 	{
 		error_message("exit: too many arguments");
 		return (1);
 	}
 	shell->running = 0;
-	shell->exit_status = (unsigned char)exit_code;
+	shell->exit_status = (unsigned char)ft_atoll(cmd->args[1]);
 	return (shell->exit_status);
 }

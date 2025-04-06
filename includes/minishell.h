@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 16:02:15 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/06 16:41:28 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <dirent.h>
 # include <string.h>
 # include <errno.h>
+# include <stdbool.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
