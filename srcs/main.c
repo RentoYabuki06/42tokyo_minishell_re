@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 15:10:38 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:02:44 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_shell	*init_shell(char **envp)
 	shell->running = 1;
 	return (shell);
 }
-
-
 
 int	process_input(char *input, t_shell *shell)
 {
@@ -93,8 +91,9 @@ int	main(int argc, char **argv, char **envp)
 	if (!shell)
 		return (ERROR);
 	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
-		do_one_command(argv[2], shell);
-	status = shell_loop(shell);
+		status = process_input(ft_strdup(argv[2]), shell);
+	else
+		status = shell_loop(shell);
 	free_shell(shell);
 	rl_clear_history();
 	return (status);

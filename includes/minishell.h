@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/04 17:51:28 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:04:07 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ char	*find_executable(char *cmd, t_env *env_list);
 int		setup_pipes(t_command *commands);
 int		setup_redirects(t_command *cmd);
 int		execute_pipeline(t_command *commands, t_shell *shell);
-int		do_one_command(char *input, t_shell *shell);
 
 /* ビルトインコマンド */
 int		builtin_echo(t_command *cmd, t_shell *shell);
