@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/02/27 11:57:15 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:35:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,12 @@ static int	add_export(char *arg, t_shell *shell)
 	
 	/* 環境変数配列を更新 */
 	update_env_array(shell);
-	
+	if (!shell->env_array)
+	{
+		free_shell(shell);
+		system_error("update_env_array");
+		return (1);
+	}
 	return (0);
 }
 
