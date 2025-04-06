@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 16:41:28 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:23:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef enum e_token_type
 	TOKEN_EOF
 }	t_token_type;
 
-/* トークン構造体 */
 typedef struct s_token
 {
 	t_token_type	type;
@@ -113,7 +112,15 @@ char	*get_env_value(t_env *env_list, char *key);
 t_token	*tokenize(char *input, t_shell *shell);
 void	free_tokens(t_token *tokens);
 t_token	*create_token(t_token_type type, char *value);
-void	add_token(t_token **tokens, t_token *new_token);
+int		add_token(t_token **tokens, t_token *new_token);
+int	handle_dollar_single_quote(char *input, int *i, char **result);
+int	handle_single_quote(char *input, int *i, char **result);
+int	handle_dollar_double_quote(char *input, int *i, \
+	char **result, t_shell *shell);
+int	handle_double_quote(char *input, int *i, char **result, t_shell *shell);
+int	expand_env_var(char *input, int *i, char **result, t_shell *shell);
+int	is_space(char c);
+int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell);
 
 /* パーサー (構文解析) */
 int		parse(t_shell *shell);
@@ -136,7 +143,6 @@ char	*find_executable(char *cmd, t_env *env_list);
 int		setup_pipes(t_command *commands);
 int		setup_redirects(t_command *cmd);
 int		execute_pipeline(t_command *commands, t_shell *shell);
-int		do_one_command(char *input, t_shell *shell);
 
 /* ビルトインコマンド */
 int		builtin_echo(t_command *cmd, t_shell *shell);

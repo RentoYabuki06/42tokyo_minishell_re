@@ -6,29 +6,29 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/02/27 12:09:49 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/06 18:08:39 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/**
- * 安全なメモリ割り当てを行う関数
- * @param size 割り当てるバイト数
- * @return 割り当てられたメモリのポインタ
- */
-void	*safe_malloc(size_t size)
-{
-	void	*ptr;
 
-	ptr = malloc(size);
-	if (!ptr)
+void	free_env_list(t_env *env_list)
+{
+	t_env	*current;
+	t_env	*next;
+
+	current = env_list;
+	while (current)
 	{
-		error_message("Memory allocation failed");
-		exit(EXIT_FAILURE);
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
 	}
-	return (ptr);
 }
+
 
 /**
  * 文字列配列を解放する関数
@@ -49,10 +49,6 @@ void	free_array(char **array)
 	free(array);
 }
 
-/**
- * トークンリストを解放する関数
- * @param tokens 解放するトークンリスト
- */
 void	free_tokens(t_token *tokens)
 {
 	t_token	*tmp;
@@ -89,4 +85,33 @@ void	free_commands(t_command *commands)
 		free(commands);
 		commands = tmp;
 	}
+}
+
+
+void	free_shell(t_shell *shell)
+{
+	t_env	*tmp;
+	t_env	*current;
+
+	if (!shell)
+		return ;
+	if (shell->tokens)
+		free_tokens(shell->tokens);
+	if (shell->commands)
+		free_commands(shell->commands);
+	if (shell->env_list)
+	{
+		current = shell->env_list;
+		while (current)
+		{
+			tmp = current->next;
+			free(current->key);
+			free(current->value);
+			free(current);
+			current = tmp;
+		}
+	}
+	if (shell->env_array)
+		free_array(shell->env_array);
+	free(shell);
 }

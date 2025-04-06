@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 16:11:55 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:07:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,48 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-void	free_shell(t_shell *shell)
+static char	*get_last_argument(t_command *commands)
 {
-	t_env	*tmp;
-	t_env	*current;
+	t_command	*cmd;
+	char		**args;
+	int			i;
 
-	if (!shell)
-		return ;
-	if (shell->tokens)
-		free_tokens(shell->tokens);
-	if (shell->commands)
-		free_commands(shell->commands);
-	if (shell->env_list)
-	{
-		current = shell->env_list;
-		while (current)
-		{
-			tmp = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
-			current = tmp;
-		}
-	}
-	if (shell->env_array)
-		free_array(shell->env_array);
-	free(shell);
+	cmd = commands;
+	if (!cmd)
+		return (NULL);
+	while (cmd && cmd->next)
+		cmd = cmd->next;
+	args = cmd->args;
+	if (!args || !args[0])
+		return (NULL);
+	i = 0;
+	while (args[i + 1])
+		i++;
+	return (ft_strdup(args[i]));
 }
+
 
 int	process_input(char *input, t_shell *shell)
 {
+	char	*last_arg;
+
 	if (!input || ft_strlen(input) == 0)
 		return (SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
-	if (!shell->tokens || parse(shell) != SUCCESS)
+	if (shell->tokens == NULL|| parse(shell) != SUCCESS)
 	{
 		free(input);
 		return (ERROR);
 	}
 	shell->exit_status = execute_commands(shell);
+	last_arg = get_last_argument(shell->commands);
+	if (last_arg)
+	{
+		add_env_node(&shell->env_list, "_", last_arg);
+		update_env_array(shell);
+		free(last_arg);
+	}
 	free_tokens(shell->tokens);
 	shell->tokens = NULL;
 	free_commands(shell->commands);
@@ -113,13 +115,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	int		status;
+
 	setup_signals();
 	shell = init_shell(envp);
 	if (!shell)
 		return (ERROR);
 	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
-		do_one_command(argv[2], shell);
-	status = shell_loop(shell);
+		status = process_input(ft_strdup(argv[2]), shell);
+	else
+		status = shell_loop(shell);
 	free_shell(shell);
 	rl_clear_history();
 	return (status);

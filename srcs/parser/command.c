@@ -1,49 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 17:43:14 by myokono          ###   ########.fr       */
+/*   Created: 2025/04/06 21:29:11 by myokono           #+#    #+#             */
+/*   Updated: 2025/04/06 21:30:14 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*create_token(t_token_type type, char *value)
+t_command	*create_command(void)
 {
-	t_token	*token;
+	t_command	*cmd;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
+	cmd = malloc(sizeof(t_command));
+	if (!cmd)
 		return (NULL);
-	if (value == NULL)
-	{
-		free(token);
-		return (NULL);
-	}
-	token->type = type;
-	token->value = value;
-	token->next = NULL;
-	return (token);
+	cmd->args = NULL;
+	cmd->input_fd = STDIN_FILENO;
+	cmd->output_fd = STDOUT_FILENO;
+	cmd->redirects = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
 
-int	add_token(t_token **tokens, t_token *new_token)
+void	add_command(t_command **commands, t_command *new_command)
 {
-	t_token	*current;
+	t_command	*current;
 
-	if (!tokens || !new_token)
-		return (ERROR);
-	if (!*tokens)
+	if (!*commands)
 	{
-		*tokens = new_token;
-		return (SUCCESS);
+		*commands = new_command;
+		return ;
 	}
-	current = *tokens;
+	current = *commands;
 	while (current->next)
 		current = current->next;
-	current->next = new_token;
-	return (SUCCESS);
+	current->next = new_command;
 }
