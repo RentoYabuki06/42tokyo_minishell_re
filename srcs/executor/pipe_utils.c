@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 20:35:16 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 20:59:30 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	setup_pipes(t_command *commands)
 void	setup_child_io(t_command *cmd)
 {
 	default_signals();
-
 	if (cmd->input_fd != STDIN_FILENO)
 	{
 		if (dup2(cmd->input_fd, STDIN_FILENO) == -1)
