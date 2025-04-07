@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 21:45:50 by myokono          ###   ########.fr       */
+/*   Created: 2025/04/07 18:25:59 by yabukirento       #+#    #+#             */
+/*   Updated: 2025/04/07 19:34:52 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -31,76 +31,99 @@
 # include <termios.h>
 # include <limits.h>
 
-# define SUCCESS 0
-# define ERROR 1
-# define EXIT_SUCCESS 0
-# define EXIT_FAILURE 1
+# define ERROR_TOKENIZE 258
+# define ERROR_PARSE 258
+# define ERROR_ASSERT 255
+# define ERROR_OPEN_REDIR 1
+# define SINGLE_QUOTE_CHAR '\''
+# define DOUBLE_QUOTE_CHAR '"'
 
 /* グローバル変数 - シグナル処理用 */
 extern int		g_signal_status;
 
+typedef enum 	e_token_type	t_token_type;
+typedef struct	s_token			t_token;
+typedef struct	s_env			t_env;
+typedef enum	e_node_type		t_node_type;
+typedef struct	e_node			t_node;
+
 /* トークンタイプの定義 */
-typedef enum e_token_type
+enum e_token_type
 {
 	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN,
-	TOKEN_REDIRECT_OUT,
-	TOKEN_HEREDOC,
-	TOKEN_APPEND,
-	TOKEN_EOF
-}	t_token_type;
+	TOKEN_RESERVED,
+	TOKEN_OPERATOR,
+	TOKEN_EOF,
+};
 
-typedef struct s_token
+struct s_token
 {
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
-}	t_token;
-
-/* 文字列操作ユーティリティ */
-char	*ft_strjoin_free(char *s1, char *s2);
-int		ft_strcmp(const char *s1, const char *s2);
-
-/* コマンド構造体 */
-typedef struct s_command
-{
-	char				**args;
-	int					input_fd;
-	int					output_fd;
-	t_token				*redirects;
-	struct s_command	*next;
-}	t_command;
+	bool			is_expanded;
+};
 
 /* 環境変数管理構造体 */
-typedef struct s_env
+struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+};
+
+enum	e_node_type
+{
+	ND_PIPELINE,
+	ND_SIMPLE_CMD,
+	ND_REDIR_OUT,
+	ND_REDIR_IN,
+	ND_REDIR_APPEND,
+	ND_REDIR_HEREDOC,
+};
+
+struct	e_node
+{
+	t_token		*args;
+	t_token		*delimiter;
+	t_token		*filename;
+	t_node_type	type;
+	t_node		*command;
+	t_node		*next;
+	t_node		*redirects;
+	bool		is_delim_unquoted;
+	int			targetfd;
+	int			filefd;
+	int			stashed_targetfd;
+	int			inpipe[2];
+	int			outpipe[2];
+};
+
 
 /* シェル全体の状態管理構造体 */
 typedef struct s_shell
 {
-	t_token		*tokens;
-	t_command	*commands;
+	t_node		*node;
+	t_token		*token;
 	t_env		*env_list;
 	char		**env_array;
 	int			exit_status;
 	int			running;
+	bool		flag_error;
 }	t_shell;
 
-/* メイン関数 */
-int		main(int argc, char **argv, char **envp);
-int		process_input(char *input, t_shell *shell);
+/* builtin*/
+int		builtin_echo(char	**argv, t_shell *shell);
+int		builtin_cd(char	**argv, t_shell *shell);
+int		builtin_pwd(char	**argv, t_shell *shell);
+int		builtin_export(char	**argv, t_shell *shell);
+int		builtin_unset(char	**argv, t_shell *shell);
+int		builtin_env(char	**argv, t_shell *shell);
+int		builtin_exit(char	**argv, t_shell *shell);
 
-/* 初期化と終了処理 */
-t_shell	*init_shell(char **envp);
-void	free_shell(t_shell *shell);
-
-/* 環境変数ユーティリティ */
+/* environ */
 t_env	*init_env_list(char **envp);
+pid_t	exec_pipeline(t_node *node, t_shell *shell);
 char	**env_list_to_array(t_env *env_list);
 t_env	*get_env_node(t_env *env_list, char *key);
 void	add_env_node(t_env **env_list, char *key, char *value);
@@ -108,52 +131,71 @@ void	remove_env_node(t_env **env_list, char *key);
 void	update_env_array(t_shell *shell);
 char	*get_env_value(t_env *env_list, char *key);
 
-/* レキサー (字句解析) */
-t_token	*tokenize(char *input, t_shell *shell);
-void	free_tokens(t_token *tokens);
-t_token	*create_token(t_token_type type, char *value);
-int		add_token(t_token **tokens, t_token *new_token);
-int	handle_dollar_single_quote(char *input, int *i, char **result);
-int	handle_single_quote(char *input, int *i, char **result);
-int	handle_dollar_double_quote(char *input, int *i, \
-	char **result, t_shell *shell);
-int	handle_double_quote(char *input, int *i, char **result, t_shell *shell);
-int	expand_env_var(char *input, int *i, char **result, t_shell *shell);
-int	is_space(char c);
-int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell);
+/* error */
+void	fatal_error(char *msg, t_shell *shell);
+void	assert_error(char *msg, t_shell *shell);
+void	error_exit(char *location, char *msg, int status, t_shell *shell);
 
-/* パーサー (構文解析) */
-int		parse(t_shell *shell);
-void	free_commands(t_command *commands);
-t_command *create_command(void);
-void	add_command(t_command **commands, t_command *new_command);
+void	token_error(char *point, char **rest, char *input);
+void	parse_error(char *point, t_token **rest, t_token *token);
 
-/* 環境変数展開 */
-char	*expand_variables(char *str, t_shell *shell);
+void	ft_perror(char *s);
+void	error_message(char *msg);
+void	command_error(char *cmd, char *msg);
+void	system_error(char *prefix);
 
-/* コマンド実行 */
-int		execute_commands(t_shell *shell);
-int		execute_builtin(t_command *cmd, t_shell *shell);
-int		execute_external_standalone(t_command *cmd, t_shell *shell);
-int		execute_external_forked(t_command *cmd, t_shell *shell);
-int		is_builtin(char *cmd);
-char	*find_executable(char *cmd, t_env *env_list);
+/* exec */
+void	exec(t_node *node, t_shell *shell);
+bool	open_redir_file(t_node *node, t_shell *shell);
+bool	is_builtin(t_node *node);
+int	exec_builtin(t_node *node, t_shell *shell);
+pid_t	exec_pipeline(t_node *node, t_shell *shell);
+char	*search_path(const char *filename, t_shell *shell);
+char	**token_list_to_argv(t_token *tok, t_shell *shell);
 
-/* パイプとリダイレクト */
-int		setup_pipes(t_command *commands);
-int		setup_redirects(t_command *cmd);
-int		execute_pipeline(t_command *commands, t_shell *shell);
 
-/* ビルトインコマンド */
-int		builtin_echo(t_command *cmd, t_shell *shell);
-int		builtin_cd(t_command *cmd, t_shell *shell);
-int		builtin_pwd(t_command *cmd, t_shell *shell);
-int		builtin_export(t_command *cmd, t_shell *shell);
-int		builtin_unset(t_command *cmd, t_shell *shell);
-int		builtin_env(t_command *cmd, t_shell *shell);
-int		builtin_exit(t_command *cmd, t_shell *shell);
+/* expand */
+void	expand(t_shell *shell);
+void	expand_parameter(t_node *node, t_shell *shell);
+void	expand_word_splitting_token(t_token *token, t_shell *shell);
+void	expand_word_splitting(t_node *node, t_shell *shell);
+void	expand_quote_removal(t_node *node, t_shell *shell);
+char	*expand_heredoc_line(char *line, t_shell *shell);
+void	expand_variable_str(char **dst, char **rest, char *p, t_shell *shell);
+void	expand_special_parameter_str(char **dst, char **rest, char *p, t_shell *shell);
+void	append_char(char **src, char c, t_shell *shell);
+void	append_single_quote(char **dst, char **rest, char *p, t_shell *shell);
+void	append_double_quote(char **dst, char **rest, char *p, t_shell *shell);
+void	trim_ifs(char **rest, char *p, t_shell *shell);
+bool	is_special_parameter(char *s);
+void	expand_parameter_token(t_token *token, t_shell *shell);
+bool	consume_ifs(char **rest, char *line, t_shell *shell);
 
-/* シグナルハンドリング */
+/* parse */
+void	parse(t_shell *shell);
+void	append_token(t_token **tok, t_token *elm);
+t_node	*new_node(t_node_type type, t_shell *shell);
+void	append_node(t_node **node, t_node *elm);
+
+t_node	*redirect_out(t_token **rest, t_token *token, t_shell *shell);
+t_node	*redirect_in(t_token **rest, t_token *token, t_shell *shell);
+t_node	*redirect_append(t_token **rest, t_token *token, t_shell *shell);
+t_node	*redirect_heredoc(t_token **rest, t_token *token, t_shell *shell);
+
+/* pipe */
+void	prepare_pipe(t_node *node, t_shell *shell);
+void	prepare_pipe_child(t_node *node, t_shell *shell);
+void	prepare_pipe_parent(t_node *node, t_shell *shell);
+void	cpy_pipe(int dst[2], int src[2]);
+
+/* redirect */
+int	read_heredoc(const char *delimiter, bool is_delim_unquoted, t_shell *shell);
+void	do_redirect(t_node *redir, t_shell *shell);
+void	reset_redirect(t_node *redir, t_shell *shell);
+bool	is_redirect(t_node *node);
+int	stashfd(int fd, t_shell *shell);
+
+/* signal */
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
@@ -161,14 +203,37 @@ void	ignore_signals(void);
 void	setup_child_signals(void);
 void	defalut_signals(void);
 
-/* エラーハンドリング */
-void	error_message(char *msg);
-void	command_error(char *cmd, char *msg);
-void	system_error(char *prefix);
+/* tokenize */
+void	tokenize(char	*line, t_shell *shell);
+t_token	*new_token(char *value, t_token_type type, t_shell *shell);
+t_token	*tokendup(t_token *token, t_shell *shell);
+void	append_token(t_token **tok, t_token *elm);
+t_token	*word(char **rest, char *line, t_shell *shell);
+bool	is_eof(t_token *token);
+int		is_space(char c);
+bool	is_metacharacter(char c);
+bool	is_word(const char *s);
+bool	is_prefix(const char *s, const char *keyword);
 
-/* メモリ管理 */
+/* util */
+int	safe_close(int fd, t_shell *shell);
+int	safe_dup(int fd, t_shell *shell);
+int	safe_dup2(int from_fd, int to_fd, t_shell *shell);
+int	safe_pipe(int fd[2], t_shell *shell);
 
-void	free_array(char **array);
+void	*safe_malloc(size_t size, t_shell *shell);
+void	*safe_calloc(size_t count, size_t size, t_shell *shell);
+char	*safe_strdup(const char *s1, t_shell *shell);
+char	*safe_strndup(const char *s1, size_t size, t_shell *shell);
+
+void	free_node(t_node *node);
+void	free_token(t_token *tok);
+void	free_shell(t_shell *shell);
+void	free_argv(char **argv);
 void	free_env_list(t_env *env_list);
 
+bool	is_alpha_under(char c);
+bool	is_alpha_num_under(char c);
+bool	is_variable(char *s);
+bool	is_identifier(const char *s);
 #endif

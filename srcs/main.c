@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:07:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 18:58:24 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-/* Global variable for signal handling */
 int		g_signal_status = 0;
 
-t_shell	*init_shell(char **envp)
+static t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	shell->tokens = NULL;
-	shell->commands = NULL;
+	shell->node = NULL;
+	shell->token = NULL;
 	shell->env_list = init_env_list(envp);
 	shell->env_array = env_list_to_array(shell->env_list);
 	if (!shell->env_list || !shell->env_array)
@@ -33,82 +32,81 @@ t_shell	*init_shell(char **envp)
 	}
 	shell->exit_status = 0;
 	shell->running = 1;
+	shell->flag_error = false;
 	return (shell);
 }
 
-static char	*get_last_argument(t_command *commands)
+static char	*get_last_argument(t_node *node)
 {
-	t_command	*cmd;
-	char		**args;
-	int			i;
+	t_token		*args;
 
-	cmd = commands;
-	if (!cmd)
+	if (!node)
 		return (NULL);
-	while (cmd && cmd->next)
-		cmd = cmd->next;
-	args = cmd->args;
-	if (!args || !args[0])
+	while (node && node->next)
+		node = node->next;
+	if (!node->args)
 		return (NULL);
-	i = 0;
-	while (args[i + 1])
-		i++;
-	return (ft_strdup(args[i]));
+	args = node->args;
+	while (args && args->next)
+		args = args->next;
+	return (ft_strdup(args->value));
 }
 
-
-int	process_input(char *input, t_shell *shell)
+static int	process_line(char *input, t_shell *shell)
 {
 	char	*last_arg;
 
-	if (!input || ft_strlen(input) == 0)
-		return (SUCCESS);
-	add_history(input);
-	shell->tokens = tokenize(input, shell);
-	if (shell->tokens == NULL|| parse(shell) != SUCCESS)
+	tokenize(input, shell);
+	if (is_eof(shell->token) == true)
+		;
+	else if (shell->flag_error == true)
+		shell->exit_status = ERROR_TOKENIZE;
+	else
 	{
-		free(input);
-		return (ERROR);
+		parse(shell);
+		if (shell->flag_error == true)
+			shell->exit_status = ERROR_PARSE;
+		else
+		{
+			expand(shell);
+			exec(shell->node, shell);
+		}
+		last_arg = get_last_argument(shell->node);
+		if (last_arg)
+		{
+			add_env_node(&shell->env_list, "_", last_arg);
+			update_env_array(shell);
+			free(last_arg);
+		}
+		free_node(shell->node);
 	}
-	shell->exit_status = execute_commands(shell);
-	last_arg = get_last_argument(shell->commands);
-	if (last_arg)
-	{
-		add_env_node(&shell->env_list, "_", last_arg);
-		update_env_array(shell);
-		free(last_arg);
-	}
-	free_tokens(shell->tokens);
-	shell->tokens = NULL;
-	free_commands(shell->commands);
-	shell->commands = NULL;
-	free(input);
+	free_token(shell->token);
 	return (shell->exit_status);
 }
 
-static int	shell_loop(t_shell *shell)
+static void	shell_loop(t_shell *shell)
 {
-	char	*input;
-	int		status;
+	char	*line;
 
-	status = 0;
+	line = NULL;
 	while (shell->running)
 	{
-		if (g_signal_status)
+		if (g_signal_status != 0)
 		{
 			shell->exit_status = 128 + g_signal_status;
 			g_signal_status = 0;
 			continue ;
 		}
-		input = readline("minishell$ ");
-		if (!input)
+		line = readline("minishell$ ");
+		if (!line)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
 		}
-		status = process_input(input, shell);
+		if (*line)
+			add_history(line);
+		process_line(line, shell);
 	}
-	return (status);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -119,11 +117,12 @@ int	main(int argc, char **argv, char **envp)
 	setup_signals();
 	shell = init_shell(envp);
 	if (!shell)
-		return (ERROR);
+		return (EXIT_FAILURE);
 	if (argc >= 3 && ft_strcmp(argv[1], "-c") == 0)
-		status = process_input(ft_strdup(argv[2]), shell);
+		process_line(ft_strdup(argv[2]), shell);
 	else
-		status = shell_loop(shell);
+		shell_loop(shell);
+	status = shell->exit_status;
 	free_shell(shell);
 	rl_clear_history();
 	return (status);

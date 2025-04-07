@@ -46,7 +46,7 @@ test_cases=(
   'unset VAR'
   'echo $VAR'
 
-  # === SYNTAX ERRORS ===
+  # === SYNTAX EXIT_FAILURES ===
   '|'
   'echo hello | | cat'
   'cat <'
