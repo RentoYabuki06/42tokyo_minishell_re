@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 17:12:30 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:38:19 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,34 +103,47 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
  */
 static int	execute_command(t_command *cmd, t_shell *shell)
 {
-	int	saved_stdin;
-	int	saved_stdout;
 	int	status;
 
+	// Call setup_redirects to apply redirection settings
+	if (setup_redirects(cmd) == ERROR)
+	{
+		return (1);
+	}
+
 	if (!cmd->args || !cmd->args[0])
+	{
 		return (0);
+	}
 
-	/* 標準入出力を保存 */
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
-
-	/* リダイレクトを設定 */
-	if (cmd->input_fd != STDIN_FILENO)
-		dup2(cmd->input_fd, STDIN_FILENO);
-	if (cmd->output_fd != STDOUT_FILENO)
-		dup2(cmd->output_fd, STDOUT_FILENO);
-
-	/* ビルトインコマンドか外部コマンドを実行 */
 	if (is_builtin(cmd->args[0]))
-		status = execute_builtin(cmd, shell);
+	{
+		// built-in でリダイレクトが必要な場合は子プロセスで実行
+		if (cmd->input_fd != STDIN_FILENO || cmd->output_fd != STDOUT_FILENO)
+		{
+			pid_t	pid = fork();
+			if (pid == 0)
+			{
+				if (cmd->input_fd != STDIN_FILENO)
+				{
+					dup2(cmd->input_fd, STDIN_FILENO);
+					close(cmd->input_fd);
+				}
+				if (cmd->output_fd != STDOUT_FILENO)
+				{
+					dup2(cmd->output_fd, STDOUT_FILENO);
+					close(cmd->output_fd);
+				}
+				status = execute_builtin(cmd, shell);
+				exit(status);
+			}
+			waitpid(pid, &status, 0);
+		}
+		else
+			status = execute_builtin(cmd, shell);
+	}
 	else
 		status = execute_external_standalone(cmd, shell);
-
-	/* 標準入出力を復元 */
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
 	return (status);
 }
 

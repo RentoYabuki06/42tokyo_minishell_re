@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 21:45:50 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 13:23:28 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int		builtin_cd(t_command *cmd, t_shell *shell);
 int		builtin_pwd(t_command *cmd, t_shell *shell);
 int		builtin_export(t_command *cmd, t_shell *shell);
 int		builtin_unset(t_command *cmd, t_shell *shell);
+bool	is_valid_identifier(char *key);
+int	print_sorted_env(t_env *env_list, int fd);
 int		builtin_env(t_command *cmd, t_shell *shell);
 int		builtin_exit(t_command *cmd, t_shell *shell);
 

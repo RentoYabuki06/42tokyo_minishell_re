@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 18:27:16 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:41:29 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filena
 		if (cmd->input_fd != STDIN_FILENO)
 			close(cmd->input_fd);
 		cmd->input_fd = fd;
+		
 	}
 	else if (type == TOKEN_REDIRECT_OUT || type == TOKEN_APPEND)
 	{
@@ -46,7 +47,7 @@ static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filena
 			flags |= O_APPEND;
 		fd = open(filename, flags, 0644);
 		if (fd == -1)
-		{
+		 {
 			system_error(filename);
 			return (0);
 		}
@@ -97,6 +98,7 @@ int	setup_redirects(t_command *cmd)
 	t_token	*token = cmd->redirects;
 	t_token	*next;
 
+
 	while (token)
 	{
 		next = token->next;
@@ -106,7 +108,9 @@ int	setup_redirects(t_command *cmd)
 			return (ERROR);
 		}
 		if (!setup_redirect_helper(cmd, token->type, next->value))
+		{
 			return (ERROR);
+		}
 		
 		/* 次のペアへ */
 		token = next->next;

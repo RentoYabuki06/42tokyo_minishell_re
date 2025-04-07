@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42.fr>            +#+  +:+       +#+         #
+#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/06 21:47:20 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/07 13:20:40 by myokono          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(BUILTINS_DIR)/cd.c \
 	$(BUILTINS_DIR)/pwd.c \
 	$(BUILTINS_DIR)/export.c \
+	$(BUILTINS_DIR)/export_sort.c \
 	$(BUILTINS_DIR)/unset.c \
 	$(BUILTINS_DIR)/env.c \
 	$(BUILTINS_DIR)/exit.c \

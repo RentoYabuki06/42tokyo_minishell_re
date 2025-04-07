@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/03/09 22:37:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 02:04:00 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtin_echo(t_command *cmd, t_shell *shell)
 
 	(void)shell;
 	if (!cmd->args[1])
-		return (ft_putstr_fd("\n", cmd->output_fd), 0);
+		return (ft_putstr_fd("\n", STDOUT_FILENO), SUCCESS);
 	i = 1;
 	n_flag = 0;
 	while (cmd->args[i] && is_n_flag(cmd->args[i]))
@@ -45,12 +45,12 @@ int	builtin_echo(t_command *cmd, t_shell *shell)
 	}
 	while (cmd->args[i])
 	{
-		ft_putstr_fd(cmd->args[i], cmd->output_fd);
+		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
 		if (cmd->args[i + 1])
-			ft_putstr_fd(" ", cmd->output_fd);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (!n_flag)
-		ft_putstr_fd("\n", cmd->output_fd);
-	return (0);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (SUCCESS);
 }
