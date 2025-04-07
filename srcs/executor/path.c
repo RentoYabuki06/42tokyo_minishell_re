@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:30:51 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 18:31:26 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 01:10:51 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	*search_in_paths(char **paths, char *cmd)
 char	*find_executable(char *cmd, t_env *env_list)
 {
 	char	**paths;
-	char	*path_env;
 	char	*result;
 
 	result = is_direct_path(cmd);
