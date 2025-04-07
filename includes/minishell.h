@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/07 13:23:28 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 20:36:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,14 @@ char	*expand_variables(char *str, t_shell *shell);
 int		execute_commands(t_shell *shell);
 int		execute_builtin(t_command *cmd, t_shell *shell);
 int		execute_external_standalone(t_command *cmd, t_shell *shell);
-int		execute_external_forked(t_command *cmd, t_shell *shell);
 int		is_builtin(char *cmd);
 char	*find_executable(char *cmd, t_env *env_list);
 
 /* パイプとリダイレクト */
 int		setup_pipes(t_command *commands);
+int		execute_external_forked(t_command *cmd, t_shell *shell);
+void	cleanup_pipes(t_command *commands);
+void	setup_child_io(t_command *cmd);
 int		setup_redirects(t_command *cmd);
 int		execute_pipeline(t_command *commands, t_shell *shell);
 
@@ -151,7 +153,7 @@ int		builtin_pwd(t_command *cmd, t_shell *shell);
 int		builtin_export(t_command *cmd, t_shell *shell);
 int		builtin_unset(t_command *cmd, t_shell *shell);
 bool	is_valid_identifier(char *key);
-int	print_sorted_env(t_env *env_list, int fd);
+int		print_sorted_env(t_env *env_list, int fd);
 int		builtin_env(t_command *cmd, t_shell *shell);
 int		builtin_exit(t_command *cmd, t_shell *shell);
 
@@ -160,8 +162,8 @@ void	setup_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	ignore_signals(void);
-void	setup_child_signals(void);
-void	defalut_signals(void);
+// void	setup_child_signals(void);
+void	default_signals(void);
 
 /* エラーハンドリング */
 void	error_message(char *msg);

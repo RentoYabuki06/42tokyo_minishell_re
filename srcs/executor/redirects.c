@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 17:41:29 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 18:21:31 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
  */
 static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filename)
 {
-	int fd;
-	int flags;
+	int	fd;
+	int	flags;
 
 	if (type == TOKEN_REDIRECT_IN)
 	{
@@ -36,7 +36,6 @@ static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filena
 		if (cmd->input_fd != STDIN_FILENO)
 			close(cmd->input_fd);
 		cmd->input_fd = fd;
-		
 	}
 	else if (type == TOKEN_REDIRECT_OUT || type == TOKEN_APPEND)
 	{
@@ -47,7 +46,7 @@ static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filena
 			flags |= O_APPEND;
 		fd = open(filename, flags, 0644);
 		if (fd == -1)
-		 {
+		{
 			system_error(filename);
 			return (0);
 		}
@@ -88,17 +87,12 @@ static int	setup_redirect_helper(t_command *cmd, t_token_type type, char *filena
 	return (1);
 }
 
-/**
- * コマンドのリダイレクトを統一して設定する関数
- * @param cmd コマンド構造体
- * @return 成功すればSUCCESS、失敗すればERROR
- */
 int	setup_redirects(t_command *cmd)
 {
-	t_token	*token = cmd->redirects;
+	t_token	*token;
 	t_token	*next;
 
-
+	token = cmd->redirects;
 	while (token)
 	{
 		next = token->next;
@@ -108,11 +102,7 @@ int	setup_redirects(t_command *cmd)
 			return (ERROR);
 		}
 		if (!setup_redirect_helper(cmd, token->type, next->value))
-		{
 			return (ERROR);
-		}
-		
-		/* 次のペアへ */
 		token = next->next;
 	}
 	return (SUCCESS);

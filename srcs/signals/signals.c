@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 15:11:37 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:40:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,35 @@ void	ignore_signals(void)
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = SIG_IGN;
-	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	defalut_signals(void)
+void	default_signals(void)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = SIG_DFL;
-	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_quit.sa_handler = SIG_DFL;
-	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	setup_child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
+// void	setup_child_signals(void)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// }
 
 void	setup_signals(void)
 {
@@ -76,11 +76,11 @@ void	setup_signals(void)
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = handle_sigint;
-	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_int.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_quit.sa_handler = handle_sigquit;
-	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;;
+	sa_quit.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
