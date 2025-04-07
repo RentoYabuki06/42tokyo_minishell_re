@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:08:02 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/04 18:11:08 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 18:31:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,40 +47,4 @@ int	execute_builtin(t_command *cmd, t_shell *shell)
 	else if (ft_strcmp(command, "exit") == 0)
 		status = builtin_exit(cmd, shell);
 	return (status);
-}
-
-char	*find_executable(char *cmd, t_env *env_list)
-{
-	char	*path_env;
-	char	**paths;
-	char	*exec_path;
-	int		i;
-
-	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
-	path_env = get_env_value(env_list, "PATH");
-	if (!path_env)
-		return (NULL);
-
-	paths = ft_split(path_env, ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		exec_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
-		if (access(exec_path, X_OK) == 0)
-		{
-			free_array(paths);
-			return (exec_path);
-		}
-		free(exec_path);
-		i++;
-	}
-	free_array(paths);
-	return (NULL);
 }
