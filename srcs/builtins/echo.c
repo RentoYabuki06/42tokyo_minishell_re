@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/07 02:04:00 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:39:43 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	builtin_echo(t_command *cmd, t_shell *shell)
 	int	i;
 	int	n_flag;
 
+	(void)cmd;
 	(void)shell;
 	if (!cmd->args[1])
 		return (ft_putstr_fd("\n", STDOUT_FILENO), SUCCESS);

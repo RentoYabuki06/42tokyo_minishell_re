@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:07:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:20:21 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	*get_last_argument(t_command *commands)
 		i++;
 	return (ft_strdup(args[i]));
 }
-
 
 int	process_input(char *input, t_shell *shell)
 {
