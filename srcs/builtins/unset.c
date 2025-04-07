@@ -6,13 +6,13 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:11:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 13:11:52 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 13:13:35 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	is_valid_identifier(char *key)
+bool	is_valid_identifier(char *key)
 {
 	int	i;
 

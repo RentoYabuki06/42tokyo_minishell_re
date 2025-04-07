@@ -5,136 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/07 02:07:55 by myokono          ###   ########.fr       */
+/*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
+/*   Updated: 2025/04/07 13:25:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	is_valid_identifier(char *key)
+static int	handle_export_without_equal(char *arg, t_shell *shell)
 {
-	int	i;
+	char	*key;
+	char	*msg;
 
-	if (!key || !*key)
-		return (0);
-	if (!ft_isalpha(key[0]) && key[0] != '_')
-		return (0);
-	i = 1;
-	while (key[i])
+	key = ft_strdup(arg);
+	if (!is_valid_identifier(key))
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static int	print_sorted_env(t_env *env_list, int fd)
-{
-	t_env	**env_array;
-	t_env	*current;
-	int		count;
-	int		i;
-	int		j;
-
-	count = 0;
-	current = env_list;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	env_array = (t_env **)malloc(sizeof(t_env *) * count);
-	if (!env_array)
-	{
-		system_error("malloc");
+		msg = ft_strjoin(key, ": not a valid identifier");
+		command_error("export", msg);
+		free(msg);
+		free(key);
 		return (ERROR);
 	}
-	current = env_list;
-	i = 0;
-	while (current)
-	{
-		env_array[i++] = current;
-		current = current->next;
-	}
-	i = 0;
-	while (i < count - 1)
-	{
-		j = 0;
-		while (j < count - i - 1)
-		{
-			if (ft_strcmp(env_array[j]->key, env_array[j + 1]->key) > 0)
-			{
-				current = env_array[j];
-				env_array[j] = env_array[j + 1];
-				env_array[j + 1] = current;
-			}
-			j++;
-		}
-		i++;
-	}
+	if (!get_env_node(shell->env_list, key))
+		add_env_node(&shell->env_list, key, "");
+	free(key);
+	return (SUCCESS);
+}
 
-	/* ソートされた環境変数を表示 */
-	i = 0;
-	while (i < count)
-	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(env_array[i]->key, fd);
-		ft_putstr_fd("=\"", fd);
-		ft_putstr_fd(env_array[i]->value, fd);
-		ft_putstr_fd("\"\n", fd);
-		i++;
-	}
+static int	handle_export_with_equal(char *arg, char *equals_pos, \
+		t_shell *shell)
+{
+	char	*key;
+	char	*value;
+	char	*msg;
 
-	free(env_array);
+	key = ft_substr(arg, 0, equals_pos - arg);
+	value = ft_strdup(equals_pos + 1);
+	if (!is_valid_identifier(key))
+	{
+		msg = ft_strjoin(key, ": not a valid identifier");
+		command_error("export", msg);
+		free(msg);
+		free(key);
+		free(value);
+		return (ERROR);
+	}
+	add_env_node(&shell->env_list, key, value);
+	free(key);
+	free(value);
 	return (SUCCESS);
 }
 
 static int	add_export(char *arg, t_shell *shell)
 {
-	char	*key;
-	char	*value;
 	char	*equals_pos;
+	int		status;
 
 	equals_pos = ft_strchr(arg, '=');
 	if (!equals_pos)
-	{
-		key = ft_strdup(arg);
-		if (!is_valid_identifier(key))
-		{
-			command_error("export", ft_strjoin(key, ": not a valid identifier"));
-			free(key);
-			return (ERROR);
-		}
-		if (!get_env_node(shell->env_list, key))
-			add_env_node(&shell->env_list, key, "");
-		
-		free(key);
-	}
+		status = handle_export_without_equal(arg, shell);
 	else
-	{
-		key = ft_substr(arg, 0, equals_pos - arg);
-		value = ft_strdup(equals_pos + 1);
-		if (!is_valid_identifier(key))
-		{
-			command_error("export", ft_strjoin(key, ": not a valid identifier"));
-			free(key);
-			free(value);
-			return (ERROR);
-		}
-		add_env_node(&shell->env_list, key, value);
-		free(key);
-		free(value);
-	}
+		status = handle_export_with_equal(arg, equals_pos, shell);
 	update_env_array(shell);
 	if (!shell->env_array)
-	{
-		free_shell(shell);
-		system_error("update_env_array");
-		return (ERROR);
-	}
-	return (SUCCESS);
+		return (system_error("update_env_array"), ERROR);
+	return (status);
 }
 
 int	builtin_export(t_command *cmd, t_shell *shell)
@@ -144,7 +79,7 @@ int	builtin_export(t_command *cmd, t_shell *shell)
 
 	if (!cmd->args[1])
 	{
-		print_sorted_env(shell->env_list, cmd->output_fd);
+		print_sorted_env(shell->env_list, STDOUT_FILENO);
 		return (0);
 	}
 	i = 1;
