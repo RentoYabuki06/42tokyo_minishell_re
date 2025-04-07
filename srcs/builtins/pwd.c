@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:31:02 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 02:08:20 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:04:36 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	builtin_pwd(t_command *cmd, t_shell *shell)
 {
 	char	current_dir[PATH_MAX];
 
+	(void)cmd;
 	(void)shell;
 	if (getcwd(current_dir, PATH_MAX) == NULL)
 	{

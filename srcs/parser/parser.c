@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 21:37:19 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:36:52 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,39 @@ static int	handle_redirect(t_token **tokens, t_command *cmd)
 	t_token			*redirect_token;
 	t_token			*filename_token;
 
+
 	type = (*tokens)->type;
+
 	redirect_token = create_token(type, ft_strdup((*tokens)->value));
 	*tokens = (*tokens)->next;
+
 	if (!*tokens || (*tokens)->type != TOKEN_WORD)
 	{
 		free_tokens(redirect_token);
 		error_message("Syntax error near unexpected token");
 		return (ERROR);
 	}
+
 	filename = (*tokens)->value;
+
 	filename_token = create_token(TOKEN_WORD, ft_strdup(filename));
 	*tokens = (*tokens)->next;
+
 	redirect_token->next = filename_token;
+
 	if (!cmd->redirects)
+	{
 		cmd->redirects = redirect_token;
+	}
 	else
 	{
-		t_token *last = cmd->redirects;
-		while (last->next)
-			last = last->next;
-		last->next = redirect_token;
+		t_token *current = cmd->redirects;
+		while (current->next)
+			current = current->next;
+		current->next = redirect_token;
 	}
-	return (1);
+
+	return (SUCCESS);
 }
 
 static int	handle_pipe(t_token **tokens, t_command *cmd, t_command **commands)
