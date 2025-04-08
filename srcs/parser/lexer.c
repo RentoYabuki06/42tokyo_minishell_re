@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:35:52 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 19:56:30 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:31:52 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static int	handle_special_token(char *input, int *i, t_token **tokens)
 		return (ERROR);
 	return (SUCCESS);
 }
-
 
 t_token	*tokenize(char *input, t_shell *shell)
 {

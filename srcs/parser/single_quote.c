@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:36:55 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 20:26:37 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:30:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*interpret_escapes(char *str)
 	free(str);
 	return (result);
 }
-
 
 int	handle_dollar_single_quote(char *input, int *i, char **result)
 {

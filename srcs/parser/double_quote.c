@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:41:17 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 20:32:07 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:29:38 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,58 +18,6 @@ int	handle_dollar_double_quote(char *input, int *i, \
 	(*i)++;
 	return (handle_double_quote(input, i, result, shell));
 }
-
-// int	handle_double_quote(char *input, int *i, char **result, t_shell *shell)
-// {
-// 	int		start;
-// 	char	*segment;
-
-// 	(*i)++;
-// 	if (input[*i] == '\"')
-// 	{
-// 		(*i)++;
-// 		return (SUCCESS);
-// 	}
-// 	while (input[*i] && input[*i] != '\"')
-// 	{
-// 		if (input[*i] == '$')
-// 		{
-// 			if (input[*i + 1] == '\"')
-// 			{
-// 				*result = ft_strjoin(*result, ft_strdup("$"));
-// 				(*i)++;
-// 			}
-// 			else if (expand_env_var(input, i, result, shell) == -1)
-// 				return (ERROR);
-// 		}
-// 		else
-// 		{
-// 			start = *i;
-// 			while (input[*i] && input[*i] != '\"' && input[*i] != '$')
-// 				(*i)++;
-// 			segment = ft_substr(input, start, *i - start);
-// 			*result = ft_strjoin(*result, segment);
-// 		}
-// 	}
-// 	if (!input[*i])
-// 	{
-// 		error_message("Syntax error: unclosed double quote");
-// 		return (ERROR);
-// 	}
-// 	(*i)++;
-// 	return (SUCCESS);
-// }
-
-
-
-
-
-
-
-
-
-
-
 
 static int	append_segment_in_quotes(char *input, int *i, char **result)
 {
@@ -92,8 +40,8 @@ static int	append_segment_in_quotes(char *input, int *i, char **result)
 	return (SUCCESS);
 }
 
-static int	handle_dollar_in_quotes\
-	(char *input, int *i, char **result, t_shell *shell)
+static int	handle_dollar_in_quotes(char *input, \
+			int *i, char **result, t_shell *shell)
 {
 	char	*tmp;
 
