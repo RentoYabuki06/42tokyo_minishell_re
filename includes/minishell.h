@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 11:19:36 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:25:28 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ typedef struct s_shell
 /* main */
 int			main(int argc, char **argv, char **envp);
 int			process_input(char *input, t_shell *shell);
-
-/* init */
-t_shell		init_shell(char **envp);
 
 /* env_uyild*/
 t_env		*init_env_list(char **envp);
