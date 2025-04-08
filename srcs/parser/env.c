@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:45:12 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:31:40 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 static char	*get_last_command_path(t_shell *shell)
 {
@@ -22,8 +21,6 @@ static char	*get_last_command_path(t_shell *shell)
 		return (path);
 	return ("/bin/bash");
 }
-
-
 
 int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 {
@@ -58,7 +55,6 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 	start = *i;
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
-	// 変数名がない場合 ($ のみ)
 	if (start == *i)
 	{
 		*result = ft_strjoin(*result, ft_strdup("$"));

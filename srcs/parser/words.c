@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:45:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:30:40 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	handle_word(char *input, int *i, char **result)
 {
 	int		start;
 	char	*segment;
+	char	*temp_result;
 
 	start = *i;
 	while (input[*i] && !is_delimiter(input[*i]))
@@ -30,7 +31,7 @@ static int	handle_word(char *input, int *i, char **result)
 		(*i)++;
 	}
 	segment = ft_substr(input, start, *i - start);
-	char *temp_result = ft_strjoin(*result, segment);
+	temp_result = ft_strjoin(*result, segment);
 	free(segment);
 	free(*result);
 	*result = temp_result;

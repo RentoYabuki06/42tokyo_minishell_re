@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 13:03:37 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 14:37:58 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:24:28 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	add_env_node(t_env **env_list, char *key, char *value)
 	new_node->key = ft_strdup(key);
 	new_node->value = ft_strdup(value);
 	new_node->next = NULL;
-
 	if (!*env_list)
 	{
 		*env_list = new_node;
@@ -84,7 +83,6 @@ void	remove_env_node(t_env **env_list, char *key)
 
 	if (!*env_list)
 		return ;
-
 	if (ft_strcmp((*env_list)->key, key) == 0)
 	{
 		current = *env_list;
