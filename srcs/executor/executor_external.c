@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_external.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 19:50:42 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:07:09 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static void	handle_execve_error(char *exec_path)
 	exit(code);
 }
 
-static void	handle_child_process(t_command *cmd, t_shell *shell, \
-		char *exec_path)
+static void	child_process(t_command *cmd, t_shell *shell, char *exec_path)
 {
 	if (cmd->input_fd != STDIN_FILENO)
 	{
@@ -84,7 +83,7 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 		return (ERROR);
 	}
 	if (pid == 0)
-		handle_child_process(cmd, shell, exec_path);
+		child_process(cmd, shell, exec_path);
 	free(exec_path);
 	return (wait_child_status(pid));
 }

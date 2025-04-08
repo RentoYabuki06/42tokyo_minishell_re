@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 13:25:14 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:10:47 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	handle_special(char *input, int *i, char **result, t_shell *shell)
 	else if (input[*i] == '\"' && input[*i - 1] == '$')
 	{
 		(*i)--;
-		return (handle_dollar_double_quote(input, i, result, shell));
+		return (dollar_doublequote(input, i, result, shell));
 	}
 	if (input[*i] == '\'' || input[*i] == '\"')
 	{
