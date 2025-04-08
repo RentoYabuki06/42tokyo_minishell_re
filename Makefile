@@ -6,7 +6,7 @@
 #    By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/08 13:13:48 by yabukirento      ###   ########.fr        #
+#    Updated: 2025/04/08 13:26:34 by yabukirento      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(BUILTINS_DIR)/env.c \
 	$(BUILTINS_DIR)/exit.c \
 	$(UTILS_DIR)/env_utils.c \
+	$(UTILS_DIR)/env_support.c \
 	$(UTILS_DIR)/env_init.c \
 	$(UTILS_DIR)/error.c \
 	$(UTILS_DIR)/memory.c \
