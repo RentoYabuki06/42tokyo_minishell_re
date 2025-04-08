@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 21:07:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 11:21:41 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static char	*get_last_argument(t_command *commands)
 	return (ft_strdup(args[i]));
 }
 
-
 int	process_input(char *input, t_shell *shell)
 {
 	char	*last_arg;
@@ -65,7 +64,7 @@ int	process_input(char *input, t_shell *shell)
 		return (SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
-	if (shell->tokens == NULL|| parse(shell) != SUCCESS)
+	if (shell->tokens == NULL || parse(shell) != SUCCESS)
 	{
 		free(input);
 		return (ERROR);
