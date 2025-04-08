@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:08:36 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:17:52 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static int	setup_redirect_in(t_command *cmd, char *filename)
 	return (SUCCESS);
 }
 
-static int	setup_redirect_out(t_command *cmd, \
-		char *filename, t_token_type type)
+static int	setup_redir_out(t_command *cmd, char *filename, t_token_type type)
 {
 	int	fd;
 	int	flags;
@@ -85,7 +84,7 @@ static int	setup_redir(t_command *cmd, t_token_type type, char *filename)
 	if (type == TOKEN_REDIRECT_IN)
 		return (setup_redirect_in(cmd, filename));
 	else if (type == TOKEN_REDIRECT_OUT || type == TOKEN_APPEND)
-		return (setup_redirect_out(cmd, filename, type));
+		return (setup_redir_out(cmd, filename, type));
 	else if (type == TOKEN_HEREDOC)
 		return (setup_redirect_heredoc(cmd, filename));
 	return (ERROR);

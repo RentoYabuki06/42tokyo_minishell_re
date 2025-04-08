@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:18:06 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/08 13:18:07 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:21:50 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ static void	fork_and_exec_child(t_command *cmd, t_shell *shell)
 
 static void	handle_special_cat(t_command *current)
 {
-	int	null_fd;
+	int			null_fd;
+	t_command	*next;
 
-	if (current->next == NULL || !current->next->args || !current->next->args[0])
+	next = current->next;
+	if (next == NULL || !next->args || !next->args[0])
 	{
-		if (ft_strcmp(current->args[0], "cat") == 0 && current->args[1] == NULL && 
-			current->input_fd == STDIN_FILENO)
+		if (ft_strcmp(current->args[0], "cat") == 0
+			&& current->args[1] == NULL && current->input_fd == STDIN_FILENO)
 		{
 			null_fd = open("/dev/null", O_RDONLY);
 			if (null_fd != -1)
@@ -44,26 +46,26 @@ static void	handle_special_cat(t_command *current)
 	}
 }
 
-static pid_t	create_process(t_command *current, t_shell *shell, int stdin_backup)
+static pid_t	new_process(t_command *current, t_shell *shell, int stdin)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		dup2(stdin_backup, STDIN_FILENO);
-		close(stdin_backup);
+		dup2(stdin, STDIN_FILENO);
+		close(stdin);
 		return (system_error("fork"), ERROR);
 	}
 	if (pid == 0)
 	{
-		close(stdin_backup);
+		close(stdin);
 		fork_and_exec_child(current, shell);
 	}
 	return (pid);
 }
 
-pid_t	static_execute_commands(t_command *current, t_shell *shell, int stdin_backup)
+pid_t	static_execute_commands(t_command *current, t_shell *shell, int stdin)
 {
 	pid_t	pid;
 	pid_t	last_pid;
@@ -74,10 +76,10 @@ pid_t	static_execute_commands(t_command *current, t_shell *shell, int stdin_back
 		if (should_skip_command(current))
 		{
 			current = current->next;
-			continue;
+			continue ;
 		}
 		handle_special_cat(current);
-		pid = create_process(current, shell, stdin_backup);
+		pid = new_process(current, shell, stdin);
 		if (pid == ERROR)
 			return (ERROR);
 		last_pid = pid;
