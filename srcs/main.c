@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 11:21:41 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:03:49 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Global variable for signal handling */
 int		g_signal_status = 0;
 
-t_shell	*init_shell(char **envp)
+static t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
@@ -93,6 +93,7 @@ static int	shell_loop(t_shell *shell)
 	status = 0;
 	while (shell->running)
 	{
+		setup_signals();
 		if (g_signal_status)
 		{
 			shell->exit_status = 128 + g_signal_status;
