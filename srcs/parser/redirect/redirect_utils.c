@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:30:00 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/08 14:31:36 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:39:37 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_token	*process_redirect_tokens(t_token **tokens, t_token_type type)
 	}
 	filename_token = create_token(TOKEN_WORD, ft_strdup((*tokens)->value));
 	*tokens = (*tokens)->next;
-
 	redirect_token->next = filename_token;
 	return (redirect_token);
 }
@@ -37,9 +36,7 @@ void	add_redirect_to_command(t_command *cmd, t_token *redirect_token)
 	t_token	*current;
 
 	if (!cmd->redirects)
-	{
 		cmd->redirects = redirect_token;
-	}
 	else
 	{
 		current = cmd->redirects;
@@ -58,7 +55,6 @@ int	handle_redirect(t_token **tokens, t_command *cmd)
 	redirect_token = process_redirect_tokens(tokens, type);
 	if (!redirect_token)
 		return (ERROR);
-	
 	add_redirect_to_command(cmd, redirect_token);
 	return (SUCCESS);
-} 
+}

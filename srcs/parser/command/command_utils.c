@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:30:00 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/08 14:31:36 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:38:13 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,4 @@ int	handle_pipe(t_token **tokens, t_command *cmd, t_command **commands)
 	add_command(commands, cmd);
 	*tokens = (*tokens)->next;
 	return (SUCCESS);
-} 
+}

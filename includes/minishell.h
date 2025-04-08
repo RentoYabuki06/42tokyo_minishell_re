@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 14:31:36 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:40:22 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ int			execute_external_forked(t_command *cmd, t_shell *shell);
 void		setup_child_io(t_command *cmd);
 int			setup_redirects(t_command *cmd);
 int			execute_pipeline(t_command *commands, t_shell *shell);
-pid_t	static_execute_commands(t_command *current, t_shell *shell, int stdin_backup);
+pid_t		static_execute_commands(t_command *current, \
+			t_shell *shell, int stdin_backup);
 
 /* builtins */
 int			builtin_echo(t_command *cmd, t_shell *shell);
