@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 02:04:41 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:25:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 		command_error("exit", ft_strjoin(cmd->args[1], \
 			": numeric argument required"));
 		shell->running = 0;
-		shell->exit_status = 255;
-		return (255);
+		shell->exit_status = 2;
+		return (2);
 	}
 	if (cmd->args[2] != NULL)
 	{
