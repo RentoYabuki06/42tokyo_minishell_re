@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 14:10:47 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:31:36 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ int			parse(t_shell *shell);
 void		free_commands(t_command *commands);
 t_command	*create_command(void);
 void		add_command(t_command **commands, t_command *new_command);
+
+/* parser/command */
+int			add_arg(t_command *cmd, char *arg);
+int			handle_pipe(t_token **tokens, t_command *cmd, t_command **commands);
+
+/* parser/redirect */
+t_token		*process_redirect_tokens(t_token **tokens, t_token_type type);
+void		add_redirect_to_command(t_command *cmd, t_token *redirect_token);
+int			handle_redirect(t_token **tokens, t_command *cmd);
 
 /* env */
 char		*expand_variables(char *str, t_shell *shell);
