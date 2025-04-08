@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 20:59:30 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:18:33 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,14 @@ void	setup_child_io(t_command *cmd)
 			exit(EXIT_FAILURE);
 		}
 		close(cmd->output_fd);
+	}
+	
+	// パイプラインにおける不要なファイルディスクリプタを閉じる
+	// これは子プロセスが不要なfd（特に標準入力）を継承しないようにするため
+	int i;
+	for (i = 3; i < 256; i++)
+	{
+		if (i != cmd->input_fd && i != cmd->output_fd)
+			close(i);
 	}
 }
