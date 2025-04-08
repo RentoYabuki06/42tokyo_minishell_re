@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 13:25:57 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:16:29 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	parse_sign_and_index(const char *str, int *sign, int *i)
 {
 	*sign = 1;
 	*i = 0;
-	while (str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n' \
+	while (str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n'
 		|| str[*i] == '\v' || str[*i] == '\f' || str[*i] == '\r')
 		(*i)++;
 	if (str[*i] == '-')
@@ -80,8 +80,8 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 	}
 	if (!is_valid_numeric(cmd->args[1]))
 	{
-		command_error("exit", ft_strjoin(cmd->args[1], \
-			": numeric argument required"));
+		command_error("exit", ft_strjoin(cmd->args[1],
+				": numeric argument required"));
 		shell->running = 0;
 		shell->exit_status = 2;
 		return (2);
