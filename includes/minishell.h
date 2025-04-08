@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 11:25:28 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 13:11:59 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void		cleanup_pipes(t_command *commands);
 void		setup_child_io(t_command *cmd);
 int			setup_redirects(t_command *cmd);
 int			execute_pipeline(t_command *commands, t_shell *shell);
+pid_t	static_execute_commands(t_command *current, t_shell *shell, int stdin_backup);
 
 /* builtins */
 int			builtin_echo(t_command *cmd, t_shell *shell);

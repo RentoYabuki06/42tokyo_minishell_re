@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/07 20:36:31 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/08 13:13:48 by yabukirento      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(EXECUTOR_DIR)/executor_builtin.c \
 	$(EXECUTOR_DIR)/executor_external.c \
 	$(EXECUTOR_DIR)/pipe.c \
+	$(EXECUTOR_DIR)/pipe_exec_cmd.c \
 	$(EXECUTOR_DIR)/pipe_utils.c \
 	$(EXECUTOR_DIR)/redirects.c \
 	$(BUILTINS_DIR)/echo.c \
