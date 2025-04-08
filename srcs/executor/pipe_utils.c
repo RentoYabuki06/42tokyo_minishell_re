@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 12:18:33 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:06:11 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_external_forked(t_command *cmd, t_shell *shell)
 	exit(code);
 }
 
-void	cleanup_pipes(t_command *commands)
+static void	cleanup_pipes(t_command *commands)
 {
 	t_command	*cmd;
 
@@ -85,9 +85,8 @@ int	setup_pipes(t_command *commands)
 	return (SUCCESS);
 }
 
-void	setup_child_io(t_command *cmd)
+static void	setup_child_io_redirections(t_command *cmd)
 {
-	default_signals();
 	if (cmd->input_fd != STDIN_FILENO)
 	{
 		if (dup2(cmd->input_fd, STDIN_FILENO) == -1)
@@ -109,13 +108,19 @@ void	setup_child_io(t_command *cmd)
 		}
 		close(cmd->output_fd);
 	}
-	
-	// パイプラインにおける不要なファイルディスクリプタを閉じる
-	// これは子プロセスが不要なfd（特に標準入力）を継承しないようにするため
-	int i;
-	for (i = 3; i < 256; i++)
+}
+
+void	setup_child_io(t_command *cmd)
+{
+	int	i;
+
+	default_signals();
+	setup_child_io_redirections(cmd);
+	i = 3;
+	while (i < 256)
 	{
 		if (i != cmd->input_fd && i != cmd->output_fd)
 			close(i);
+		i++;
 	}
 }

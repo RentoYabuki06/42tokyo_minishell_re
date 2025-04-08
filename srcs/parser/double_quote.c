@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   double_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:41:17 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 11:29:38 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:10:47 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	handle_dollar_double_quote(char *input, int *i, \
-	char **result, t_shell *shell)
+int	dollar_doublequote(char *input, int *i, char **result, t_shell *shell)
 {
 	(*i)++;
 	return (handle_double_quote(input, i, result, shell));
@@ -40,8 +39,7 @@ static int	append_segment_in_quotes(char *input, int *i, char **result)
 	return (SUCCESS);
 }
 
-static int	handle_dollar_in_quotes(char *input, \
-			int *i, char **result, t_shell *shell)
+static int	dollar_in_quote(char *input, int *i, char **result, t_shell *shell)
 {
 	char	*tmp;
 
@@ -70,7 +68,7 @@ int	handle_double_quote(char *input, int *i, char **result, t_shell *shell)
 	{
 		if (input[*i] == '$')
 		{
-			if (handle_dollar_in_quotes(input, i, result, shell) == ERROR)
+			if (dollar_in_quote(input, i, result, shell) == ERROR)
 				return (ERROR);
 		}
 		else

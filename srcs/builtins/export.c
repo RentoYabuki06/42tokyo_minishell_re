@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 13:25:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:07:51 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int	handle_export_without_equal(char *arg, t_shell *shell)
 	return (SUCCESS);
 }
 
-static int	handle_export_with_equal(char *arg, char *equals_pos, \
-		t_shell *shell)
+static int	export_with_equal(char *arg, char *equals_pos, t_shell *shell)
 {
 	char	*key;
 	char	*value;
@@ -65,7 +64,7 @@ static int	add_export(char *arg, t_shell *shell)
 	if (!equals_pos)
 		status = handle_export_without_equal(arg, shell);
 	else
-		status = handle_export_with_equal(arg, equals_pos, shell);
+		status = export_with_equal(arg, equals_pos, shell);
 	update_env_array(shell);
 	if (!shell->env_array)
 		return (system_error("update_env_array"), ERROR);

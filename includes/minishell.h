@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 13:11:59 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/08 14:10:47 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_token		*create_token(t_token_type type, char *value);
 int			add_token(t_token **tokens, t_token *new_token);
 int			handle_dollar_single_quote(char *input, int *i, char **result);
 int			handle_single_quote(char *input, int *i, char **result);
-int			handle_dollar_double_quote(char *input, int *i, \
+int			dollar_doublequote(char *input, int *i, \
 			char **result, t_shell *shell);
 int			handle_double_quote(char *input, int *i, \
 			char **result, t_shell *shell);
@@ -130,7 +130,6 @@ char		*find_executable(char *cmd, t_env *env_list);
 /* pip redirects */
 int			setup_pipes(t_command *commands);
 int			execute_external_forked(t_command *cmd, t_shell *shell);
-void		cleanup_pipes(t_command *commands);
 void		setup_child_io(t_command *cmd);
 int			setup_redirects(t_command *cmd);
 int			execute_pipeline(t_command *commands, t_shell *shell);

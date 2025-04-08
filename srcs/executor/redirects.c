@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 20:59:42 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:08:36 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ static int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
 	return (SUCCESS);
 }
 
-static int	setup_redirect_helper(t_command *cmd, \
-		t_token_type type, char *filename)
+static int	setup_redir(t_command *cmd, t_token_type type, char *filename)
 {
 	if (type == TOKEN_REDIRECT_IN)
 		return (setup_redirect_in(cmd, filename));
@@ -106,7 +105,7 @@ int	setup_redirects(t_command *cmd)
 			error_message("Missing filename for redirection");
 			return (ERROR);
 		}
-		if (setup_redirect_helper(cmd, token->type, next->value) == ERROR)
+		if (setup_redir(cmd, token->type, next->value) == ERROR)
 			return (ERROR);
 		token = next->next;
 	}
