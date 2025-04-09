@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:02:12 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:12:21 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 {
 	long long	exit;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (cmd->is_in_pipe == false)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
 		shell->running = 0;
