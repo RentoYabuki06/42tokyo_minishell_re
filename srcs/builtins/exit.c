@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
 /*   Updated: 2025/04/09 17:11:41 by yabukirento      ###   ########.fr       */
@@ -70,17 +70,31 @@ static long long	ft_atoll(const char *str)
 	return (result * sign);
 }
 
+static int	numeric_error(t_command *cmd, t_shell *shell)
+{
+	command_error("exit", ft_strjoin(cmd->args[1],
+			": numeric argument required"));
+	shell->running = 0;
+	shell->exit_status = 2;
+	return (2);
+}
+
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
 	char	*tmp;
 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
+	long long	exit;
+
+	if (cmd->is_in_pipe == false)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
 		shell->running = 0;
 		return (shell->exit_status);
 	}
 	if (!is_valid_numeric(cmd->args[1]))
+
 	{
 		tmp = ft_strjoin(cmd->args[1], ": numeric argument required");
 		if (tmp == NULL)
@@ -90,12 +104,14 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 		shell->exit_status = 2;
 		return (2);
 	}
+		return (numeric_error(cmd, shell));
+
 	if (cmd->args[2] != NULL)
-	{
-		error_message("exit: too many arguments");
-		return (ERROR);
-	}
+		return (error_message("exit: too many arguments"), ERROR);
 	shell->running = 0;
-	shell->exit_status = (unsigned char)ft_atoll(cmd->args[1]);
+	exit = ft_atoll(cmd->args[1]);
+	if (exit > LONG_MAX || exit < LONG_MIN)
+		return (numeric_error(cmd, shell));
+	shell->exit_status = (unsigned char)exit;
 	return (shell->exit_status);
 }

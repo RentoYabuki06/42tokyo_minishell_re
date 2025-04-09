@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 14:40:22 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:08:44 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_command
 	char				**args;
 	int					input_fd;
 	int					output_fd;
+	bool				is_in_pipe;
 	t_token				*redirects;
 	struct s_command	*next;
 }	t_command;
