@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:16:29 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/09 16:58:23 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,19 @@ static long long	ft_atoll(const char *str)
 	return (result * sign);
 }
 
+static int	numeric_error(t_command *cmd, t_shell *shell, int exit_status)
+{
+	command_error("exit", ft_strjoin(cmd->args[1],
+			": numeric argument required"));
+	shell->running = 0;
+	shell->exit_status = exit_status;
+	return (exit_status);
+}
+
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
+	long long	exit;
+
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
@@ -79,19 +90,13 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 		return (shell->exit_status);
 	}
 	if (!is_valid_numeric(cmd->args[1]))
-	{
-		command_error("exit", ft_strjoin(cmd->args[1],
-				": numeric argument required"));
-		shell->running = 0;
-		shell->exit_status = 2;
-		return (2);
-	}
+		return (numeric_error(cmd, shell));
 	if (cmd->args[2] != NULL)
-	{
-		error_message("exit: too many arguments");
-		return (ERROR);
-	}
+		return (error_message("exit: too many arguments"), ERROR, 2);
 	shell->running = 0;
-	shell->exit_status = (unsigned char)ft_atoll(cmd->args[1]);
+	exit = ft_atoll(cmd->args[1]);
+	if (exit > LONG_MAX || exit < LONG_MIN)
+		return (numeric_error(cmd, shell, 255));
+	shell->exit_status = (unsigned char)exit;
 	return (shell->exit_status);
 }
