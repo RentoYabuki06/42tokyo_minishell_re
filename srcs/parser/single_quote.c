@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:36:55 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 11:30:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:58:52 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 {
 	int		start;
 	char	*content;
+	char	*tmp_result;
 
 	(*i) += 2;
 	start = *i;
@@ -92,7 +93,15 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 	content = interpret_escapes(content);
 	if (!content)
 		return (error_message("Memory allocation error"), ERROR);
-	*result = ft_strjoin(*result, content);
+	tmp_result = ft_strdup(*result);
+	if (tmp_result == NULL)
+	{
+		free(content);
+		return (ERROR);
+	}
+	free(result);
+	*result = ft_strjoin(tmp_result, content);
+	free(tmp_result);
 	free(content);
 	if (!*result)
 		return (error_message("Memory allocation error"), ERROR);
@@ -102,7 +111,9 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 
 int	handle_single_quote(char *input, int *i, char **result)
 {
-	int	start;
+	int		start;
+	char	*str_add;
+	char	*tmp_result;
 
 	(*i)++;
 	if (input[*i] == '\'')
@@ -118,7 +129,21 @@ int	handle_single_quote(char *input, int *i, char **result)
 		error_message("Syntax error: unclosed single quote");
 		return (ERROR);
 	}
-	*result = ft_strjoin(*result, ft_substr(input, start, *i - start));
+	str_add = ft_substr(input, start, *i - start);
+	if (str_add == NULL)
+		return (ERROR);
+	tmp_result = ft_strdup(*result);
+	if (tmp_result)
+	{
+		free(str_add);
+		return (ERROR);
+	}
+	free(*result);
+	*result = ft_strjoin(tmp_result, str_add);
+	free(tmp_result);
+	free(str_add);
+	if (*result == NULL)
+		return (ERROR);
 	(*i)++;
 	return (SUCCESS);
 }

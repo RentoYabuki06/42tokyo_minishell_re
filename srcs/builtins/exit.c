@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:16:29 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/09 17:11:41 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static long long	ft_atoll(const char *str)
 
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
+	char	*tmp;
+
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
@@ -80,8 +82,10 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 	}
 	if (!is_valid_numeric(cmd->args[1]))
 	{
-		command_error("exit", ft_strjoin(cmd->args[1],
-				": numeric argument required"));
+		tmp = ft_strjoin(cmd->args[1], ": numeric argument required");
+		if (tmp == NULL)
+			return (-1);
+		command_error("exit", tmp);
 		shell->running = 0;
 		shell->exit_status = 2;
 		return (2);

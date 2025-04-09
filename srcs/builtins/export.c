@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:07:51 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/09 17:10:38 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	handle_export_without_equal(char *arg, t_shell *shell)
 	if (!is_valid_identifier(key))
 	{
 		msg = ft_strjoin(key, ": not a valid identifier");
+		if (msg == NULL)
+			return (ERROR);
 		command_error("export", msg);
 		free(msg);
 		free(key);
@@ -43,6 +45,8 @@ static int	export_with_equal(char *arg, char *equals_pos, t_shell *shell)
 	if (!is_valid_identifier(key))
 	{
 		msg = ft_strjoin(key, ": not a valid identifier");
+		if (msg == NULL)
+			return (ERROR);
 		command_error("export", msg);
 		free(msg);
 		free(key);

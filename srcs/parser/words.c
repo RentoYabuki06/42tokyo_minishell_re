@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:34:36 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:59:29 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ static int	handle_word(char *input, int *i, char **result)
 		(*i)++;
 	}
 	segment = ft_substr(input, start, *i - start);
+	if (segment == NULL)
+		return (ERROR);
 	temp_result = ft_strjoin(*result, segment);
 	free(segment);
+	if (temp_result == NULL)
+		return (ERROR);
 	free(*result);
 	*result = temp_result;
-	if (!*result)
-	{
-		error_message("Memory allocation error");
-		return (ERROR);
-	}
+	free(temp_result);
 	return (SUCCESS);
 }
 
@@ -85,6 +85,8 @@ int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 	int		status;
 
 	result = ft_strdup("");
+	if (result == NULL)
+		return (ERROR);
 	has_content = 0;
 	start_pos = *i;
 	status = SUCCESS;
