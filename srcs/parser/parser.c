@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/08 14:33:53 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 18:28:10 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	process_token(t_token **current_token, t_command **current_cmd,
 static int	finalize_parse(t_command *current_cmd, t_command **commands)
 {
 	if (current_cmd->args || current_cmd->input_fd != STDIN_FILENO
-		|| current_cmd->output_fd != STDOUT_FILENO)
+		|| current_cmd->output_fd != STDOUT_FILENO || current_cmd->redirects)
 		add_command(commands, current_cmd);
 	else
 		free_commands(current_cmd);

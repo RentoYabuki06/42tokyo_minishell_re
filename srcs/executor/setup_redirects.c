@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 17:51:45 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:46:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 {
 	char	*line;
+	int len;
 
 	while (true)
 	{
@@ -26,8 +27,14 @@ static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 			close(pipe_fd[0]);
 			close(pipe_fd[1]);
 			g_signal_status = 0;
-			free(saved);
+			// free(saved);
 			return (ERROR);
+		}
+		if (line)
+		{
+			len = ft_strlen(line);
+			if (len > 0 && line[len - 1] == '\n')
+				line[len - 1] = '\0';
 		}
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
