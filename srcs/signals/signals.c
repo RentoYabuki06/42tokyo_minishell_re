@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:52:21 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 13:56:50 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:37:42 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	handle_sigint(int sig)
 	g_signal_status = 1;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	handle_sigquit(int sig)
+{
+	int	point_pos;
+
+	(void)sig;
+	point_pos = rl_point;
+	rl_on_new_line();
+	rl_point = point_pos;
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
