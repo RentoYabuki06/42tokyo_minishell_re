@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 17:38:57 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 19:25:55 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,35 @@ t_env	*init_env_list(char **envp)
 	return (env_list);
 }
 
-char	**env_list_to_array(t_env *env_list)
+static int	count_env_list(t_env *env_list)
 {
 	t_env	*current;
-	char	**env_array;
 	int		count;
-	int		i;
-	char	*tmp;
 
-	count = 0;
 	current = env_list;
+	count = 0;
 	while (current)
 	{
 		count++;
 		current = current->next;
 	}
+	return (count);
+}
+
+char	**env_list_to_array(t_env *env_list)
+{
+	t_env	*current;
+	char	**env_array;
+	char	*tmp;
+	int		count;
+	int		i;
+
+	count = count_env_list(env_list);
 	env_array = malloc(sizeof(char *) * (count + 1));
 	if (!env_array)
 		return (NULL);
-	i = 0;
 	current = env_list;
+	i = 0;
 	while (current)
 	{
 		tmp = ft_strjoin(current->key, "=");
