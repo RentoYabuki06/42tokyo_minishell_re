@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:12:21 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:11:41 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ static int	numeric_error(t_command *cmd, t_shell *shell)
 
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
+	char	*tmp;
+
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	long long	exit;
 
 	if (cmd->is_in_pipe == false)
@@ -91,7 +94,18 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 		return (shell->exit_status);
 	}
 	if (!is_valid_numeric(cmd->args[1]))
+
+	{
+		tmp = ft_strjoin(cmd->args[1], ": numeric argument required");
+		if (tmp == NULL)
+			return (-1);
+		command_error("exit", tmp);
+		shell->running = 0;
+		shell->exit_status = 2;
+		return (2);
+	}
 		return (numeric_error(cmd, shell));
+
 	if (cmd->args[2] != NULL)
 		return (error_message("exit: too many arguments"), ERROR);
 	shell->running = 0;

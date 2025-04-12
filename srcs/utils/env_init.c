@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/06 17:18:08 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:59:06 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,12 @@ char	**env_list_to_array(t_env *env_list)
 	while (current)
 	{
 		tmp = ft_strjoin(current->key, "=");
+		if (tmp == NULL)
+			return (NULL);
 		env_array[i] = ft_strjoin(tmp, current->value);
 		free(tmp);
+		if (env_array[i] == NULL)
+			return (NULL);
 		current = current->next;
 		i++;
 	}

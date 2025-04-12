@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:11:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 13:13:35 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:40:35 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	builtin_unset(t_command *cmd, t_shell *shell)
 		if (!is_valid_identifier(cmd->args[i]))
 		{
 			msg = ft_strjoin(cmd->args[i], ": not a valid identifier");
+			if (msg == NULL)
+				return (ERROR);
 			command_error("unset", msg);
 			free(msg);
 			status = 1;

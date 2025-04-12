@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:41:17 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:10:47 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/09 17:12:36 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,51 @@ static int	append_segment_in_quotes(char *input, int *i, char **result)
 {
 	int		start;
 	char	*segment;
-	char	*tmp;
+	char	*tmp_result;
 
 	start = *i;
 	while (input[*i] && input[*i] != '\"' && input[*i] != '$')
 		(*i)++;
 	segment = ft_substr(input, start, *i - start);
-	if (!segment)
+	if (segment == NULL)
 		return (ERROR);
-	tmp = ft_strjoin(*result, segment);
-	free(segment);
-	if (!tmp)
+	tmp_result = ft_strdup(*result);
+	if (tmp_result == NULL)
+	{
+		free(segment);
 		return (ERROR);
+	}
 	free(*result);
-	*result = tmp;
+	*result = ft_strjoin(tmp_result, segment);
+	free(segment);
+	free(tmp_result);
+	if (*result == NULL)
+		return (ERROR);
 	return (SUCCESS);
 }
 
 static int	dollar_in_quote(char *input, int *i, char **result, t_shell *shell)
 {
-	char	*tmp;
+	char	*tmp_result;
+	char	*tmp_dollar;
 
 	if (input[*i + 1] == '\"')
 	{
-		tmp = ft_strjoin(*result, ft_strdup("$"));
-		if (!tmp)
+		tmp_result = ft_strdup(*result);
+		if (tmp_result == NULL)
 			return (ERROR);
+		tmp_dollar = ft_strdup("$");
+		if (tmp_dollar == NULL)
+		{
+			free(tmp_result);
+			return (ERROR);
+		}
 		free(*result);
-		*result = tmp;
+		*result = ft_strjoin(tmp_result, tmp_dollar);
+		free(tmp_result);
+		free(tmp_dollar);
+		if (*result == NULL)
+			return (ERROR);	
 		(*i)++;
 		return (SUCCESS);
 	}
