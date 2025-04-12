@@ -39,8 +39,6 @@ static int	handle_word(char *input, int *i, char **result)
 		return (ERROR);
 	free(*result);
 	*result = temp_result;
-	free(temp_result);
-	return (SUCCESS);
 }
 
 int	process_dollar_quote(char *input, int *i, char **result, t_shell *shell)
