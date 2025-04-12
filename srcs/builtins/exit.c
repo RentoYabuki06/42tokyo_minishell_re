@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 12:31:46 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 19:17:54 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static long long	ft_atoll(const char *str, bool *flag)
 	{
 		if (result > LLONG_MAX / 10
 			|| (result == LLONG_MAX / 10 && (str[i] - '0') > LLONG_MAX % 10))
-				*flag = true;
+			*flag = true;
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}

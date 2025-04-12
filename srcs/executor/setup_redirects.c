@@ -3,40 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 18:46:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/12 19:21:07 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	handle_sigint_in_loop(int *pipe_fd, char *line)
+{
+	free(line);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	g_signal_status = 0;
+	return (ERROR);
+}
+
+static char	*read_line_from_input(char **saved)
+{
+	char	*line;
+
+	write(STDOUT_FILENO, "> ", 2);
+	line = get_next_line(STDIN_FILENO, saved);
+	return (line);
+}
+
+static bool	is_delimiter_or_null(char *line, char *delimiter)
+{
+	int	len;
+	int	result;
+
+	if (line)
+	{
+		len = ft_strlen(line);
+		if (len > 0)
+		{
+			if (line[len - 1] == '\n')
+				line[len - 1] = '\0';
+		}
+	}
+	result = (!line || ft_strcmp(line, delimiter) == 0);
+	return (result);
+}
+
 static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 {
 	char	*line;
-	int len;
+	bool	is_end;
 
 	while (true)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO, saved);
+		line = read_line_from_input(saved);
 		if (g_signal_status == -1)
-		{
-			free(line);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-			g_signal_status = 0;
-			// free(saved);
-			return (ERROR);
-		}
-		if (line)
-		{
-			len = ft_strlen(line);
-			if (len > 0 && line[len - 1] == '\n')
-				line[len - 1] = '\0';
-		}
-		if (!line || ft_strcmp(line, delimiter) == 0)
+			return (handle_sigint_in_loop(pipe_fd, line));
+		is_end = is_delimiter_or_null(line, delimiter);
+		if (is_end)
 		{
 			free(line);
 			break ;
