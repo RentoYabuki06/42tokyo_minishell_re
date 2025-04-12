@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:25:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 02:03:04 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:00:32 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ int	builtin_cd(t_command *cmd, t_shell *shell)
 	char	*path;
 	char	old_pwd[PATH_MAX];
 
+	if (cmd->args[1] && cmd->args[2])
+		return (error_message("cd: too many arguments"), ERROR);
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
-	{
-		system_error("getcwd");
-		return (ERROR);
-	}
+		return (system_error("getcwd"), ERROR);
 	if (!cmd->args[1])
 	{
 		path = get_env_value(shell->env_list, "HOME");
