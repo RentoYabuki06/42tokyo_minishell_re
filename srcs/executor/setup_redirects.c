@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 17:36:08 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:51:45 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 	while (true)
 	{
 		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO, &saved);
+		line = get_next_line(STDIN_FILENO, saved);
 		if (g_signal_status == -1)
 		{
 			free(line);
@@ -44,7 +44,6 @@ static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
 {
 	int		pipe_fd[2];
-	char	*line;
 	char	*saved;
 
 	saved = ft_strdup("");
