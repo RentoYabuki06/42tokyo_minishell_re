@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 21:06:49 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 21:58:47 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,52 +71,27 @@ static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 	return (true);
 }
 
-int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
+int	setup_redir_return_fd(t_token_type type, char *delimiter)
 {
 	int		pipe_fd[2];
 	char	*saved;
 
-	saved = ft_strdup("");
-	if (saved == NULL)
-		return (ERROR);
-	if (pipe(pipe_fd) == -1)
-	{
-		system_error("pipe");
-		return (ERROR);
-	}
-	setup_signal_heredoc();
-	if (loop(pipe_fd, delimiter, &saved) == ERROR)
-		return (ERROR);
-	close(pipe_fd[1]);
-	if (cmd->input_fd != STDIN_FILENO)
-		close(cmd->input_fd);
-	cmd->input_fd = pipe_fd[0];
-	free(saved);
-	return (SUCCESS);
-}
-
-int setup_redir_return_fd(t_token_type type, char *delimiter)
-{
 	if (type != TOKEN_HEREDOC)
-		return (-1); // 対象外
-
-	int pipe_fd[2];
-	char *saved = ft_strdup("");
+		return (-1);
+	saved = ft_strdup("");
 	if (!saved)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-
 	setup_signal_heredoc();
-	if (!loop(pipe_fd, delimiter, &saved))
+	if (loop(pipe_fd, delimiter, &saved) == ERROR)
 	{
 		free(saved);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		return (-1);
 	}
-
-	close(pipe_fd[1]); // 書き込み側閉じる
+	close(pipe_fd[1]);
 	free(saved);
-	return pipe_fd[0]; // 読み取り側だけ返す
+	return (pipe_fd[0]);
 }

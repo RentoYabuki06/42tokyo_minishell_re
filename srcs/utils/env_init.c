@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 17:38:57 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 21:42:43 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,30 @@ t_env	*init_env_list(char **envp)
 	return (env_list);
 }
 
+static int	env_count(t_env *env_list)
+{
+	int		i;
+	t_env	*current;
+
+	current = env_list;
+	i = 0;
+	current = env_list;
+	while (current)
+	{
+		i++;
+		current = current->next;
+	}
+	return (i);
+}
+
 char	**env_list_to_array(t_env *env_list)
 {
 	t_env	*current;
 	char	**env_array;
-	int		count;
 	int		i;
 	char	*tmp;
 
-	count = 0;
-	current = env_list;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	env_array = malloc(sizeof(char *) * (count + 1));
+	env_array = malloc(sizeof(char *) * (env_count(env_list) + 1));
 	if (!env_array)
 		return (NULL);
 	i = 0;
@@ -94,8 +102,12 @@ char	**env_list_to_array(t_env *env_list)
 	while (current)
 	{
 		tmp = ft_strjoin(current->key, "=");
+		if (tmp == NULL)
+			return (NULL);
 		env_array[i] = ft_strjoin(tmp, current->value);
 		free(tmp);
+		if (env_array[i])
+			return (NULL);
 		current = current->next;
 		i++;
 	}
