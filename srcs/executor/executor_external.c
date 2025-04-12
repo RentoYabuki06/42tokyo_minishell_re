@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_external.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:07:09 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 19:11:54 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	wait_child_status(pid_t pid)
 	{
 		if (WTERMSIG(status) == SIGINT)
 			write(STDOUT_FILENO, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 		return (128 + WTERMSIG(status));
 	}
 	return (ERROR);

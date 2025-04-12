@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 13:12:51 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 19:11:44 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,14 @@ static int	wait_for_last_pid(pid_t last_pid)
 		{
 			if (WIFEXITED(status))
 				last_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
+			else if (WTERMSIG(status))
+			{
+				if (WTERMSIG(status) == SIGINT)
+					write(STDOUT_FILENO, "\n", 1);
+				else if (WTERMSIG(status) == SIGQUIT)
+					write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 				last_status = 128 + WTERMSIG(status);
+			}
 		}
 		pid = wait(&status);
 	}
