@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:29:11 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:11:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/12 13:03:40 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_command	*create_command(void)
 	cmd->output_fd = STDOUT_FILENO;
 	cmd->redirects = NULL;
 	cmd->next = NULL;
-	cmd->is_in_pipe = false;
 	return (cmd);
 }
 

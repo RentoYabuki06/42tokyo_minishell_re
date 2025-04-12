@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:16:04 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 13:20:24 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,14 @@ static char	*get_last_command_path(t_shell *shell)
 
 static int	handle_special(char *input, int *i, char **result, t_shell *shell)
 {
-	char	*tmp;
-	char	*tmp_result;
-
 	if (input[*i] == '?')
 	{
 		input = ft_itoa(shell->exit_status);
 		if (input == NULL)
 			return (ERROR);
-		tmp_result = ft_strdup(*result);
-		if (tmp_result == NULL)
-		{
-			free(input);
-			return (ERROR);
-		}
-		free(*result);
-		*result = ft_strjoin(tmp_result, input);
-		free(input);
-		free(tmp_result);
-		if (*result == NULL)
-			return (ERROR);
+		join_result_free(result, input);
 		(*i)++;
-		return (1);
+		return (ERROR);
 	}
 	if (input[*i] == '\'' && input[*i - 1] == '$')
 	{
@@ -59,24 +45,33 @@ static int	handle_special(char *input, int *i, char **result, t_shell *shell)
 	}
 	if (input[*i] == '\'' || input[*i] == '\"')
 	{
-		tmp_result = ft_strdup(*result);
-		if (tmp_result == NULL)
-			return (ERROR);
-		tmp = ft_strdup("$");
-		if (tmp == NULL)
-		{
-			free(tmp_result);
-			return (ERROR);
-		}
-		free(*result);
-		*result = ft_strjoin(tmp_result, tmp);
-		free(tmp_result);
-		free(tmp);
-		if (*result == NULL)
-			return (ERROR);
-		return (1);
+		join_result(result, "$");
+		return (ERROR);
 	}
-	return (0);
+	return (SUCCESS);
+}
+
+static bool	handle_nokey(char **result)
+{
+	char	*tmp_result;
+	char	*tmp_varvalue;
+
+	tmp_result = ft_strdup(*result);
+	if (tmp_result == NULL)
+		return (ERROR);
+	tmp_varvalue = ft_strdup("$");
+	if (tmp_varvalue == NULL)
+	{
+		free(tmp_result);
+		return (ERROR);
+	}
+	free(*result);
+	*result = ft_strjoin(tmp_result, tmp_varvalue);
+	free(tmp_result);
+	free(tmp_varvalue);
+	if (*result == NULL)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
@@ -84,8 +79,6 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 	int		start;
 	char	*var_name;
 	char	*var_value;
-	char	*tmp_result;
-	char	*tmp_varvalue;
 
 	(*i)++;
 	if (handle_special(input, i, result, shell))
@@ -94,24 +87,7 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
 	if (start == *i)
-	{
-		tmp_result = ft_strdup(*result);
-		if (tmp_result == NULL)
-			return (ERROR);
-		tmp_varvalue = ft_strdup("$");
-		if (tmp_varvalue == NULL)
-		{
-			free(tmp_result);
-			return (ERROR);
-		}
-		free(*result);
-		*result = ft_strjoin(tmp_result, tmp_varvalue);
-		free(tmp_result);
-		free(tmp_varvalue);
-		if (*result == NULL)
-			return (ERROR);
-		return (SUCCESS);
-	}
+		return (handle_nokey(result));
 	var_name = ft_substr(input, start, *i - start);
 	if (var_name == NULL)
 		return (ERROR);
@@ -121,20 +97,7 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 	free(var_name);
 	if (var_value == NULL)
 		return (ERROR);
-	tmp_varvalue = ft_strdup(var_value);
-	if (tmp_varvalue == NULL)
-		return (ERROR);
-	tmp_result = ft_strdup(*result);
-	if (tmp_result == NULL)
-	{
-		free(tmp_varvalue);
-		return (ERROR);
-	}
-	free(*result);
-	*result = ft_strjoin(tmp_result, tmp_varvalue);
-	free(tmp_result);
-	free(tmp_varvalue);
-	if (*result == NULL)
+	if (join_result(result, var_value) == false)
 		return (ERROR);
 	return (SUCCESS);
 }

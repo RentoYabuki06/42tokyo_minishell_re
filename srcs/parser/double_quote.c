@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   double_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:41:17 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:12:36 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 13:23:07 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,10 @@ static int	append_segment_in_quotes(char *input, int *i, char **result)
 
 static int	dollar_in_quote(char *input, int *i, char **result, t_shell *shell)
 {
-	char	*tmp_result;
-	char	*tmp_dollar;
-
 	if (input[*i + 1] == '\"')
 	{
-		tmp_result = ft_strdup(*result);
-		if (tmp_result == NULL)
+		if (join_result(result, "$") == false)
 			return (ERROR);
-		tmp_dollar = ft_strdup("$");
-		if (tmp_dollar == NULL)
-		{
-			free(tmp_result);
-			return (ERROR);
-		}
-		free(*result);
-		*result = ft_strjoin(tmp_result, tmp_dollar);
-		free(tmp_result);
-		free(tmp_dollar);
-		if (*result == NULL)
-			return (ERROR);	
 		(*i)++;
 		return (SUCCESS);
 	}
