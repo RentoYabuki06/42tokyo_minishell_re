@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/09 17:08:44 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/12 13:23:15 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_command
 	char				**args;
 	int					input_fd;
 	int					output_fd;
-	bool				is_in_pipe;
 	t_token				*redirects;
 	struct s_command	*next;
 }	t_command;
@@ -176,5 +175,7 @@ void		free_shell(t_shell *shell);
 
 /* utils */
 int			ft_strcmp(const char *s1, const char *s2);
+bool		join_result(char **result, char *add);
+bool		join_result_free(char **result, char *add);
 
 #endif

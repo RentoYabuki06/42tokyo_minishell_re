@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   single_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:36:55 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 16:58:52 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 13:30:02 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void	append_escape(char *result, int *j, char c)
 {
@@ -79,7 +79,6 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 {
 	int		start;
 	char	*content;
-	char	*tmp_result;
 
 	(*i) += 2;
 	start = *i;
@@ -93,18 +92,9 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 	content = interpret_escapes(content);
 	if (!content)
 		return (error_message("Memory allocation error"), ERROR);
-	tmp_result = ft_strdup(*result);
-	if (tmp_result == NULL)
-	{
-		free(content);
-		return (ERROR);
-	}
-	free(*result);
-	*result = ft_strjoin(tmp_result, content);
-	free(tmp_result);
+	if (join_result(result, content) == false)
+		return (free(content), ERROR);
 	free(content);
-	if (!*result)
-		return (error_message("Memory allocation error"), ERROR);
 	(*i)++;
 	return (SUCCESS);
 }
@@ -113,7 +103,6 @@ int	handle_single_quote(char *input, int *i, char **result)
 {
 	int		start;
 	char	*str_add;
-	char	*tmp_result;
 
 	(*i)++;
 	if (input[*i] == '\'')
@@ -132,18 +121,9 @@ int	handle_single_quote(char *input, int *i, char **result)
 	str_add = ft_substr(input, start, *i - start);
 	if (str_add == NULL)
 		return (ERROR);
-	tmp_result = ft_strdup(*result);
-	if (tmp_result)
-	{
-		free(str_add);
-		return (ERROR);
-	}
-	free(*result);
-	*result = ft_strjoin(tmp_result, str_add);
-	free(tmp_result);
+	if (join_result(result, str_add) == false)
+		return (free(str_add), ERROR);
 	free(str_add);
-	if (*result == NULL)
-		return (ERROR);
 	(*i)++;
 	return (SUCCESS);
 }

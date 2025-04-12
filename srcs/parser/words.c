@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 16:59:29 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 13:28:11 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	handle_word(char *input, int *i, char **result)
 		return (ERROR);
 	free(*result);
 	*result = temp_result;
+	return (SUCCESS);
 }
 
 int	process_dollar_quote(char *input, int *i, char **result, t_shell *shell)
@@ -80,18 +81,15 @@ int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 	char	*result;
 	int		has_content;
 	int		start_pos;
-	int		status;
 
 	result = ft_strdup("");
 	if (result == NULL)
 		return (ERROR);
 	has_content = 0;
 	start_pos = *i;
-	status = SUCCESS;
 	while (input[*i] && !is_delimiter(input[*i]))
 	{
-		status = process_quote_or_dollar(input, i, &result, shell);
-		if (status == ERROR)
+		if (process_quote_or_dollar(input, i, &result, shell) == ERROR)
 		{
 			free(result);
 			return (ERROR);

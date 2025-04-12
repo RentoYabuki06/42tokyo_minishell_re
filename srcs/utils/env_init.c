@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 16:59:06 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 13:29:33 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,10 @@ char	**env_list_to_array(t_env *env_list)
 {
 	t_env	*current;
 	char	**env_array;
-	int		count;
 	int		i;
 	char	*tmp;
 
-	count = count_env_list(env_list);
-	env_array = malloc(sizeof(char *) * (count + 1));
+	env_array = malloc(sizeof(char *) * (count_env_list(env_list) + 1));
 	if (!env_array)
 		return (NULL);
 	current = env_list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:11:41 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 12:31:46 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 static bool	is_valid_numeric(char *str)
 {
-	int	i;
+	int			i;
+	bool		sign;
 
 	i = 0;
+	sign = false;
 	if (str[i] == '+' || str[i] == '-')
+	{
+		sign = true;
 		i++;
+	}
 	if (str[i] == '\0')
 		return (false);
 	while (str[i] != '\0')
@@ -27,10 +32,14 @@ static bool	is_valid_numeric(char *str)
 			return (false);
 		i++;
 	}
+	if (sign == true)
+		i--;
+	if (i > 19)
+		return (false);
 	return (true);
 }
 
-static void	parse_sign_and_index(const char *str, int *sign, int *i)
+static void	parse_sign_and_index(const char *str, long long *sign, int *i)
 {
 	*sign = 1;
 	*i = 0;
@@ -46,24 +55,21 @@ static void	parse_sign_and_index(const char *str, int *sign, int *i)
 		(*i)++;
 }
 
-static long long	ft_atoll(const char *str)
+static long long	ft_atoll(const char *str, bool *flag)
 {
 	long long	result;
-	int			sign;
+	long long	sign;
 	int			i;
 
 	result = 0;
 	parse_sign_and_index(str, &sign, &i);
+	if (ft_strcmp(&str[i], "9223372036854775808") == 0 && sign == -1)
+		return (LLONG_MIN);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (result > LLONG_MAX / 10
 			|| (result == LLONG_MAX / 10 && (str[i] - '0') > LLONG_MAX % 10))
-		{
-			if (sign == 1)
-				return (LLONG_MAX);
-			else
-				return (LLONG_MIN);
-		}
+				*flag = true;
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
@@ -81,37 +87,25 @@ static int	numeric_error(t_command *cmd, t_shell *shell)
 
 int	builtin_exit(t_command *cmd, t_shell *shell)
 {
-	char	*tmp;
-
-	ft_putstr_fd("exit\n", STDERR_FILENO);
 	long long	exit;
+	bool		flag;
 
-	if (cmd->is_in_pipe == false)
+	if (shell->commands->next == NULL)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
 		shell->running = 0;
 		return (shell->exit_status);
 	}
-	if (!is_valid_numeric(cmd->args[1]))
-
-	{
-		tmp = ft_strjoin(cmd->args[1], ": numeric argument required");
-		if (tmp == NULL)
-			return (-1);
-		command_error("exit", tmp);
-		shell->running = 0;
-		shell->exit_status = 2;
-		return (2);
-	}
-		return (numeric_error(cmd, shell));
-
 	if (cmd->args[2] != NULL)
 		return (error_message("exit: too many arguments"), ERROR);
-	shell->running = 0;
-	exit = ft_atoll(cmd->args[1]);
-	if (exit > LONG_MAX || exit < LONG_MIN)
+	if (!is_valid_numeric(cmd->args[1]))
 		return (numeric_error(cmd, shell));
+	flag = false;
+	exit = ft_atoll(cmd->args[1], &flag);
+	if (flag == true)
+		return (numeric_error(cmd, shell));
+	shell->running = 0;
 	shell->exit_status = (unsigned char)exit;
 	return (shell->exit_status);
 }
