@@ -99,7 +99,7 @@ int	handle_dollar_single_quote(char *input, int *i, char **result)
 		free(content);
 		return (ERROR);
 	}
-	free(result);
+	free(*result);
 	*result = ft_strjoin(tmp_result, content);
 	free(tmp_result);
 	free(content);
