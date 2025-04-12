@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 16:56:22 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 20:00:50 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,35 @@ static int	setup_redir(t_command *cmd, t_token_type type, char *filename)
 	return (ERROR);
 }
 
-int	setup_redirects(t_command *cmd)
-{
-	t_token	*token;
-	t_token	*next;
+// int	setup_redirects(t_command *cmd)
+// {
+// 	t_token	*token;
+// 	t_token	*next;
 
+// 	token = cmd->redirects;
+// 	while (token)
+// 	{
+// 		next = token->next;
+// 		if (!next)
+// 		{
+// 			error_message("Missing filename for redirection");
+// 			return (ERROR);
+// 		}
+// 		if (setup_redir(cmd, token->type, next->value) == ERROR)
+// 			return (ERROR);
+// 		token = next->next;
+// 	}
+// 	return (SUCCESS);
+// }
+
+
+
+int setup_redirects(t_command *cmd)
+{
+	t_token *token;
+	t_token *next;
+	
+	// ステップ1: 入力リダイレクト（<）を処理
 	token = cmd->redirects;
 	while (token)
 	{
@@ -75,9 +99,51 @@ int	setup_redirects(t_command *cmd)
 			error_message("Missing filename for redirection");
 			return (ERROR);
 		}
-		if (setup_redir(cmd, token->type, next->value) == ERROR)
-			return (ERROR);
+		if (token->type == TOKEN_REDIRECT_IN)
+		{
+			if (setup_redir(cmd, token->type, next->value) == ERROR)
+				return (ERROR);
+		}
 		token = next->next;
 	}
+	
+	// ステップ2: 最後のヒアドキュメント（<<）を処理
+	t_token *last_heredoc = NULL;
+	t_token *last_heredoc_value = NULL;
+	token = cmd->redirects;
+	while (token)
+	{
+		next = token->next;
+		if (!next)
+			break;
+		if (token->type == TOKEN_HEREDOC)
+		{
+			last_heredoc = token;
+			last_heredoc_value = next;
+		}
+		token = next->next;
+	}
+	if (last_heredoc && last_heredoc_value)
+	{
+		if (setup_redir(cmd, last_heredoc->type, last_heredoc_value->value) == ERROR)
+			return (ERROR);
+	}
+	// ステップ3: 出力リダイレクト（>、>>）を処理
+	token = cmd->redirects;
+	while (token)
+	{
+		next = token->next;
+		if (!next)
+			break;
+		
+		if (token->type == TOKEN_REDIRECT_OUT || token->type == TOKEN_APPEND)
+		{
+			if (setup_redir(cmd, token->type, next->value) == ERROR)
+				return (ERROR);
+		}
+		
+		token = next->next;
+	}
+	
 	return (SUCCESS);
 }
