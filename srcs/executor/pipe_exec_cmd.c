@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:18:06 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/08 14:21:50 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 19:00:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	should_skip_command(t_command *current)
 static void	fork_and_exec_child(t_command *cmd, t_shell *shell)
 {
 	default_signals();
+	if (setup_redirects(cmd) == ERROR)
+		exit(ERROR);
 	setup_child_io(cmd);
 	if (is_builtin(cmd->args[0]))
 		exit(execute_builtin(cmd, shell));
