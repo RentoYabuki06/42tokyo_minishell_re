@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:17:52 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/12 16:56:22 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,35 +47,6 @@ static int	setup_redir_out(t_command *cmd, char *filename, t_token_type type)
 	if (cmd->output_fd != STDOUT_FILENO)
 		close(cmd->output_fd);
 	cmd->output_fd = fd;
-	return (SUCCESS);
-}
-
-static int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
-{
-	int		pipe_fd[2];
-	char	*line;
-
-	if (pipe(pipe_fd) == -1)
-	{
-		system_error("pipe");
-		return (ERROR);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		ft_putstr_fd(line, pipe_fd[1]);
-		ft_putstr_fd("\n", pipe_fd[1]);
-		free(line);
-	}
-	close(pipe_fd[1]);
-	if (cmd->input_fd != STDIN_FILENO)
-		close(cmd->input_fd);
-	cmd->input_fd = pipe_fd[0];
 	return (SUCCESS);
 }
 

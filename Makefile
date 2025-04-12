@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+         #
+#    By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/08 14:31:36 by yabukirento      ###   ########.fr        #
+#    Updated: 2025/04/12 16:55:52 by ryabuki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@ NAME = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -I./includes -I./libft
-LIBS = -L./libft -lft -lreadline
+INCLUDES = -I./includes -I./srcs/libft -I ./src/gnl/includes
+LIBS = -L./srcs/libft -lft -lreadline
 
 # ソースファイルディレクトリ
 SRCS_DIR = srcs
+LIBFT_DIR = $(SRCS_DIR)/libft
 PARSER_DIR = $(SRCS_DIR)/parser
 PARSER_COMMAND_DIR = $(PARSER_DIR)/command
 PARSER_REDIRECT_DIR = $(PARSER_DIR)/redirect
@@ -26,6 +27,7 @@ EXECUTOR_DIR = $(SRCS_DIR)/executor
 BUILTINS_DIR = $(SRCS_DIR)/builtins
 UTILS_DIR = $(SRCS_DIR)/utils
 SIGNALS_DIR = $(SRCS_DIR)/signals
+GNL_DIR = $(SRCS_DIR)/gnl/srcs
 
 # ソースファイル
 SRCS = $(SRCS_DIR)/main.c \
@@ -47,6 +49,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(EXECUTOR_DIR)/pipe_exec_cmd.c \
 	$(EXECUTOR_DIR)/pipe_utils.c \
 	$(EXECUTOR_DIR)/redirects.c \
+	$(EXECUTOR_DIR)/setup_redirects.c \
 	$(BUILTINS_DIR)/echo.c \
 	$(BUILTINS_DIR)/cd.c \
 	$(BUILTINS_DIR)/pwd.c \
@@ -61,13 +64,16 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(UTILS_DIR)/error.c \
 	$(UTILS_DIR)/memory.c \
 	$(UTILS_DIR)/utils.c \
-	$(SIGNALS_DIR)/signals.c
+	$(SIGNALS_DIR)/signals.c \
+	$(SIGNALS_DIR)/signals_heredoc.c \
+	$(GNL_DIR)/get_next_line.c \
+	$(GNL_DIR)/get_next_line_utils.c \
 
 # オブジェクトファイル
 OBJS = $(SRCS:.c=.o)
 
 # libftのパス
-LIBFT = ./libft/libft.a
+LIBFT = ./srcs/libft/libft.a
 
 # ディレクトリ作成コマンド
 MKDIR = mkdir -p
@@ -77,7 +83,7 @@ all: $(NAME)
 
 # libftをコンパイル
 $(LIBFT):
-	$(MAKE) -C ./libft
+	$(MAKE) -C ./srcs/libft
 
 # オブジェクトファイル生成
 %.o: %.c
@@ -95,12 +101,12 @@ test: $(NAME)
 	@echo "Tests completed!"
 
 clean:
-	$(MAKE) -C ./libft clean
+	$(MAKE) -C ./srcs/libft clean
 	rm -f $(OBJS)
 	@echo "Object files cleaned!"
 
 fclean: clean
-	$(MAKE) -C ./libft fclean
+	$(MAKE) -C ./srcs/libft fclean
 	rm -f $(NAME)
 	@echo "$(NAME) and object files cleaned!"
 

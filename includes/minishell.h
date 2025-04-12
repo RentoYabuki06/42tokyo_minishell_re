@@ -6,14 +6,15 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/12 13:23:15 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/12 16:56:48 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "../srcs/libft/libft.h"
+# include "../srcs/gnl/includes/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -141,6 +142,7 @@ int			setup_pipes(t_command *commands);
 int			execute_external_forked(t_command *cmd, t_shell *shell);
 void		setup_child_io(t_command *cmd);
 int			setup_redirects(t_command *cmd);
+int			setup_redirect_heredoc(t_command *cmd, char *delimiter);
 int			execute_pipeline(t_command *commands, t_shell *shell);
 pid_t		static_execute_commands(t_command *current, \
 			t_shell *shell, int stdin_backup);
@@ -162,6 +164,7 @@ void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 void		ignore_signals(void);
 void		default_signals(void);
+void		setup_signal_heredoc(void);
 
 /* error */
 void		error_message(char *msg);
