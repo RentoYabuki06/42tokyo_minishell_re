@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 12:20:19 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/13 20:24:55 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	process_input(char *input, t_shell *shell)
 	char	*last_arg;
 
 	if (!input || ft_strlen(input) == 0)
-		return (SUCCESS);
+		return (free (input), SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)

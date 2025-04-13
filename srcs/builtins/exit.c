@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 19:17:54 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 20:26:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,12 @@ static long long	ft_atoll(const char *str, bool *flag)
 
 static int	numeric_error(t_command *cmd, t_shell *shell)
 {
-	command_error("exit", ft_strjoin(cmd->args[1],
-			": numeric argument required"));
+	char	*error_message;
+
+	error_message = ft_strjoin(cmd->args[1], ": \
+		numeric argument required");
+	command_error(cmd->args[0], error_message);
+	free(error_message);
 	shell->running = 0;
 	shell->exit_status = 2;
 	return (2);
