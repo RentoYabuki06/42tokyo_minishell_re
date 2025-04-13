@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:30:51 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 17:09:53 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/13 21:14:35 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ char	*search_in_paths(char **paths, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		tmp = ft_strjoin(paths[i], "/");
+		if (ft_strlen(paths[i]) != 0)
+			tmp = ft_strjoin(paths[i], "/");
+		else
+			tmp = ft_strdup(paths[i]);
 		if (tmp == NULL)
 			return (NULL);
 		exec_path = ft_strjoin(tmp, cmd);
