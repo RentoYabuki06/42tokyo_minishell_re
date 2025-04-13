@@ -1,0 +1,578 @@
+minishell$ exit 999999999999999999999
+exit
+minishell: exit: 999999999999999999999: numeric argument required
+==254309== 49 bytes in 1 blocks are definitely lost in loss record 16 of 64
+==254309==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==254309==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==254309==    by 0x406319: numeric_error (exit.c:81)
+==254309==    by 0x406174: builtin_exit (exit.c:103)
+==254309==    by 0x403F33: execute_builtin (executor_builtin.c:48)
+==254309==    by 0x4038CE: execute_command (executor.c:59)
+==254309==    by 0x4037CA: execute_commands (executor.c:70)
+==254309==    by 0x401377: process_input (main.c:72)
+==254309==    by 0x401748: shell_loop (main.c:109)
+==254309==    by 0x4015A6: main (main.c:126)
+==254309== 
+c2r2s3% 
+
+以下子プロセスでリークしているようです。
+minishell$ ./
+minishell: ./: Permission denied
+==258953== 3 bytes in 1 blocks are still reachable in loss record 1 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x48A9BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==258953==    by 0x4887694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==258953==    by 0x4891D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==258953==    by 0x401716: shell_loop (main.c:103)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 3 bytes in 1 blocks are still reachable in loss record 2 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==258953==    by 0x4022A8: handle_word (words.c:36)
+==258953==    by 0x402176: process_quote_or_dollar (words.c:75)
+==258953==    by 0x4023B2: handle_word_token (words.c:92)
+==258953==    by 0x4018C1: tokenize (lexer.c:87)
+==258953==    by 0x40132F: process_input (main.c:66)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 3 bytes in 1 blocks are still reachable in loss record 3 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==258953==    by 0x403503: add_arg (command_utils.c:36)
+==258953==    by 0x401CEA: process_token (parser.c:20)
+==258953==    by 0x401C50: parse (parser.c:66)
+==258953==    by 0x401350: process_input (main.c:67)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 4 bytes in 1 blocks are still reachable in loss record 4 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==258953==    by 0x4066B8: add_env_node (env_utils.c:41)
+==258953==    by 0x4013B7: process_input (main.c:76)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 16 bytes in 1 blocks are still reachable in loss record 14 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x403494: add_arg (command_utils.c:27)
+==258953==    by 0x401CEA: process_token (parser.c:20)
+==258953==    by 0x401C50: parse (parser.c:66)
+==258953==    by 0x401350: process_input (main.c:67)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 24 bytes in 1 blocks are still reachable in loss record 17 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x401E68: create_token (token.c:19)
+==258953==    by 0x40241B: handle_word_token (words.c:100)
+==258953==    by 0x4018C1: tokenize (lexer.c:87)
+==258953==    by 0x40132F: process_input (main.c:66)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 32 bytes in 1 blocks are still reachable in loss record 19 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x403351: create_command (command.c:19)
+==258953==    by 0x401C01: parse (parser.c:61)
+==258953==    by 0x401350: process_input (main.c:67)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 40 bytes in 1 blocks are still reachable in loss record 20 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x4015E5: init_shell (main.c:22)
+==258953==    by 0x401537: main (main.c:120)
+==258953== 
+==258953== 504 bytes in 1 blocks are still reachable in loss record 34 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x406B43: env_list_to_array (env_init.c:96)
+==258953==    by 0x406904: update_env_array (env_support.c:19)
+==258953==    by 0x4013C0: process_input (main.c:77)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+==258953== 818 bytes in 62 blocks are still reachable in loss record 38 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x408399: ft_substr (in /tmp/tookuyam/minishell)
+==258953==    by 0x406D17: split_env_str (env_init.c:26)
+==258953==    by 0x406ABC: create_env_node (env_init.c:36)
+==258953==    by 0x406A26: init_env_list (env_init.c:58)
+==258953==    by 0x401621: init_shell (main.c:27)
+==258953==    by 0x401537: main (main.c:120)
+==258953== 
+==258953== 1,225 bytes in 61 blocks are still reachable in loss record 48 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==258953==    by 0x406D2E: split_env_str (env_init.c:27)
+==258953==    by 0x406ABC: create_env_node (env_init.c:36)
+==258953==    by 0x406A26: init_env_list (env_init.c:58)
+==258953==    by 0x401621: init_shell (main.c:27)
+==258953==    by 0x401537: main (main.c:120)
+==258953== 
+==258953== 1,488 bytes in 62 blocks are still reachable in loss record 49 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x406AC6: create_env_node (env_init.c:37)
+==258953==    by 0x406A26: init_env_list (env_init.c:58)
+==258953==    by 0x401621: init_shell (main.c:27)
+==258953==    by 0x401537: main (main.c:120)
+==258953== 
+==258953== 2,047 bytes in 62 blocks are still reachable in loss record 53 of 79
+==258953==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==258953==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==258953==    by 0x406BC5: env_list_to_array (env_init.c:106)
+==258953==    by 0x406904: update_env_array (env_support.c:19)
+==258953==    by 0x4013C0: process_input (main.c:77)
+==258953==    by 0x401748: shell_loop (main.c:109)
+==258953==    by 0x4015A6: main (main.c:126)
+==258953== 
+
+
+minishell$ cat | oje
+minishell: oje: command not found
+==294133== 2 bytes in 1 blocks are still reachable in loss record 2 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==294133==    by 0x401B2B: add_token_safe (lexer.c:27)
+==294133==    by 0x40195C: handle_special_token (lexer.c:50)
+==294133==    by 0x401888: tokenize (lexer.c:82)
+==294133==    by 0x40132F: process_input (main.c:66)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 6 bytes in 1 blocks are still reachable in loss record 3 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==294133==    by 0x4066B8: add_env_node (env_utils.c:41)
+==294133==    by 0x4013B7: process_input (main.c:76)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 8 bytes in 2 blocks are still reachable in loss record 6 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==294133==    by 0x4022A8: handle_word (words.c:36)
+==294133==    by 0x402176: process_quote_or_dollar (words.c:75)
+==294133==    by 0x4023B2: handle_word_token (words.c:92)
+==294133==    by 0x4018C1: tokenize (lexer.c:87)
+==294133==    by 0x40132F: process_input (main.c:66)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 8 bytes in 2 blocks are still reachable in loss record 7 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==294133==    by 0x403503: add_arg (command_utils.c:36)
+==294133==    by 0x401CEA: process_token (parser.c:20)
+==294133==    by 0x401C50: parse (parser.c:66)
+==294133==    by 0x401350: process_input (main.c:67)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 10 bytes in 1 blocks are still reachable in loss record 8 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x48A9BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==294133==    by 0x4887694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==294133==    by 0x4891D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==294133==    by 0x401716: shell_loop (main.c:103)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 24 bytes in 1 blocks are still reachable in loss record 18 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x401E68: create_token (token.c:19)
+==294133==    by 0x401B52: add_token_safe (lexer.c:30)
+==294133==    by 0x40195C: handle_special_token (lexer.c:50)
+==294133==    by 0x401888: tokenize (lexer.c:82)
+==294133==    by 0x40132F: process_input (main.c:66)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 32 bytes in 1 blocks are still reachable in loss record 22 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x403351: create_command (command.c:19)
+==294133==    by 0x401C01: parse (parser.c:61)
+==294133==    by 0x401350: process_input (main.c:67)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 32 bytes in 1 blocks are still reachable in loss record 23 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x403351: create_command (command.c:19)
+==294133==    by 0x401DA9: process_token (parser.c:35)
+==294133==    by 0x401C50: parse (parser.c:66)
+==294133==    by 0x401350: process_input (main.c:67)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 32 bytes in 2 blocks are still reachable in loss record 24 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x403494: add_arg (command_utils.c:27)
+==294133==    by 0x401CEA: process_token (parser.c:20)
+==294133==    by 0x401C50: parse (parser.c:66)
+==294133==    by 0x401350: process_input (main.c:67)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 40 bytes in 1 blocks are still reachable in loss record 26 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x4015E5: init_shell (main.c:22)
+==294133==    by 0x401537: main (main.c:120)
+==294133== 
+==294133== 48 bytes in 2 blocks are still reachable in loss record 30 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x401E68: create_token (token.c:19)
+==294133==    by 0x40241B: handle_word_token (words.c:100)
+==294133==    by 0x4018C1: tokenize (lexer.c:87)
+==294133==    by 0x40132F: process_input (main.c:66)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 504 bytes in 1 blocks are still reachable in loss record 39 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x406B43: env_list_to_array (env_init.c:96)
+==294133==    by 0x406904: update_env_array (env_support.c:19)
+==294133==    by 0x4013C0: process_input (main.c:77)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133== 
+==294133== 818 bytes in 62 blocks are still reachable in loss record 43 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x408399: ft_substr (in /tmp/tookuyam/minishell)
+==294133==    by 0x406D17: split_env_str (env_init.c:26)
+==294133==    by 0x406ABC: create_env_node (env_init.c:36)
+==294133==    by 0x406A26: init_env_list (env_init.c:58)
+==294133==    by 0x401621: init_shell (main.c:27)
+==294133==    by 0x401537: main (main.c:120)
+==294133== 
+==294133== 1,225 bytes in 61 blocks are still reachable in loss record 53 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==294133==    by 0x406D2E: split_env_str (env_init.c:27)
+==294133==    by 0x406ABC: create_env_node (env_init.c:36)
+==294133==    by 0x406A26: init_env_list (env_init.c:58)
+==294133==    by 0x401621: init_shell (main.c:27)
+==294133==    by 0x401537: main (main.c:120)
+==294133== 
+==294133== 1,488 bytes in 62 blocks are still reachable in loss record 54 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x406AC6: create_env_node (env_init.c:37)
+==294133==    by 0x406A26: init_env_list (env_init.c:58)
+==294133==    by 0x401621: init_shell (main.c:27)
+==294133==    by 0x401537: main (main.c:120)
+==294133== 
+==294133== 2,049 bytes in 62 blocks are still reachable in loss record 58 of 84
+==294133==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==294133==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==294133==    by 0x406BC5: env_list_to_array (env_init.c:106)
+==294133==    by 0x406904: update_env_array (env_support.c:19)
+==294133==    by 0x4013C0: process_input (main.c:77)
+==294133==    by 0x401748: shell_loop (main.c:109)
+==294133==    by 0x4015A6: main (main.c:126)
+==294133==
+
+minishell$ ''
+minishell: /usr/local/sbin/: Permission denied
+==298544== 1 bytes in 1 blocks are still reachable in loss record 1 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==298544==    by 0x402326: handle_word_token (words.c:85)
+==298544==    by 0x4018C1: tokenize (lexer.c:87)
+==298544==    by 0x40132F: process_input (main.c:66)
+==298544==    by 0x401748: shell_loop (main.c:109)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 1 bytes in 1 blocks are still reachable in loss record 2 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==298544==    by 0x403503: add_arg (command_utils.c:36)
+==298544==    by 0x401CEA: process_token (parser.c:20)
+==298544==    by 0x401C50: parse (parser.c:66)
+==298544==    by 0x401350: process_input (main.c:67)
+==298544==    by 0x401748: shell_loop (main.c:109)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 3 bytes in 1 blocks are still reachable in loss record 3 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x48A9BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==298544==    by 0x4887694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==298544==    by 0x4891D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==298544==    by 0x401716: shell_loop (main.c:103)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 16 bytes in 1 blocks are still reachable in loss record 15 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x403494: add_arg (command_utils.c:27)
+==298544==    by 0x401CEA: process_token (parser.c:20)
+==298544==    by 0x401C50: parse (parser.c:66)
+==298544==    by 0x401350: process_input (main.c:67)
+==298544==    by 0x401748: shell_loop (main.c:109)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 24 bytes in 1 blocks are still reachable in loss record 19 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x401E68: create_token (token.c:19)
+==298544==    by 0x40241B: handle_word_token (words.c:100)
+==298544==    by 0x4018C1: tokenize (lexer.c:87)
+==298544==    by 0x40132F: process_input (main.c:66)
+==298544==    by 0x401748: shell_loop (main.c:109)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 32 bytes in 1 blocks are still reachable in loss record 21 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x403351: create_command (command.c:19)
+==298544==    by 0x401C01: parse (parser.c:61)
+==298544==    by 0x401350: process_input (main.c:67)
+==298544==    by 0x401748: shell_loop (main.c:109)
+==298544==    by 0x4015A6: main (main.c:126)
+==298544== 
+==298544== 40 bytes in 1 blocks are still reachable in loss record 22 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x4015E5: init_shell (main.c:22)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+==298544== 504 bytes in 1 blocks are still reachable in loss record 33 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x406B43: env_list_to_array (env_init.c:96)
+==298544==    by 0x401639: init_shell (main.c:28)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+==298544== 818 bytes in 62 blocks are still reachable in loss record 37 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x408399: ft_substr (in /tmp/tookuyam/minishell)
+==298544==    by 0x406D17: split_env_str (env_init.c:26)
+==298544==    by 0x406ABC: create_env_node (env_init.c:36)
+==298544==    by 0x406A26: init_env_list (env_init.c:58)
+==298544==    by 0x401621: init_shell (main.c:27)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+==298544== 1,243 bytes in 62 blocks are still reachable in loss record 47 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==298544==    by 0x406D2E: split_env_str (env_init.c:27)
+==298544==    by 0x406ABC: create_env_node (env_init.c:36)
+==298544==    by 0x406A26: init_env_list (env_init.c:58)
+==298544==    by 0x401621: init_shell (main.c:27)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+==298544== 1,488 bytes in 62 blocks are still reachable in loss record 48 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x406AC6: create_env_node (env_init.c:37)
+==298544==    by 0x406A26: init_env_list (env_init.c:58)
+==298544==    by 0x401621: init_shell (main.c:27)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+==298544== 2,061 bytes in 62 blocks are still reachable in loss record 52 of 78
+==298544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==298544==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==298544==    by 0x406BC5: env_list_to_array (env_init.c:106)
+==298544==    by 0x401639: init_shell (main.c:28)
+==298544==    by 0x401537: main (main.c:120)
+==298544== 
+
+パイプ時のビルトイン関数を実行するまでの中でリークしているようです。
+minishell$ export | cat > /dev/null
+==302333== 2 bytes in 1 blocks are still reachable in loss record 2 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x401B2B: add_token_safe (lexer.c:27)
+==302333==    by 0x40195C: handle_special_token (lexer.c:50)
+==302333==    by 0x401888: tokenize (lexer.c:82)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 2 bytes in 1 blocks are still reachable in loss record 3 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x401B2B: add_token_safe (lexer.c:27)
+==302333==    by 0x401ABA: handle_special_token (lexer.c:61)
+==302333==    by 0x401888: tokenize (lexer.c:82)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 2 bytes in 1 blocks are still reachable in loss record 4 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x4035F4: process_redirect_tokens (redirect_utils.c:20)
+==302333==    by 0x403747: handle_redirect (redirect_utils.c:55)
+==302333==    by 0x401D51: process_token (parser.c:28)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 4 bytes in 1 blocks are still reachable in loss record 6 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x4066B8: add_env_node (env_utils.c:41)
+==302333==    by 0x4013B7: process_input (main.c:76)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 10 bytes in 1 blocks are still reachable in loss record 9 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x403668: process_redirect_tokens (redirect_utils.c:28)
+==302333==    by 0x403747: handle_redirect (redirect_utils.c:55)
+==302333==    by 0x401D51: process_token (parser.c:28)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 11 bytes in 2 blocks are still reachable in loss record 10 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x403503: add_arg (command_utils.c:36)
+==302333==    by 0x401CEA: process_token (parser.c:20)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 21 bytes in 3 blocks are still reachable in loss record 20 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==302333==    by 0x4022A8: handle_word (words.c:36)
+==302333==    by 0x402176: process_quote_or_dollar (words.c:75)
+==302333==    by 0x4023B2: handle_word_token (words.c:92)
+==302333==    by 0x4018C1: tokenize (lexer.c:87)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 24 bytes in 1 blocks are still reachable in loss record 23 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x401E68: create_token (token.c:19)
+==302333==    by 0x401B52: add_token_safe (lexer.c:30)
+==302333==    by 0x40195C: handle_special_token (lexer.c:50)
+==302333==    by 0x401888: tokenize (lexer.c:82)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 24 bytes in 1 blocks are still reachable in loss record 25 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x401E68: create_token (token.c:19)
+==302333==    by 0x401B52: add_token_safe (lexer.c:30)
+==302333==    by 0x401ABA: handle_special_token (lexer.c:61)
+==302333==    by 0x401888: tokenize (lexer.c:82)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 24 bytes in 1 blocks are still reachable in loss record 26 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x401E68: create_token (token.c:19)
+==302333==    by 0x4035FF: process_redirect_tokens (redirect_utils.c:20)
+==302333==    by 0x403747: handle_redirect (redirect_utils.c:55)
+==302333==    by 0x401D51: process_token (parser.c:28)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 24 bytes in 1 blocks are still reachable in loss record 27 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x401E68: create_token (token.c:19)
+==302333==    by 0x403672: process_redirect_tokens (redirect_utils.c:28)
+==302333==    by 0x403747: handle_redirect (redirect_utils.c:55)
+==302333==    by 0x401D51: process_token (parser.c:28)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 25 bytes in 1 blocks are still reachable in loss record 28 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x48A9BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==302333==    by 0x4887694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==302333==    by 0x4891D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==302333==    by 0x401716: shell_loop (main.c:103)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 32 bytes in 1 blocks are still reachable in loss record 32 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x403351: create_command (command.c:19)
+==302333==    by 0x401C01: parse (parser.c:61)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 32 bytes in 1 blocks are still reachable in loss record 33 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x403351: create_command (command.c:19)
+==302333==    by 0x401DA9: process_token (parser.c:35)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 32 bytes in 2 blocks are still reachable in loss record 34 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x403494: add_arg (command_utils.c:27)
+==302333==    by 0x401CEA: process_token (parser.c:20)
+==302333==    by 0x401C50: parse (parser.c:66)
+==302333==    by 0x401350: process_input (main.c:67)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 40 bytes in 1 blocks are still reachable in loss record 35 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x4015E5: init_shell (main.c:22)
+==302333==    by 0x401537: main (main.c:120)
+==302333== 
+==302333== 72 bytes in 3 blocks are still reachable in loss record 40 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x401E68: create_token (token.c:19)
+==302333==    by 0x40241B: handle_word_token (words.c:100)
+==302333==    by 0x4018C1: tokenize (lexer.c:87)
+==302333==    by 0x40132F: process_input (main.c:66)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 504 bytes in 1 blocks are still reachable in loss record 48 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x406B43: env_list_to_array (env_init.c:96)
+==302333==    by 0x406904: update_env_array (env_support.c:19)
+==302333==    by 0x4013C0: process_input (main.c:77)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 
+==302333== 818 bytes in 62 blocks are still reachable in loss record 52 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x408399: ft_substr (in /tmp/tookuyam/minishell)
+==302333==    by 0x406D17: split_env_str (env_init.c:26)
+==302333==    by 0x406ABC: create_env_node (env_init.c:36)
+==302333==    by 0x406A26: init_env_list (env_init.c:58)
+==302333==    by 0x401621: init_shell (main.c:27)
+==302333==    by 0x401537: main (main.c:120)
+==302333== 
+==302333== 1,225 bytes in 61 blocks are still reachable in loss record 62 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407CF7: ft_strdup (get_next_line_utils.c:86)
+==302333==    by 0x406D2E: split_env_str (env_init.c:27)
+==302333==    by 0x406ABC: create_env_node (env_init.c:36)
+==302333==    by 0x406A26: init_env_list (env_init.c:58)
+==302333==    by 0x401621: init_shell (main.c:27)
+==302333==    by 0x401537: main (main.c:120)
+==302333== 
+==302333== 1,488 bytes in 62 blocks are still reachable in loss record 63 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x406AC6: create_env_node (env_init.c:37)
+==302333==    by 0x406A26: init_env_list (env_init.c:58)
+==302333==    by 0x401621: init_shell (main.c:27)
+==302333==    by 0x401537: main (main.c:120)
+==302333== 
+==302333== 2,047 bytes in 62 blocks are still reachable in loss record 67 of 93
+==302333==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==302333==    by 0x407C4E: ft_strjoin (get_next_line_utils.c:69)
+==302333==    by 0x406BC5: env_list_to_array (env_init.c:106)
+==302333==    by 0x406904: update_env_array (env_support.c:19)
+==302333==    by 0x4013C0: process_input (main.c:77)
+==302333==    by 0x401748: shell_loop (main.c:109)
+==302333==    by 0x4015A6: main (main.c:126)
+==302333== 

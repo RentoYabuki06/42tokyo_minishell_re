@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SRC_DIR=$(cd $(dirname "$0") ; pwd)
+
+valgrind \
+	-q \
+	--leak-check=full \
+	--show-leak-kinds=all \
+	--suppressions="$SRC_DIR"/.supp \
+	--track-origins=yes \
+	--trace-children=yes \
+	--error-exitcode=230 \
+	--track-fds=yes \
+	./minishell
+	# --gen-suppressions=yes \
