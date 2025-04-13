@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 12:35:26 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/12 12:35:28 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/13 20:53:14 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ int	builtin_env(t_command *cmd, t_shell *shell)
 	current = shell->env_list;
 	while (current)
 	{
-		if (current->value && *current->value)
-		{
-			ft_putstr_fd(current->key, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putstr_fd(current->value, STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
-		}
+		ft_putstr_fd(current->key, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_putstr_fd(current->value, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		current = current->next;
 	}
 	return (SUCCESS);
