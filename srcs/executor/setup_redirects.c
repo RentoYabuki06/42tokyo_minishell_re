@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/13 13:40:58 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 17:39:57 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,29 +93,4 @@ int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
 	cmd->input_fd = pipe_fd[0];
 	free(saved);
 	return (SUCCESS);
-}
-
-int	setup_redir_return_fd(t_token_type type, char *delimiter)
-{
-	int		pipe_fd[2];
-	char	*saved;
-
-	if (type != TOKEN_HEREDOC)
-		return (-1);
-	saved = ft_strdup("");
-	if (!saved)
-		return (-1);
-	if (pipe(pipe_fd) == -1)
-		return (-1);
-	setup_signal_heredoc();
-	if (!loop(pipe_fd, delimiter, &saved))
-	{
-		free(saved);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		return (-1);
-	}
-	close(pipe_fd[1]);
-	free(saved);
-	return (pipe_fd[0]);
 }

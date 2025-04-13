@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/12 21:06:01 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/13 17:42:20 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,9 @@ int			ft_strcmp(const char *s1, const char *s2);
 bool		join_result(char **result, char *add);
 bool		join_result_free(char **result, char *add);
 
-int setup_redir_return_fd(t_token_type type, char *delimiter);
+int			setup_redir_return_fd(t_token_type type, char *delimiter);
+int			handle_heredoc_fd(int *heredoc_fd, char *filename);
+int			process_redirect(t_command *cmd, t_token *token, \
+			t_token *next, int *heredoc_fd);
 
 #endif

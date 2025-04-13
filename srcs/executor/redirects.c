@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 13:39:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 17:40:43 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,65 +61,36 @@ static int	setup_redir(t_command *cmd, t_token_type type, char *filename)
 	return (ERROR);
 }
 
+static void	apply_heredoc_fd(t_command *cmd, int heredoc_fd)
+{
+	int	old_fd;
+
+	if (heredoc_fd != -1)
+	{
+		old_fd = cmd->input_fd;
+		if (old_fd != STDIN_FILENO)
+			close(old_fd);
+		cmd->input_fd = heredoc_fd;
+	}
+}
+
 int	setup_redirects(t_command *cmd)
 {
 	t_token	*token;
 	t_token	*next;
-	int		last_heredoc_fd;
+	int		status;
 	int		heredoc_fd;
 
-	last_heredoc_fd = -1;
+	heredoc_fd = -1;
 	token = cmd->redirects;
 	while (token)
 	{
 		next = token->next;
-		if (!next)
-			break ;
-		if (token->type == TOKEN_HEREDOC)
-		{
-			heredoc_fd = setup_redir_return_fd(token->type, next->value);
-			if (heredoc_fd == -1)
-				return (ERROR);
-			if (last_heredoc_fd != -1)
-				close(last_heredoc_fd);
-			last_heredoc_fd = heredoc_fd;
-		}
-		token = next->next;
-	}
-	if (last_heredoc_fd != -1)
-	{
-		if (cmd->input_fd != STDIN_FILENO)
-			close(cmd->input_fd);
-		cmd->input_fd = last_heredoc_fd;
-	}
-	token = cmd->redirects;
-	while (token)
-	{
-		next = token->next;
-		if (!next)
-			break ;
-		if (token->type == TOKEN_REDIRECT_OUT || token->type == TOKEN_APPEND)
-		{
-			if (setup_redir(cmd, token->type, next->value) == ERROR)
-				return (ERROR);
-		}
-		token = next->next;
-	}
-	token = cmd->redirects;
-	while (token)
-	{
-		next = token->next;
-		if (!next)
-		{
-			error_message("Missing filename for redirection");
+		status = process_redirect(cmd, token, next, &heredoc_fd);
+		if (status == ERROR)
 			return (ERROR);
-		}
-		if (token->type == TOKEN_REDIRECT_IN)
-		{
-			if (setup_redir(cmd, token->type, next->value) == ERROR)
-				return (ERROR);
-		}
 		token = next->next;
 	}
+	apply_heredoc_fd(cmd, heredoc_fd);
 	return (SUCCESS);
 }
