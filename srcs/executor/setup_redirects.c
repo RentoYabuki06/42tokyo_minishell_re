@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/13 17:39:57 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:09:01 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool	is_delimiter_or_null(char *line, char *delimiter)
 	return (result);
 }
 
-static bool	loop(int pipe_fd[2], char *delimiter, char **saved)
+bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 {
 	char	*line;
 	bool	is_end;

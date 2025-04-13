@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/13 17:42:20 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:09:17 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,7 @@ int			setup_redir_return_fd(t_token_type type, char *delimiter);
 int			handle_heredoc_fd(int *heredoc_fd, char *filename);
 int			process_redirect(t_command *cmd, t_token *token, \
 			t_token *next, int *heredoc_fd);
+int			setup_redir(t_command *cmd, t_token_type type, char *filename);
+bool		loop(int pipe_fd[2], char *delimiter, char **saved);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 17:40:43 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:07:40 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	setup_redir_out(t_command *cmd, char *filename, t_token_type type)
 	return (SUCCESS);
 }
 
-static int	setup_redir(t_command *cmd, t_token_type type, char *filename)
+int	setup_redir(t_command *cmd, t_token_type type, char *filename)
 {
 	if (type == TOKEN_REDIRECT_IN)
 		return (setup_redirect_in(cmd, filename));
