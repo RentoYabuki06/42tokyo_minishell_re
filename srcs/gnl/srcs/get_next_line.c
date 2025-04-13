@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/12 17:35:39 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:44:31 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static char	*ft_shift_pointer(size_t len, char *saved)
 	char	*tmp;
 
 	tmp = ft_strdup(saved + len + 1);
+	free(saved);
+	saved = NULL;
 	if (tmp == NULL)
 		return (NULL);
 	return (tmp);
