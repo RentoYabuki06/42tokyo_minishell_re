@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:32 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 13:48:43 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/13 20:58:41 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ char	**env_list_to_array(t_env *env_list)
 	{
 		tmp = ft_strjoin(current->key, "=");
 		if (!tmp)
-			return (free(env_array), NULL);
+			return (free_array(env_array), NULL);
 		env_array[i] = ft_strjoin(tmp, current->value);
 		free(tmp);
 		if (!env_array[i])
-			return (free(env_array), NULL);
+			return (free_array(env_array), NULL);
 		current = current->next;
 		i++;
 	}
