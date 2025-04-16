@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:27:49 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 18:32:20 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	export_with_equal(char *arg, char *equals_pos, t_shell *shell)
 	value = ft_strdup(equals_pos + 1);
 	if (!is_valid_identifier(key))
 	{
-		msg = ft_strjoin(key, ": not a valid identifier");
+		msg = ft_strjoin(arg, ": not a valid identifier");
 		if (msg == NULL)
 			return (ERROR);
 		print_error("export", msg);
