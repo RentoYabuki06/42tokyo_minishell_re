@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:30:00 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/08 14:39:37 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:52:21 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "minishell.h"
 
 t_token	*process_redirect_tokens(t_token **tokens, t_token_type type)
 {

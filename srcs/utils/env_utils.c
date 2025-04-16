@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 13:03:37 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 13:27:59 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:54:23 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 t_env	*create_env_node(char *key, char *value)
 {

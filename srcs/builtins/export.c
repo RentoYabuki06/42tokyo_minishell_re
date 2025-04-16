@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 18:32:20 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:54:55 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	handle_export_without_equal(char *arg, t_shell *shell)
 {

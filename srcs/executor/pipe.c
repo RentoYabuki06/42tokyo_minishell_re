@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:25:02 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:57:13 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	wait_for_last_pid(pid_t last_pid)
 {

@@ -6,7 +6,7 @@
 #    By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/16 20:40:25 by yabukirento      ###   ########.fr        #
+#    Updated: 2025/04/16 21:51:20 by yabukirento      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,6 @@ LIBS = -L./srcs/libft -lft -lreadline
 SRCS_DIR = srcs
 LIBFT_DIR = $(SRCS_DIR)/libft
 PARSER_DIR = $(SRCS_DIR)/parser
-PARSER_COMMAND_DIR = $(PARSER_DIR)/command
-PARSER_REDIRECT_DIR = $(PARSER_DIR)/redirect
 EXECUTOR_DIR = $(SRCS_DIR)/executor
 BUILTINS_DIR = $(SRCS_DIR)/builtins
 UTILS_DIR = $(SRCS_DIR)/utils
@@ -39,8 +37,8 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(PARSER_DIR)/double_quote.c \
 	$(PARSER_DIR)/env.c \
 	$(PARSER_DIR)/command.c \
-	$(PARSER_COMMAND_DIR)/command_utils.c \
-	$(PARSER_REDIRECT_DIR)/redirect_utils.c \
+	$(PARSER_DIR)/command_utils.c \
+	$(PARSER_DIR)/redirect_utils.c \
 	$(EXECUTOR_DIR)/executor.c \
 	$(EXECUTOR_DIR)/path.c \
 	$(EXECUTOR_DIR)/executor_builtin.c \
