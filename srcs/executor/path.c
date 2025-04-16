@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:30:51 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 21:14:35 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:56:17 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,9 @@ static char	**get_paths_from_env(t_env *env_list)
 
 static char	*is_direct_path(char *cmd)
 {
-	int	has_slash;
-	int	is_executable;
-
-	has_slash = ft_strchr(cmd, '/') != NULL;
-	if (has_slash)
+	if (ft_strchr(cmd, '/') != NULL)
 	{
-		is_executable = access(cmd, X_OK);
-		if (is_executable == 0)
-			return (ft_strdup(cmd));
+		return (ft_strdup(cmd));
 	}
 	return (NULL);
 }

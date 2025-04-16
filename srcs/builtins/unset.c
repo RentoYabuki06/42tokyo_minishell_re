@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:11:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/09 16:40:35 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 14:27:40 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	builtin_unset(t_command *cmd, t_shell *shell)
 			msg = ft_strjoin(cmd->args[i], ": not a valid identifier");
 			if (msg == NULL)
 				return (ERROR);
-			command_error("unset", msg);
+			print_error("unset", msg);
 			free(msg);
 			status = 1;
 		}

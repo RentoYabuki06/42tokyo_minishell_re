@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 14:06:11 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 14:26:54 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_external_forked(t_command *cmd, t_shell *shell)
 	exec_path = find_executable(cmd->args[0], shell->env_list);
 	if (!exec_path)
 	{
-		command_error(cmd->args[0], "command not found");
+		print_error(cmd->args[0], "command not found");
 		return (127);
 	}
 	execve(exec_path, cmd->args, shell->env_array);
