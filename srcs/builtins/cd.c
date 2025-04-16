@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:25:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 19:07:51 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 19:19:27 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,17 @@
 static int	update_pwd_env(t_shell *shell, char *old_pwd)
 {
 	char	current_pwd[PATH_MAX];
-	char	*fallback_pwd;
 	char	*logical_pwd;
-
+	char	*fallback_pwd;
+	
 	if (getcwd(current_pwd, PATH_MAX) == NULL)
 	{
 		fallback_pwd = get_env_value(shell->env_list, "PWD");
 		if (!fallback_pwd)
-		{
-			system_error("getcwd and no PWD fallback");
-			return (ERROR);
-		}
+			return (system_error("getcwd and no PWD fallback"), ERROR);
 		logical_pwd = ft_strjoin(fallback_pwd, "/..");
 		if (!logical_pwd)
-		{
-			system_error("ft_strjoin");
-			return (ERROR);
-		}
+			return (system_error("ft_strjoin"), ERROR);
 		add_env_node(&shell->env_list, "PWD", logical_pwd);
 		free(logical_pwd);
 	}
@@ -41,10 +35,7 @@ static int	update_pwd_env(t_shell *shell, char *old_pwd)
 		add_env_node(&shell->env_list, "OLDPWD", old_pwd);
 	update_env_array(shell);
 	if (shell->env_array == NULL)
-	{
-		system_error("update_env_array");
-		return (ERROR);
-	}
+		return (system_error("update_env_array"), ERROR);
 	return (SUCCESS);
 }
 
@@ -66,12 +57,8 @@ int	builtin_cd(t_command *cmd, t_shell *shell)
 	else
 		path = cmd->args[1];
 	if (chdir(path) != 0)
-	{
-		system_error(path);
-		return (ERROR);
-	}
+		return (system_error(path), ERROR);
 	if (update_pwd_env(shell, old_pwd[0] ? old_pwd : NULL) != SUCCESS)
 		return (system_error("update_pwd_env"), ERROR);
-
 	return (SUCCESS);
 }
