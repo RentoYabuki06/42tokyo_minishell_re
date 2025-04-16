@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/16 14:53:18 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 20:41:02 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ bool		is_valid_identifier(char *key);
 int			print_sorted_env(t_env *env_list, int fd);
 int			builtin_env(t_command *cmd, t_shell *shell);
 int			builtin_exit(t_command *cmd, t_shell *shell);
+char		*simplify_path(const char *path);
 
 /* signal*/
 void		setup_signals(void);

@@ -3,3 +3,12 @@ minishell_tester
 .vscode
 path/
 test
+tmp
+*.o
+*.out
+*.exe
+*.dSYM
+*.dSYM/
+*.exe.stackdump
+mylink
+link
