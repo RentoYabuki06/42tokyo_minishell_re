@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:52:21 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/13 20:43:25 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 10:36:29 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_signal_status = 2;
+	g_signal_status = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_on_new_line();
 	rl_redisplay();
 }
 
