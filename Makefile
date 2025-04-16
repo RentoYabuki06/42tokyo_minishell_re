@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42.fr>            +#+  +:+       +#+         #
+#    By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 00:00:00 by user              #+#    #+#              #
-#    Updated: 2025/04/13 17:39:02 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/16 20:40:25 by yabukirento      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(EXECUTOR_DIR)/setup_redirects.c \
 	$(BUILTINS_DIR)/echo.c \
 	$(BUILTINS_DIR)/cd.c \
+	$(BUILTINS_DIR)/cd_simplify_path.c \
 	$(BUILTINS_DIR)/pwd.c \
 	$(BUILTINS_DIR)/export.c \
 	$(BUILTINS_DIR)/export_sort.c \

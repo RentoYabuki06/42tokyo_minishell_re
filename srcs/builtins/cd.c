@@ -6,59 +6,90 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:25:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 19:19:27 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:00:21 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	update_pwd_env(t_shell *shell, char *old_pwd)
+static char *path_join(const char *base, const char *rel)
 {
-	char	current_pwd[PATH_MAX];
-	char	*logical_pwd;
-	char	*fallback_pwd;
+	char	*joined;
+	size_t	len;
 	
-	if (getcwd(current_pwd, PATH_MAX) == NULL)
+	len = ft_strlen(base) + ft_strlen(rel) + 2;
+	joined = malloc(len);
+	if (!joined)
+		return (NULL);
+	joined[0] = '\0';
+	ft_strlcpy(joined, base, len);
+	if (base[ft_strlen(base) - 1] != '/')
+		ft_strlcat(joined, "/", len);
+	ft_strlcat(joined, rel, len);
+	return (joined);
+}
+
+static int	cd_check_arg(t_command *cmd, t_shell *shell, char **target)
+{
+	if (cmd->args[1] && cmd->args[2])
+		return (error_message("cd: too many arguments"), ERROR);
+	if (!cmd->args[1])
 	{
-		fallback_pwd = get_env_value(shell->env_list, "PWD");
-		if (!fallback_pwd)
-			return (system_error("getcwd and no PWD fallback"), ERROR);
-		logical_pwd = ft_strjoin(fallback_pwd, "/..");
-		if (!logical_pwd)
-			return (system_error("ft_strjoin"), ERROR);
-		add_env_node(&shell->env_list, "PWD", logical_pwd);
-		free(logical_pwd);
+		*target = get_env_value(shell->env_list, "HOME");
+		if (!*target)
+			return (error_message("cd: HOME not set"), ERROR);
+	}
+	else if (ft_strcmp(cmd->args[1], "-") == 0)
+	{
+		*target = get_env_value(shell->env_list, "OLDPWD");
+		if (!*target)
+			return (error_message("cd: OLDPWD not set"), ERROR);
+		ft_fprintf1(STDOUT_FILENO, "%s\n", *target); // echo $OLDPWD
 	}
 	else
-		add_env_node(&shell->env_list, "PWD", current_pwd);
-	if (old_pwd)
-		add_env_node(&shell->env_list, "OLDPWD", old_pwd);
-	update_env_array(shell);
-	if (shell->env_array == NULL)
-		return (system_error("update_env_array"), ERROR);
+		*target = cmd->args[1];
+	return (SUCCESS);
+}
+
+static int new_logical_path(t_shell *shell, char *target, char **raw_path, char **old_pwd)
+{
+	char *pwd_env;
+	
+	pwd_env = get_env_value(shell->env_list, "PWD");
+	if (!pwd_env || target[0] == '/')
+		*raw_path = ft_strdup(target);
+	else
+		*raw_path = path_join(pwd_env, target);
+	if (!*raw_path)
+		return (system_error("path_join"), free(old_pwd), ERROR);
 	return (SUCCESS);
 }
 
 int	builtin_cd(t_command *cmd, t_shell *shell)
 {
-	char	*path;
-	char	old_pwd[PATH_MAX];
+	char	*target;
+	char	*old_pwd;
+	char	*raw_path;
+	char	*simplified;
 
-	if (cmd->args[1] && cmd->args[2])
-		return (error_message("cd: too many arguments"), ERROR);
-	if (getcwd(old_pwd, PATH_MAX) == NULL)
-		old_pwd[0] = '\0';
-	if (!cmd->args[1])
+	if (cd_check_arg(cmd, shell, &target) == ERROR)
+		return (ERROR);
+	if (chdir(target) != 0)
+		return (system_error(target), ERROR);
+	old_pwd = getcwd(NULL, 0);
+	if (new_logical_path(shell, target, &raw_path, &old_pwd) == ERROR)
+		return (ERROR);
+	simplified = simplify_path(raw_path);
+	if (!simplified)
+		return (system_error("simplify_path"), free(raw_path), free(old_pwd), ERROR);
+	add_env_node(&shell->env_list, "PWD", simplified);
+	if (old_pwd)
 	{
-		path = get_env_value(shell->env_list, "HOME");
-		if (!path)
-			return (error_message("cd: HOME not set"), ERROR);
+		add_env_node(&shell->env_list, "OLDPWD", old_pwd);
+		free(old_pwd);
 	}
-	else
-		path = cmd->args[1];
-	if (chdir(path) != 0)
-		return (system_error(path), ERROR);
-	if (update_pwd_env(shell, old_pwd[0] ? old_pwd : NULL) != SUCCESS)
-		return (system_error("update_pwd_env"), ERROR);
+	update_env_array(shell);
+	free(raw_path);
+	free(simplified);
 	return (SUCCESS);
 }
