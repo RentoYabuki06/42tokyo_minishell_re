@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 20:24:55 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 10:38:54 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,27 +88,25 @@ int	process_input(char *input, t_shell *shell)
 static int	shell_loop(t_shell *shell)
 {
 	char	*input;
-	int		status;
 
-	status = 0;
 	while (shell->running)
 	{
 		setup_signals();
-		if (g_signal_status)
-		{
-			shell->exit_status = 128 + g_signal_status;
-			g_signal_status = 0;
-			continue ;
-		}
 		input = readline("minishell$ ");
-		if (!input)
+		if (input == NULL)
 		{
+			if (g_signal_status == SIGINT)
+			{
+				g_signal_status = 0;
+				shell->exit_status = 130;
+				continue;
+			}
 			printf("exit\n");
 			break ;
 		}
-		status = process_input(input, shell);
+		shell->exit_status = process_input(input, shell);
 	}
-	return (status);
+	return (shell->exit_status);
 }
 
 int	main(int argc, char **argv, char **envp)
