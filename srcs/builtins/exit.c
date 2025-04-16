@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 17:47:06 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 23:49:28 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 	bool		flag;
 
 	if (shell->commands->next == NULL)
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->args[1] == NULL)
 	{
 		shell->running = 0;
