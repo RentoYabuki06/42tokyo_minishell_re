@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:08:02 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 18:31:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:56:41 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	is_builtin(char *cmd)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   double_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:41:17 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 13:23:07 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:52:48 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	dollar_doublequote(char *input, int *i, char **result, t_shell *shell)
 {

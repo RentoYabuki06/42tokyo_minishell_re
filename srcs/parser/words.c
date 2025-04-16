@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 18:09:04 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:53:00 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	is_delimiter(char c)
 {

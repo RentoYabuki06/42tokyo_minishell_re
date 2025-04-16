@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 15:00:32 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:57:08 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	setup_redirect_in(t_command *cmd, char *filename)
 {

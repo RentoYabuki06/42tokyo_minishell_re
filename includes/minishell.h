@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/16 20:41:02 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:49:49 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 
 # define SUCCESS 0
 # define ERROR 1
+# define NO_TOKEN 123
 
 extern int		g_signal_status;
 

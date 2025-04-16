@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:30:51 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 13:56:17 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:56:50 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static char	**get_paths_from_env(t_env *env_list)
 {

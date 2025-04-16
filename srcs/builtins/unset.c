@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:11:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:27:40 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:55:02 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 bool	is_valid_identifier(char *key)
 {

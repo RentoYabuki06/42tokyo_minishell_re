@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:35:52 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 18:14:39 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:50:13 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ t_token	*tokenize(char *input, t_shell *shell)
 		}
 	}
 	if (tokens == NULL)
-		shell->exit_status = 123;
+		shell->exit_status = NO_TOKEN;
 	return (tokens);
 }

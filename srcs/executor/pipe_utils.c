@@ -6,11 +6,11 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:26:54 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:57:20 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	execute_external_forked(t_command *cmd, t_shell *shell)
 {

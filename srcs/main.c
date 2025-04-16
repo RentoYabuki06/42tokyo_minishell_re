@@ -6,13 +6,12 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 18:15:17 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:50:01 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-/* Global variable for signal handling */
 int		g_signal_status = 0;
 
 static t_shell	*init_shell(char **envp)
@@ -64,7 +63,7 @@ int	process_input(char *input, t_shell *shell)
 		return (free (input), SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
-	if (shell->tokens == NULL && shell->exit_status == 123)
+	if (shell->tokens == NULL && shell->exit_status == NO_TOKEN)
 		return (free(input), SUCCESS);
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)
 		return (free(input), ERROR);
