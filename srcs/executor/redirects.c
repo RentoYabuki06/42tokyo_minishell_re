@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 18:07:40 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:06:06 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	setup_redirect_in(t_command *cmd, char *filename)
 	if (fd == -1)
 	{
 		system_error(filename);
+		printf("file name is %s\n", filename); //test
 		return (ERROR);
 	}
 	if (cmd->input_fd != STDIN_FILENO)
@@ -42,6 +43,7 @@ static int	setup_redir_out(t_command *cmd, char *filename, t_token_type type)
 	if (fd == -1)
 	{
 		system_error(filename);
+		printf("file name is %s\n", filename); ///test
 		return (ERROR);
 	}
 	if (cmd->output_fd != STDOUT_FILENO)

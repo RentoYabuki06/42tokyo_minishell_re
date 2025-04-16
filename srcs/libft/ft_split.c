@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:53:55 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/05/03 12:37:27 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/07 11:59:42 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ static size_t	ft_count(char const *s, char c)
 		i++;
 	}
 	return (count);
-}
-
-static char	*ft_strndup(char const *src, size_t n)
-{
-	size_t	i;
-	char	*dest;
-
-	dest = (char *)malloc((n + 1) * sizeof(char));
-	if (dest == NULL)
-		return (NULL);
-	i = 0;
-	while (i < n && src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 static void	ft_allfree(char **ans, size_t j)

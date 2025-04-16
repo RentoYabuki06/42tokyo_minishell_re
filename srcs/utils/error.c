@@ -3,36 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/06 20:13:09 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:29:47 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void	error_message(char *msg)
+void	error_message(const char *msg)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_fprintf1(STDERR_FILENO, "minishell: %s\n", msg);
 }
 
-void	command_error(char *cmd, char *msg)
+void	print_error(const char *s1, const char *s2)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	if (s1 == NULL || s2 == NULL)
+		return ;
+	ft_fprintf2(STDERR_FILENO, "minishell: %s: %s\n", s1, s2);
 }
 
-void	system_error(char *prefix)
+void	system_error(const char *prefix)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(prefix, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	if (prefix == NULL)
+		return ;
+	ft_fprintf2(STDERR_FILENO, "minishell: %s: %s\n", prefix, strerror(errno));
 }

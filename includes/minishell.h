@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/16 10:31:07 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 14:29:08 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,9 @@ void		default_signals(void);
 void		setup_signal_heredoc(void);
 
 /* error */
-void		error_message(char *msg);
-void		command_error(char *cmd, char *msg);
-void		system_error(char *prefix);
+void		error_message(const char *msg);
+void		system_error(const char *prefix);
+void		print_error(const char *s1, const char *s2);
 
 /* memory */
 void		free_array(char **array);

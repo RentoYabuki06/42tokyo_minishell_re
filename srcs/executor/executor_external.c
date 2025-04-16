@@ -3,29 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   executor_external.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 19:11:54 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:25:56 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-static void	handle_execve_error(char *exec_path)
+static int	handle_execve_error(char *exec_path)
 {
-	int	code;
+	int code;
+	int err = errno;
+	struct stat st;
 
-	system_error(exec_path);
-	if (access(exec_path, F_OK) != 0)
+	code = 126;
+	if (stat(exec_path, &st) == 0 && S_ISDIR(st.st_mode))
+		print_error(exec_path, "Is a directory");
+	else if (err == EACCES)
+		print_error(exec_path, "Permission denied");
+	else if (err == ENOENT)
+	{
+		print_error(exec_path, "No such file or directory");
 		code = 127;
-	else if (access(exec_path, X_OK) != 0)
-		code = 126;
+	}
 	else
+	{
+		system_error(exec_path);
 		code = 1;
-	free(exec_path);
-	exit(code);
+	}
+	exit (code);
 }
+
 
 static void	child_process(t_command *cmd, t_shell *shell, char *exec_path)
 {
@@ -73,7 +83,7 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 	exec_path = find_executable(cmd->args[0], shell->env_list);
 	if (!exec_path)
 	{
-		command_error(cmd->args[0], "command not found");
+		print_error(cmd->args[0], "command not found");
 		return (127);
 	}
 	ignore_signals();

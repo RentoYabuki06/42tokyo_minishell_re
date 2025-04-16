@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/13 20:26:17 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:28:05 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	numeric_error(t_command *cmd, t_shell *shell)
 
 	error_message = ft_strjoin(cmd->args[1], ": \
 		numeric argument required");
-	command_error(cmd->args[0], error_message);
+	print_error(cmd->args[0], error_message);
 	free(error_message);
 	shell->running = 0;
 	shell->exit_status = 2;
