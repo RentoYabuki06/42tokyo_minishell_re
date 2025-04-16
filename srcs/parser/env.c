@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:56:18 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 17:53:36 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 		var_value = get_last_command_path(shell);
 	free(var_name);
 	if (var_value == NULL)
-		return (ERROR);
+		return (SUCCESS);
 	if (join_result(result, var_value) == false)
 		return (ERROR);
 	return (SUCCESS);

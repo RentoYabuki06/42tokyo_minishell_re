@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 15:00:13 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 18:15:17 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ int	process_input(char *input, t_shell *shell)
 		return (free (input), SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
+	if (shell->tokens == NULL && shell->exit_status == 123)
+		return (free(input), SUCCESS);
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)
-	{
-		free(input);
-		return (ERROR);
-	}
+		return (free(input), ERROR);
 	g_signal_status = execute_commands(shell);
 	last_arg = get_last_argument(shell->commands);
 	if (last_arg)
