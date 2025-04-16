@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 13:20:24 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:56:18 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	handle_special(char *input, int *i, char **result, t_shell *shell)
 {
 	if (input[*i] == '?')
 	{
-		input = ft_itoa(shell->exit_status);
+		input = ft_itoa(g_signal_status);
 		if (input == NULL)
 			return (ERROR);
 		join_result_free(result, input);

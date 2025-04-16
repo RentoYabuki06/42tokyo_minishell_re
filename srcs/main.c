@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 10:38:54 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 15:00:13 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	process_input(char *input, t_shell *shell)
 		free(input);
 		return (ERROR);
 	}
-	shell->exit_status = execute_commands(shell);
+	g_signal_status = execute_commands(shell);
 	last_arg = get_last_argument(shell->commands);
 	if (last_arg)
 	{
@@ -82,7 +82,7 @@ int	process_input(char *input, t_shell *shell)
 	free_commands(shell->commands);
 	shell->commands = NULL;
 	free(input);
-	return (shell->exit_status);
+	return (g_signal_status);
 }
 
 static int	shell_loop(t_shell *shell)
@@ -93,20 +93,13 @@ static int	shell_loop(t_shell *shell)
 	{
 		setup_signals();
 		input = readline("minishell$ ");
-		if (input == NULL)
-		{
-			if (g_signal_status == SIGINT)
-			{
-				g_signal_status = 0;
-				shell->exit_status = 130;
-				continue;
-			}
+		if (!input) {
 			printf("exit\n");
-			break ;
-		}
-		shell->exit_status = process_input(input, shell);
+			break;
+		}		
+		g_signal_status = process_input(input, shell);
 	}
-	return (shell->exit_status);
+	return (g_signal_status);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:52:21 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/16 10:36:29 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 14:54:11 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_signal_status = SIGINT;
+	g_signal_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
