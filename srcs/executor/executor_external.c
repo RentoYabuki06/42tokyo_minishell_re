@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:25:56 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 21:24:33 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static int	wait_child_status(pid_t pid)
 			write(STDOUT_FILENO, "\n", 1);
 		else if (WTERMSIG(status) == SIGQUIT)
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+		else if (WTERMSIG(status) == SIGPIPE)
+			write(STDERR_FILENO, "Broken pipe\n", 13);		
 		return (128 + WTERMSIG(status));
 	}
 	return (ERROR);

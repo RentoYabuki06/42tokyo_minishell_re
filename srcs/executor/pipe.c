@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 19:11:44 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:25:02 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	wait_for_last_pid(pid_t last_pid)
 					write(STDOUT_FILENO, "\n", 1);
 				else if (WTERMSIG(status) == SIGQUIT)
 					write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+				else if (WTERMSIG(status) == SIGPIPE)
+					write(STDERR_FILENO, "Broken pipe\n", 13);				
 				last_status = 128 + WTERMSIG(status);
 			}
 		}

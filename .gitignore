@@ -12,3 +12,4 @@ tmp
 *.exe.stackdump
 mylink
 link
+minishell
