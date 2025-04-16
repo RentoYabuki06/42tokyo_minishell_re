@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:20:33 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 14:28:05 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/16 17:47:06 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ static int	numeric_error(t_command *cmd, t_shell *shell)
 {
 	char	*error_message;
 
-	error_message = ft_strjoin(cmd->args[1], ": \
-		numeric argument required");
+	error_message = ft_strjoin(cmd->args[1], ": numeric argument required");
 	print_error(cmd->args[0], error_message);
 	free(error_message);
 	shell->running = 0;
@@ -95,7 +94,7 @@ int	builtin_exit(t_command *cmd, t_shell *shell)
 	bool		flag;
 
 	if (shell->commands->next == NULL)
-		ft_putstr_fd("exit\n", STDERR_FILENO);
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (cmd->args[1] == NULL)
 	{
 		shell->running = 0;
