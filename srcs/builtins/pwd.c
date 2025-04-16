@@ -3,27 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:31:02 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/07 17:04:36 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 19:02:21 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
+
+static int	print_dir(char *path)
+{
+	ft_fprintf1(STDOUT_FILENO, "%s\n", path);
+	return (SUCCESS);
+}
 
 int	builtin_pwd(t_command *cmd, t_shell *shell)
 {
 	char	current_dir[PATH_MAX];
+	char	*fallback_pwd;
 
 	(void)cmd;
 	(void)shell;
-	if (getcwd(current_dir, PATH_MAX) == NULL)
-	{
-		system_error("pwd");
-		return (ERROR);
-	}
-	ft_putstr_fd(current_dir, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	return (SUCCESS);
+	if (getcwd(current_dir, PATH_MAX) != NULL)
+		return (print_dir(current_dir));
+	fallback_pwd = get_env_value(shell->env_list, "PWD");
+	if (fallback_pwd != NULL)
+		return (print_dir(fallback_pwd));
+	system_error("pwd");
+	return (ERROR);
 }
