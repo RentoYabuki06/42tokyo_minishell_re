@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:35:52 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/08 11:31:52 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/16 18:14:39 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	is_space(char c)
 {
@@ -88,5 +88,7 @@ t_token	*tokenize(char *input, t_shell *shell)
 				return (free_tokens(tokens), NULL);
 		}
 	}
+	if (tokens == NULL)
+		shell->exit_status = 123;
 	return (tokens);
 }

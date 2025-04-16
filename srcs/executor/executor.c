@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:06:57 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/12 14:05:05 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/16 18:05:30 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 
 int	execute_commands(t_shell *shell)
 {
-	if (!shell->commands)
+	char	**args;
+
+	args = shell->commands->args;
+	if (!shell->commands || !args || !args[0] || args[0][0] == '\0')
 		return (SUCCESS);
 	if (!shell->commands->next)
 		return (execute_command(shell->commands, shell));
