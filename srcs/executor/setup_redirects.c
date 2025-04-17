@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/13 18:09:01 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/17 13:54:44 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 	while (true)
 	{
 		line = read_line_from_input(saved);
-		if (g_signal_status == -1)
+		if (g_signal_status == SIGINT)
 			return (handle_sigint_in_loop(pipe_fd, line));
 		is_end = is_delimiter_or_null(line, delimiter);
 		if (is_end)
@@ -87,7 +87,8 @@ int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
 	setup_signal_heredoc();
 	if (loop(pipe_fd, delimiter, &saved) == ERROR)
 		return (ERROR);
-	close(pipe_fd[1]);
+	if (pipe_fd[1])
+		close(pipe_fd[1]);
 	if (cmd->input_fd != STDIN_FILENO)
 		close(cmd->input_fd);
 	cmd->input_fd = pipe_fd[0];

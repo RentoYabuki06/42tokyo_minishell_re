@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:02:35 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/17 13:47:50 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 13:53:47 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	sigint_heredoc_handler(int sig)
 {
 	(void)sig;
-	g_signal_status = -1;
+	g_signal_status = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
 }
 
