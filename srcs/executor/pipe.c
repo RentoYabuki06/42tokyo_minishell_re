@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:23:15 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:57:13 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:45:30 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	wait_for_last_pid(pid_t last_pid)
+static int	wait_for_last_pid(pid_t last_pid, int last_status)
 {
 	int		status;
-	int		last_status;
 	pid_t	pid;
 
-	last_status = 0;
 	pid = wait(&status);
 	while (pid > 0)
 	{
@@ -33,7 +31,7 @@ static int	wait_for_last_pid(pid_t last_pid)
 				else if (WTERMSIG(status) == SIGQUIT)
 					write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 				else if (WTERMSIG(status) == SIGPIPE)
-					write(STDERR_FILENO, "Broken pipe\n", 13);				
+					write(STDERR_FILENO, "Broken pipe\n", 13);
 				last_status = 128 + WTERMSIG(status);
 			}
 		}
@@ -85,5 +83,5 @@ int	execute_pipeline(t_command *commands, t_shell *shell)
 		return (ERROR);
 	close_command_fds(cmd_list);
 	restore_stdin(stdin_backup);
-	return (wait_for_last_pid(last_pid));
+	return (wait_for_last_pid(last_pid, 0));
 }

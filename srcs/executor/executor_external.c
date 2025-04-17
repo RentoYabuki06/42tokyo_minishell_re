@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_external.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:24:33 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:45:15 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static int	handle_execve_error(char *exec_path)
 {
-	int code;
-	int err = errno;
-	struct stat st;
+	int			code;
+	int			err;
+	struct stat	st;
 
+	err = errno;
 	code = 126;
 	if (stat(exec_path, &st) == 0 && S_ISDIR(st.st_mode))
 		print_error(exec_path, "Is a directory");
@@ -35,7 +36,6 @@ static int	handle_execve_error(char *exec_path)
 	}
 	exit (code);
 }
-
 
 static void	child_process(t_command *cmd, t_shell *shell, char *exec_path)
 {
@@ -71,7 +71,7 @@ static int	wait_child_status(pid_t pid)
 		else if (WTERMSIG(status) == SIGQUIT)
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 		else if (WTERMSIG(status) == SIGPIPE)
-			write(STDERR_FILENO, "Broken pipe\n", 13);		
+			write(STDERR_FILENO, "Broken pipe\n", 13);
 		return (128 + WTERMSIG(status));
 	}
 	return (ERROR);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:53:00 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:49:27 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 {
 	char	*result;
 	int		start_pos;
+	t_token	*new_token;
 
 	result = ft_strdup("");
 	if (result == NULL)
@@ -88,19 +89,13 @@ int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 	while (input[*i] && !is_delimiter(input[*i]))
 	{
 		if (process_quote_or_dollar(input, i, &result, shell) == ERROR)
-		{
-			free(result);
-			return (ERROR);
-		}
+			return (free(result), ERROR);
 	}
 	if (*i > start_pos && result[0] != '\0')
 	{
-		t_token *new_token = create_token(TOKEN_WORD, result);
+		new_token = create_token(TOKEN_WORD, result);
 		if (!new_token)
-		{
-			free(result);
-			return (ERROR);
-		}
+			return (free(result), ERROR);
 		add_token(tokens, new_token);
 	}
 	else
