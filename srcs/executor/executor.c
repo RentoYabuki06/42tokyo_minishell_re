@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:06:57 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 18:05:30 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 12:53:09 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 
 int	execute_commands(t_shell *shell)
 {
-	char	**args;
+	// char	**args;
 
-	args = shell->commands->args;
-	if (!shell->commands || !args || !args[0] || args[0][0] == '\0')
-		return (SUCCESS);
+	// args = shell->commands->args;
+	// if (!shell->commands || !args || !args[0] || args[0][0] == '\0')
+	// 	return (SUCCESS);
+   if (!shell->commands)
+       return (SUCCESS);
 	if (!shell->commands->next)
 		return (execute_command(shell->commands, shell));
 	if (setup_pipes(shell->commands) != SUCCESS)
