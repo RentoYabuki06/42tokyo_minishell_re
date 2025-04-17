@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 13:51:15 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:02:16 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ static char	*read_to_newline(int fd, char **saved, char *buffer)
 		if (ft_strchr(*saved, '\n'))
 			break ;
 	}
-	if (*saved == NULL)
-		return (NULL);
-	if (bytes_read < 0)
-		return (free(*saved), NULL);
-	if (bytes_read == 0 && ft_strlen(*saved) == 0)
+	if ((bytes_read == 0 && ft_strlen(*saved) == 0) || bytes_read < 0)
 		return (free(*saved), NULL);
 	return (*saved);
 }
