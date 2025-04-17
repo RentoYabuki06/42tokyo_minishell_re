@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 17:38:19 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:57:01 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 17:32:04 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	setup_redir_return_fd(t_token_type type, char *delimiter)
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	setup_signal_heredoc();
-	if (!loop(pipe_fd, delimiter, &saved))
+	if (loop(pipe_fd, delimiter, &saved) == ERROR)
 	{
 		free(saved);
 		close(pipe_fd[0]);
