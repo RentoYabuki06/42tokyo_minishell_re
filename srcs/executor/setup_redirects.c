@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:55:54 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/17 13:54:44 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:39:38 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static bool	handle_sigint_in_loop(int *pipe_fd, char *line)
 	free(line);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	g_signal_status = 0;
 	return (ERROR);
 }
 
@@ -53,7 +52,7 @@ bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 	char	*line;
 	bool	is_end;
 
-	while (true)
+	while (1)
 	{
 		line = read_line_from_input(saved);
 		if (g_signal_status == SIGINT)
@@ -68,7 +67,7 @@ bool	loop(int pipe_fd[2], char *delimiter, char **saved)
 		ft_putstr_fd("\n", pipe_fd[1]);
 		free(line);
 	}
-	return (true);
+	return (SUCCESS);
 }
 
 int	setup_redirect_heredoc(t_command *cmd, char *delimiter)
