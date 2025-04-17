@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:02:35 by ryabuki           #+#    #+#             */
-/*   Updated: 2025/04/17 13:38:07 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 13:47:50 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void	sigint_heredoc_handler(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-void setup_terminal_for_heredoc(void)
+void	setup_terminal_for_heredoc(void)
 {
-    struct termios	term;
+	struct termios	term;
 
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag |= ISIG;
-    term.c_lflag &= ~ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ISIG;
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void	setup_signal_heredoc(void)
