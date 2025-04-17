@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:50:01 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:50:24 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ static int	shell_loop(t_shell *shell)
 	{
 		setup_signals();
 		input = readline("minishell$ ");
-		if (!input) {
+		if (input == NULL)
+		{
 			printf("exit\n");
-			break;
+			break ;
 		}		
 		g_signal_status = process_input(input, shell);
 	}

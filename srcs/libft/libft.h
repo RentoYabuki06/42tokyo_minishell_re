@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:24:13 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/16 14:14:48 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:51:42 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ long	ft_atol(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_fprintf1(int fd, const char *fmt, const char *arg);
-void	ft_fprintf2(int fd, const char *fmt, const char *arg1, const char *arg2);
+void	ft_fprintf2(int fd, const char *fmt, const char *s1, const char *s2);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);

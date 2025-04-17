@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:25:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:00:21 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 10:43:32 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *path_join(const char *base, const char *rel)
+static char	*path_join(const char *base, const char *rel)
 {
 	char	*joined;
 	size_t	len;
-	
+
 	len = ft_strlen(base) + ft_strlen(rel) + 2;
 	joined = malloc(len);
 	if (!joined)
@@ -44,24 +44,24 @@ static int	cd_check_arg(t_command *cmd, t_shell *shell, char **target)
 		*target = get_env_value(shell->env_list, "OLDPWD");
 		if (!*target)
 			return (error_message("cd: OLDPWD not set"), ERROR);
-		ft_fprintf1(STDOUT_FILENO, "%s\n", *target); // echo $OLDPWD
+		ft_fprintf1(STDOUT_FILENO, "%s\n", *target);
 	}
 	else
 		*target = cmd->args[1];
 	return (SUCCESS);
 }
 
-static int new_logical_path(t_shell *shell, char *target, char **raw_path, char **old_pwd)
+static int	new_logipath(t_shell *shell, char *tgt, char **rawpath, char **old)
 {
-	char *pwd_env;
-	
+	char	*pwd_env;
+
 	pwd_env = get_env_value(shell->env_list, "PWD");
-	if (!pwd_env || target[0] == '/')
-		*raw_path = ft_strdup(target);
+	if (!pwd_env || tgt[0] == '/')
+		*rawpath = ft_strdup(tgt);
 	else
-		*raw_path = path_join(pwd_env, target);
-	if (!*raw_path)
-		return (system_error("path_join"), free(old_pwd), ERROR);
+		*rawpath = path_join(pwd_env, tgt);
+	if (!*rawpath)
+		return (system_error("path_join"), free(old), ERROR);
 	return (SUCCESS);
 }
 
@@ -69,7 +69,7 @@ int	builtin_cd(t_command *cmd, t_shell *shell)
 {
 	char	*target;
 	char	*old_pwd;
-	char	*raw_path;
+	char	*rawpath;
 	char	*simplified;
 
 	if (cd_check_arg(cmd, shell, &target) == ERROR)
@@ -77,11 +77,12 @@ int	builtin_cd(t_command *cmd, t_shell *shell)
 	if (chdir(target) != 0)
 		return (system_error(target), ERROR);
 	old_pwd = getcwd(NULL, 0);
-	if (new_logical_path(shell, target, &raw_path, &old_pwd) == ERROR)
+	if (new_logipath(shell, target, &rawpath, &old_pwd) == ERROR)
 		return (ERROR);
-	simplified = simplify_path(raw_path);
+	simplified = simplify_path(rawpath);
+	free(rawpath);
 	if (!simplified)
-		return (system_error("simplify_path"), free(raw_path), free(old_pwd), ERROR);
+		return (system_error("simplify_path"), free(old_pwd), ERROR);
 	add_env_node(&shell->env_list, "PWD", simplified);
 	if (old_pwd)
 	{
@@ -89,7 +90,6 @@ int	builtin_cd(t_command *cmd, t_shell *shell)
 		free(old_pwd);
 	}
 	update_env_array(shell);
-	free(raw_path);
 	free(simplified);
 	return (SUCCESS);
 }
