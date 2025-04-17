@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:52:05 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/16 17:52:14 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 11:38:22 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ int	parse(t_shell *shell)
 		{
 			free_commands(cur_cmd);
 			free_commands(shell->commands);
+			free_tokens(shell->tokens);
 			shell->commands = NULL;
+			shell->tokens = NULL;
 			return (ERROR);
 		}
 	}
