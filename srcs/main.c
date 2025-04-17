@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 10:50:24 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 12:03:32 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	process_input(char *input, t_shell *shell)
 	char	*last_arg;
 
 	if (!input || ft_strlen(input) == 0)
-		return (free (input), SUCCESS);
+		return (SUCCESS);
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
 	if (shell->tokens == NULL && shell->exit_status == NO_TOKEN)
-		return (free(input), SUCCESS);
+		return (SUCCESS);
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)
-		return (free(input), ERROR);
+		return (ERROR);
 	g_signal_status = execute_commands(shell);
 	last_arg = get_last_argument(shell->commands);
 	if (last_arg)
@@ -75,11 +75,6 @@ int	process_input(char *input, t_shell *shell)
 		update_env_array(shell);
 		free(last_arg);
 	}
-	free_tokens(shell->tokens);
-	shell->tokens = NULL;
-	free_commands(shell->commands);
-	shell->commands = NULL;
-	free(input);
 	return (g_signal_status);
 }
 
@@ -97,6 +92,11 @@ static int	shell_loop(t_shell *shell)
 			break ;
 		}		
 		g_signal_status = process_input(input, shell);
+		free_tokens(shell->tokens);
+		shell->tokens = NULL;
+		free_commands(shell->commands);
+		shell->commands = NULL;
+		free(input);
 	}
 	return (g_signal_status);
 }

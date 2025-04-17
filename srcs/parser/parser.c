@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:52:05 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 11:38:22 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 12:02:01 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ int	parse(t_shell *shell)
 		if (process_token(&cur_token, &cur_cmd, &shell->commands) == ERROR)
 		{
 			free_commands(cur_cmd);
-			free_commands(shell->commands);
-			free_tokens(shell->tokens);
-			shell->commands = NULL;
-			shell->tokens = NULL;
+			// free_commands(shell->commands);
+			// free_tokens(shell->tokens);
+			// shell->commands = NULL;
+			// shell->tokens = NULL;
 			return (ERROR);
 		}
 	}
