@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:54:49 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 18:57:39 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:23:27 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,46 +74,27 @@ static void	apply_heredoc_fd(t_command *cmd, int heredoc_fd)
 	}
 }
 
-// int	setup_redirects(t_command *cmd)
-// {
-// 	t_token	*token;
-// 	t_token	*next;
-// 	int		status;
-// 	int		heredoc_fd;
-
-// 	heredoc_fd = -1;
-// 	token = cmd->redirects;
-// 	while (token)
-// 	{
-// 		next = token->next;
-// 		status = process_redirect(cmd, token, next, &heredoc_fd);
-// 		if (status == ERROR)
-// 			return (ERROR);
-// 		token = next->next;
-// 	}
-// 	apply_heredoc_fd(cmd, heredoc_fd);
-// 	return (SUCCESS);
-// }
-
-
-int setup_redirects(t_command *cmd)
+int	setup_redirects(t_command *cmd)
 {
-    t_token *token = cmd->redirects;
-    int      heredoc_fd = -1;
+	t_token	*token;
+	int		heredoc_fd;
 
-    while (token)
-    {
-        /* 親で処理したヒアドキュメントはスキップ */
-        if (token->type == TOKEN_HEREDOC)
-        {
-            token = token->next ? token->next->next : NULL;
-            continue;
-        }
-        if (process_redirect(cmd, token, token->next, &heredoc_fd) == ERROR)
-            return (ERROR);
-        token = token->next->next;
-    }
-    apply_heredoc_fd(cmd, heredoc_fd);
-    return (SUCCESS);
+	token = cmd->redirects;
+	heredoc_fd = -1;
+	while (token)
+	{
+		if (token->type == TOKEN_HEREDOC)
+		{
+			if (token->next)
+				token = token->next->next;
+			else
+				NULL;
+			continue ;
+		}
+		if (process_redirect(cmd, token, token->next, &heredoc_fd) == ERROR)
+			return (ERROR);
+		token = token->next->next;
+	}
+	apply_heredoc_fd(cmd, heredoc_fd);
+	return (SUCCESS);
 }
-

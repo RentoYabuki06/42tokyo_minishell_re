@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:06:57 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 19:02:07 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:27:58 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,83 +62,66 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 	return (status);
 }
 
-
-
-static void free_token(t_token *tok)
+static void	free_token(t_token *tok)
 {
-    if (!tok)
-        return;
-    if (tok->value)
-        free(tok->value);
-    free(tok);
+	if (!tok)
+		return ;
+	if (tok->value)
+		free(tok->value);
+	free(tok);
 }
 
-
-/**
- * 親プロセスでヒアドキュメント（<<）だけを処理し、
- * TOKEN_HEREDOC トークンをリストから取り除き、
- * 得られた FD を cmd->input_fd にセットする。
- */
-static int process_heredocs_in_parent(t_shell *shell)
+static int	process_heredocs_in_parent(t_shell *shell)
 {
-    t_command *cmd = shell->commands;
+	t_command	*cmd;
+	t_token		**p;
+	t_token		*next;
+	t_token		*tok;
+	int			fd;
 
-    while (cmd)
-    {
-        t_token **p = &cmd->redirects;
-        while (*p)
-        {
-            t_token *tok = *p;
-            if (tok->type == TOKEN_HEREDOC)
-            {
-                t_token *next = tok->next;
-                if (!next)
-                    return (ERROR);
-                /* ヒアドキュメントを展開 */
-                int fd = setup_redir_return_fd(TOKEN_HEREDOC, next->value);
-                if (fd < 0)
-                    return (ERROR);
-                /* 既存の input_fd があれば閉じる */
-                if (cmd->input_fd != STDIN_FILENO)
-                    close(cmd->input_fd);
-                cmd->input_fd = fd;
-                /* tok と next をリストから削除 */
-                *p = next->next;
-                free_token(next);
-                free_token(tok);
-                continue;  /* p は同じ場所を指したまま */
-            }
-            p = &tok->next;
-        }
-        cmd = cmd->next;
-    }
-    return (SUCCESS);
+	cmd = shell->commands;
+	while (cmd)
+	{
+		p = &cmd->redirects;
+		while (*p)
+		{
+			tok = *p;
+			if (tok->type == TOKEN_HEREDOC)
+			{
+				next = tok->next;
+				if (!next)
+					return (ERROR);
+				fd = setup_redir_return_fd(TOKEN_HEREDOC, next->value);
+				if (fd < 0)
+					return (ERROR);
+				if (cmd->input_fd != STDIN_FILENO)
+					close(cmd->input_fd);
+				cmd->input_fd = fd;
+				*p = next->next;
+				free_token(next);
+				free_token(tok);
+				continue ;
+			}
+			p = &tok->next;
+		}
+		cmd = cmd->next;
+	}
+	return (SUCCESS);
 }
 
-int execute_commands(t_shell *shell)
+int	execute_commands(t_shell *shell)
 {
-    if (!shell->commands)
-        return (SUCCESS);
-
-    /* パイプラインがある場合 */
-    if (shell->commands->next)
-    {
-        /* ① 親でヒアドキュメントだけ処理 */
-        if (process_heredocs_in_parent(shell) == ERROR)
-            return (ERROR);
-
-        /* ② パイプを張る */
-        if (setup_pipes(shell->commands) != SUCCESS)
-            return (ERROR);
-
-        /* ③ fork & exec_pipeline */
-        return (execute_pipeline(shell->commands, shell));
-    }
-
-    /* 単一コマンドの場合もヒアドキュメントは親で先に */
-    if (process_heredocs_in_parent(shell) == ERROR)
-        return (ERROR);
-
-    /* リダイレクト／ビルトイン or 外部実行 */
-    return (execute_command(shell->commands, shell));
+	if (!shell->commands)
+		return (SUCCESS);
+	if (shell->commands->next)
+	{
+		if (process_heredocs_in_parent(shell) == ERROR)
+			return (ERROR);
+		if (setup_pipes(shell->commands) != SUCCESS)
+			return (ERROR);
+		return (execute_pipeline(shell->commands, shell));
+	}
+	if (process_heredocs_in_parent(shell) == ERROR)
+		return (ERROR);
+	return (execute_command(shell->commands, shell));
 }
