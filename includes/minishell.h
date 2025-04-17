@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:54:28 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 13:37:12 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:32:16 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,6 @@ int			process_redirect(t_command *cmd, t_token *token, \
 			t_token *next, int *heredoc_fd);
 int			setup_redir(t_command *cmd, t_token_type type, char *filename);
 bool		loop(int pipe_fd[2], char *delimiter, char **saved);
+int			process_heredocs_in_parent(t_shell *shell);
 
 #endif

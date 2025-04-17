@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:06:57 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 19:27:58 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:31:26 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,53 +60,6 @@ static int	execute_command(t_command *cmd, t_shell *shell)
 	}
 	status = execute_external_standalone(cmd, shell);
 	return (status);
-}
-
-static void	free_token(t_token *tok)
-{
-	if (!tok)
-		return ;
-	if (tok->value)
-		free(tok->value);
-	free(tok);
-}
-
-static int	process_heredocs_in_parent(t_shell *shell)
-{
-	t_command	*cmd;
-	t_token		**p;
-	t_token		*next;
-	t_token		*tok;
-	int			fd;
-
-	cmd = shell->commands;
-	while (cmd)
-	{
-		p = &cmd->redirects;
-		while (*p)
-		{
-			tok = *p;
-			if (tok->type == TOKEN_HEREDOC)
-			{
-				next = tok->next;
-				if (!next)
-					return (ERROR);
-				fd = setup_redir_return_fd(TOKEN_HEREDOC, next->value);
-				if (fd < 0)
-					return (ERROR);
-				if (cmd->input_fd != STDIN_FILENO)
-					close(cmd->input_fd);
-				cmd->input_fd = fd;
-				*p = next->next;
-				free_token(next);
-				free_token(tok);
-				continue ;
-			}
-			p = &tok->next;
-		}
-		cmd = cmd->next;
-	}
-	return (SUCCESS);
 }
 
 int	execute_commands(t_shell *shell)

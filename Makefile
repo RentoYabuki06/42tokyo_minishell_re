@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+         #
+#    By: myokono <myokono@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 23:54:20 by yabukirento       #+#    #+#              #
-#    Updated: 2025/04/17 10:49:40 by ryabuki          ###   ########.fr        #
+#    Updated: 2025/04/17 19:30:44 by myokono          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(PARSER_DIR)/command_utils.c \
 	$(PARSER_DIR)/redirect_utils.c \
 	$(EXECUTOR_DIR)/executor.c \
+	$(EXECUTOR_DIR)/executor_utils.c \
 	$(EXECUTOR_DIR)/path.c \
 	$(EXECUTOR_DIR)/executor_builtin.c \
 	$(EXECUTOR_DIR)/executor_external.c \
