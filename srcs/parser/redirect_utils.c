@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:30:00 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/16 21:52:21 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/17 11:35:11 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ t_token	*process_redirect_tokens(t_token **tokens, t_token_type type)
 {
 	t_token	*redirect_token;
 	t_token	*filename_token;
+	char	*tmp_value;
 
-	redirect_token = create_token(type, ft_strdup((*tokens)->value));
+	tmp_value = ft_strdup((*tokens)->value);
+	if (tmp_value == NULL)
+		return (NULL);
+	redirect_token = create_token(type, tmp_value);
+	if (redirect_token == NULL)
+		return (free(tmp_value), NULL);
 	*tokens = (*tokens)->next;
-	if (!*tokens || (*tokens)->type != TOKEN_WORD)
+	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
 	{
 		free_tokens(redirect_token);
 		error_message("Syntax error near unexpected token");
