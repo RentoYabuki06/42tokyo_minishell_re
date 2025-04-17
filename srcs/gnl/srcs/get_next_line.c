@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 13:17:48 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/17 13:40:51 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ static char	*read_to_newline(int fd, char **saved, char *buffer)
 		if (ft_strchr(*saved, '\n'))
 			break ;
 	}
-	if (bytes_read < 0 || *saved == NULL)
+	if (*saved == NULL)
 		return (NULL);
+	if (bytes_read < 0)
+		return (free(*saved), NULL);
 	if (bytes_read == 0 && ft_strlen(*saved) == 0)
-		return (NULL);
+		return (free(*saved), NULL);
 	return (*saved);
 }
 
