@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/18 14:39:21 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/18 16:56:23 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ static int	shell_loop(t_shell *shell)
 	while (shell->running)
 	{
 		setup_signals();
+		if (g_signal_status != 0)
+		{
+			shell->exit_status = g_signal_status + 128;
+			g_signal_status = 0;
+			continue ;
+		}
 		input = readline("minishell$ ");
 		if (input == NULL)
 		{
