@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_simplify_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 20:39:58 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 10:44:12 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/18 10:52:47 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static void	cut_current_dir(char *result)
 	if (last_slash && last_slash != result)
 		*last_slash = '\0';
 	else
-		ft_strlcpy(result, "/", sizeof(result));
+	{
+		result[0] = '/';
+		result[1] = '\0';
+	}
 }
 
 static void	ft_loop(char **components, char *result)
@@ -51,8 +54,8 @@ static void	ft_loop(char **components, char *result)
 		else
 		{
 			if (ft_strcmp(result, "/") != 0)
-				ft_strlcat(result, "/", sizeof(result));
-			ft_strlcat(result, components[i], sizeof(result));
+				ft_strlcat(result, "/", PATH_MAX);
+			ft_strlcat(result, components[i], PATH_MAX);
 		}
 	}
 }
