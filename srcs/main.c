@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/18 19:07:28 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/18 19:30:59 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,15 @@ int	process_input(char *input, t_shell *shell)
 	add_history(input);
 	shell->tokens = tokenize(input, shell);
 	if (shell->tokens == NULL && shell->exit_status == NO_TOKEN)
+	{
+		shell->exit_status = SUCCESS;
 		return (SUCCESS);
+	}
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)
+	{
+		shell->exit_status = ERROR;
 		return (ERROR);
+	}
 	shell->exit_status = execute_commands(shell);
 	last_arg = get_last_argument(shell->commands);
 	if (last_arg)
@@ -98,8 +104,7 @@ static int	shell_loop(t_shell *shell)
 			printf("exit\n");
 			break ;
 		}
-		shell->exit_status = process_input(input, shell);
-		status = shell->exit_status;
+		status = process_input(input, shell);
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
 		free_commands(shell->commands);
