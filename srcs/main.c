@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/18 19:30:59 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:33:02 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ static int	shell_loop(t_shell *shell)
 			g_signal_status = 0;
 		}
 		if (input == NULL)
-		{
-			printf("exit\n");
-			break ;
-		}
+			return (printf("exit\n"), status);
 		status = process_input(input, shell);
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
