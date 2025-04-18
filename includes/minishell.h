@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:54:28 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/17 19:32:16 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/18 10:23:02 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define SUCCESS 0
 # define ERROR 1
 # define NO_TOKEN 123
+# define MAXNUM_FD 1024
 
 extern int		g_signal_status;
 

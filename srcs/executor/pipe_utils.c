@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:34:01 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:57:20 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/18 10:21:29 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	setup_child_io(t_command *cmd)
 	default_signals();
 	setup_child_io_redirections(cmd);
 	i = 3;
-	while (i < 256)
+	while (i < MAXNUM_FD)
 	{
 		if (i != cmd->input_fd && i != cmd->output_fd)
 			close(i);
