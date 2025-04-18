@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_external.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 10:45:15 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:47:38 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ int	execute_external_standalone(t_command *cmd, t_shell *shell)
 	pid_t	pid;
 	char	*exec_path;
 
+	if(cmd->args == NULL)
+		return (SUCCESS);
+	if(cmd->args[0][0] == '\0')
+	{
+		print_error(cmd->args[0], "command not found");
+		return (127);
+	}
 	exec_path = find_executable(cmd->args[0], shell->env_list);
 	if (!exec_path)
 	{

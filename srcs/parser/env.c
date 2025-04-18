@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:24:50 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/18 16:50:44 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:57:38 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ int	expand_env_var(char *input, int *i, char **result, t_shell *shell)
 		var_value = get_last_command_path(shell);
 	free(var_name);
 	if (var_value == NULL)
+	{
+		free(*result);
+		*result = NULL;
 		return (SUCCESS);
+	}
 	if (join_result(result, var_value) == false)
 		return (ERROR);
 	return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   words.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:10:47 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 10:49:27 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/18 19:02:52 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	handle_word_token(char *input, int *i, t_token **tokens, t_shell *shell)
 		if (process_quote_or_dollar(input, i, &result, shell) == ERROR)
 			return (free(result), ERROR);
 	}
-	if (*i > start_pos && result[0] != '\0')
+	if (*i > start_pos && result)
 	{
 		new_token = create_token(TOKEN_WORD, result);
 		if (!new_token)
