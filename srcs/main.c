@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/17 12:03:32 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/18 14:39:21 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	process_input(char *input, t_shell *shell)
 		return (SUCCESS);
 	if (shell->tokens == NULL || parse(shell) != SUCCESS)
 		return (ERROR);
-	g_signal_status = execute_commands(shell);
+	shell->exit_status = execute_commands(shell);
 	last_arg = get_last_argument(shell->commands);
 	if (last_arg)
 	{
@@ -75,13 +75,15 @@ int	process_input(char *input, t_shell *shell)
 		update_env_array(shell);
 		free(last_arg);
 	}
-	return (g_signal_status);
+	return (shell->exit_status);
 }
 
 static int	shell_loop(t_shell *shell)
 {
 	char	*input;
+	int		status;
 
+	status = 0;
 	while (shell->running)
 	{
 		setup_signals();
@@ -90,15 +92,16 @@ static int	shell_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			break ;
-		}		
-		g_signal_status = process_input(input, shell);
+		}
+		shell->exit_status = process_input(input, shell);
+		status = shell->exit_status;
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
 		free_commands(shell->commands);
 		shell->commands = NULL;
 		free(input);
 	}
-	return (g_signal_status);
+	return (status);
 }
 
 int	main(int argc, char **argv, char **envp)
