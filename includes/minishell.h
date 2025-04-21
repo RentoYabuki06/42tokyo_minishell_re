@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:54:28 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/18 10:23:02 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/21 13:27:05 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int			print_sorted_env(t_env *env_list, int fd);
 int			builtin_env(t_command *cmd, t_shell *shell);
 int			builtin_exit(t_command *cmd, t_shell *shell);
 char		*simplify_path(const char *path);
+int			export_with_plus_equal(char *arg, char *eq, t_shell *sh);
 
 /* signal*/
 void		setup_signals(void);
