@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/21 11:29:07 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 11:31:35 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	shell_loop(t_shell *shell)
 			g_signal_status = 0;
 		}
 		if (input == NULL)
-			return (printf("exit\n"), 0);
+			return (printf("exit\n"), shell->exit_status);
 		process_input(input, shell);
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
