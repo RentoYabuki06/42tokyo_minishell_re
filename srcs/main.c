@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/18 20:33:02 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 11:29:07 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ int	process_input(char *input, t_shell *shell)
 static int	shell_loop(t_shell *shell)
 {
 	char	*input;
-	int		status;
 
-	status = 0;
 	while (shell->running)
 	{
 		setup_signals();
@@ -100,15 +98,15 @@ static int	shell_loop(t_shell *shell)
 			g_signal_status = 0;
 		}
 		if (input == NULL)
-			return (printf("exit\n"), status);
-		status = process_input(input, shell);
+			return (printf("exit\n"), 0);
+		process_input(input, shell);
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
 		free_commands(shell->commands);
 		shell->commands = NULL;
 		free(input);
 	}
-	return (status);
+	return (shell->exit_status);
 }
 
 int	main(int argc, char **argv, char **envp)
