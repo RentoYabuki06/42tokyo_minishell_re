@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 13:03:37 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:54:23 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/21 13:38:14 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*create_env_node(char *key, char *value)
 	return (new_node);
 }
 
-void	add_env_node(t_env **env_list, char *key, char *value)
+int	add_env_node(t_env **env_list, char *key, char *value)
 {
 	t_env	*existing_node;
 	t_env	*new_node;
@@ -39,20 +39,20 @@ void	add_env_node(t_env **env_list, char *key, char *value)
 	{
 		free(existing_node->value);
 		existing_node->value = ft_strdup(value);
-		return ;
+		if (!existing_node->value)
+			return (ERROR);
+		return (SUCCESS);
 	}
 	new_node = create_env_node(key, value);
 	if (!new_node)
-		return ;
+		return (ERROR);
 	if (!*env_list)
-	{
-		*env_list = new_node;
-		return ;
-	}
+		return ((*env_list = new_node), SUCCESS);
 	current = *env_list;
 	while (current->next)
 		current = current->next;
 	current->next = new_node;
+	return (SUCCESS);
 }
 
 void	remove_head_env_node(t_env **env_list, char *key)

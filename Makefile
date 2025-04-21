@@ -57,6 +57,7 @@ SRCS = $(SRCS_DIR)/main.c \
 	$(BUILTINS_DIR)/pwd.c \
 	$(BUILTINS_DIR)/export.c \
 	$(BUILTINS_DIR)/export_sort.c \
+	$(BUILTINS_DIR)/export_plus.c \
 	$(BUILTINS_DIR)/unset.c \
 	$(BUILTINS_DIR)/env.c \
 	$(BUILTINS_DIR)/exit.c \

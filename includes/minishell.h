@@ -92,7 +92,7 @@ int			process_input(char *input, t_shell *shell);
 t_env		*init_env_list(char **envp);
 char		**env_list_to_array(t_env *env_list);
 t_env		*get_env_node(t_env *env_list, char *key);
-void		add_env_node(t_env **env_list, char *key, char *value);
+int			add_env_node(t_env **env_list, char *key, char *value);
 void		remove_env_node(t_env **env_list, char *key);
 void		update_env_array(t_shell *shell);
 char		*get_env_value(t_env *env_list, char *key);
@@ -159,6 +159,7 @@ int			print_sorted_env(t_env *env_list, int fd);
 int			builtin_env(t_command *cmd, t_shell *shell);
 int			builtin_exit(t_command *cmd, t_shell *shell);
 char		*simplify_path(const char *path);
+int			export_with_plus_equal(char *arg, char *eq, t_shell *sh);
 
 /* signal*/
 void		setup_signals(void);

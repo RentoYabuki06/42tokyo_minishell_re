@@ -6,7 +6,7 @@
 /*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/21 13:07:32 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 13:34:49 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,46 +52,6 @@ static int	export_with_equal(char *arg, char *equals_pos, t_shell *shell)
 		free(key);
 		free(value);
 		return (ERROR);
-	}
-	add_env_node(&shell->env_list, key, value);
-	free(key);
-	free(value);
-	return (SUCCESS);
-}
-
-static int	export_with_plus_equal(char *arg, char *equals_pos, t_shell *shell)
-{
-	char	*key;
-	char	*value;
-	char	*existing_value;
-	char	*new_value;
-	char	*msg;
-
-	key = ft_substr(arg, 0, equals_pos - arg - 1);
-	if (!key)
-		return (system_error("ft_substr"), ERROR);
-	value = ft_strdup(equals_pos + 1);
-	if (!value)
-		return (free(key), ERROR);
-	if (!is_valid_identifier(key))
-	{
-		msg = ft_strjoin(arg, ": not a valid identifier");
-		if (msg == NULL)
-			return (ERROR);
-		print_error("export", msg);
-		free(msg);
-		free(key);
-		free(value);
-		return (ERROR);
-	}
-	existing_value = get_env_value(shell->env_list, key);
-	if (existing_value != NULL)
-	{
-		new_value = ft_strjoin(existing_value, value);
-		free(value);
-		if (new_value == NULL)
-			return (free(key), ERROR);
-		value = new_value;
 	}
 	add_env_node(&shell->env_list, key, value);
 	free(key);
