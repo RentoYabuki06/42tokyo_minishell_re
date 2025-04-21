@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/21 11:57:06 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 13:07:32 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	export_with_plus_equal(char *arg, char *equals_pos, t_shell *shell)
 	char	*new_value;
 	char	*msg;
 
-	key = ft_substr(arg, 0, equals_pos - arg);
+	key = ft_substr(arg, 0, equals_pos - arg - 1);
 	if (!key)
 		return (system_error("ft_substr"), ERROR);
 	value = ft_strdup(equals_pos + 1);
