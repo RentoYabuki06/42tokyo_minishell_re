@@ -6,12 +6,11 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/21 13:54:56 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:02:04 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/get_next_line.h"
-#include <errno.h>
 
 static char	*read_to_newline(int fd, char **saved, char *buffer)
 {
@@ -36,10 +35,7 @@ static char	*read_to_newline(int fd, char **saved, char *buffer)
 			break ;
 	}
 	if ((bytes_read == 0 && ft_strlen(*saved) == 0) || bytes_read < 0)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		return (free(*saved), NULL);
-	}
+		return (free(*saved), write(STDOUT_FILENO, "\n", 1), NULL);
 	return (*saved);
 }
 
