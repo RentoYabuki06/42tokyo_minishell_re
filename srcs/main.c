@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:12:06 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/21 11:31:35 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 13:23:08 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,55 +33,6 @@ static t_shell	*init_shell(char **envp)
 	shell->exit_status = 0;
 	shell->running = 1;
 	return (shell);
-}
-
-static char	*get_last_argument(t_command *commands)
-{
-	t_command	*cmd;
-	char		**args;
-	int			i;
-
-	cmd = commands;
-	if (!cmd)
-		return (NULL);
-	while (cmd && cmd->next)
-		cmd = cmd->next;
-	args = cmd->args;
-	if (!args || !args[0])
-		return (NULL);
-	i = 0;
-	while (args[i + 1])
-		i++;
-	return (ft_strdup(args[i]));
-}
-
-int	process_input(char *input, t_shell *shell)
-{
-	char	*last_arg;
-
-	if (!input || ft_strlen(input) == 0)
-		return (SUCCESS);
-	add_history(input);
-	shell->tokens = tokenize(input, shell);
-	if (shell->tokens == NULL && shell->exit_status == NO_TOKEN)
-	{
-		shell->exit_status = SUCCESS;
-		return (SUCCESS);
-	}
-	if (shell->tokens == NULL || parse(shell) != SUCCESS)
-	{
-		shell->exit_status = ERROR;
-		return (ERROR);
-	}
-	shell->exit_status = execute_commands(shell);
-	last_arg = get_last_argument(shell->commands);
-	if (last_arg)
-	{
-		add_env_node(&shell->env_list, "_", last_arg);
-		update_env_array(shell);
-		free(last_arg);
-	}
-	return (shell->exit_status);
 }
 
 static int	shell_loop(t_shell *shell)

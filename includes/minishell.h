@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:54:28 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/21 13:33:11 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 13:29:53 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 
 # define SUCCESS 0
 # define ERROR 1
+# define SYNTAX_ERROR 2
 # define NO_TOKEN 123
 # define MAXNUM_FD 1024
 

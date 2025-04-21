@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 23:54:20 by yabukirento       #+#    #+#              #
-#    Updated: 2025/04/21 13:26:41 by myokono          ###   ########.fr        #
+#    Updated: 2025/04/21 13:36:54 by ryabuki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ GNL_DIR = $(SRCS_DIR)/gnl/srcs
 
 # ソースファイル
 SRCS = $(SRCS_DIR)/main.c \
+	$(SRCS_DIR)/process_input.c \
 	$(PARSER_DIR)/lexer.c \
 	$(PARSER_DIR)/parser.c \
 	$(PARSER_DIR)/token.c \
