@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:54:28 by yabukirento       #+#    #+#             */
-/*   Updated: 2025/04/21 13:27:05 by myokono          ###   ########.fr       */
+/*   Updated: 2025/04/21 13:33:11 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			process_input(char *input, t_shell *shell);
 t_env		*init_env_list(char **envp);
 char		**env_list_to_array(t_env *env_list);
 t_env		*get_env_node(t_env *env_list, char *key);
-void		add_env_node(t_env **env_list, char *key, char *value);
+int			add_env_node(t_env **env_list, char *key, char *value);
 void		remove_env_node(t_env **env_list, char *key);
 void		update_env_array(t_shell *shell);
 char		*get_env_value(t_env *env_list, char *key);
