@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
+/*   By: myokono <myokono@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 02:09:14 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/16 21:54:55 by yabukirento      ###   ########.fr       */
+/*   Updated: 2025/04/21 11:57:06 by myokono          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,46 @@ static int	export_with_equal(char *arg, char *equals_pos, t_shell *shell)
 	return (SUCCESS);
 }
 
+static int	export_with_plus_equal(char *arg, char *equals_pos, t_shell *shell)
+{
+	char	*key;
+	char	*value;
+	char	*existing_value;
+	char	*new_value;
+	char	*msg;
+
+	key = ft_substr(arg, 0, equals_pos - arg);
+	if (!key)
+		return (system_error("ft_substr"), ERROR);
+	value = ft_strdup(equals_pos + 1);
+	if (!value)
+		return (free(key), ERROR);
+	if (!is_valid_identifier(key))
+	{
+		msg = ft_strjoin(arg, ": not a valid identifier");
+		if (msg == NULL)
+			return (ERROR);
+		print_error("export", msg);
+		free(msg);
+		free(key);
+		free(value);
+		return (ERROR);
+	}
+	existing_value = get_env_value(shell->env_list, key);
+	if (existing_value != NULL)
+	{
+		new_value = ft_strjoin(existing_value, value);
+		free(value);
+		if (new_value == NULL)
+			return (free(key), ERROR);
+		value = new_value;
+	}
+	add_env_node(&shell->env_list, key, value);
+	free(key);
+	free(value);
+	return (SUCCESS);
+}
+
 static int	add_export(char *arg, t_shell *shell)
 {
 	char	*equals_pos;
@@ -68,7 +108,12 @@ static int	add_export(char *arg, t_shell *shell)
 	if (!equals_pos)
 		status = handle_export_without_equal(arg, shell);
 	else
-		status = export_with_equal(arg, equals_pos, shell);
+	{
+		if (equals_pos > arg && *(equals_pos - 1) == '+')
+			status = export_with_plus_equal(arg, equals_pos, shell);
+		else
+			status = export_with_equal(arg, equals_pos, shell);
+	}
 	update_env_array(shell);
 	if (!shell->env_array)
 		return (system_error("update_env_array"), ERROR);
