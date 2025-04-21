@@ -6,7 +6,7 @@
 /*   By: ryabuki <ryabuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:48:16 by myokono           #+#    #+#             */
-/*   Updated: 2025/04/21 13:41:27 by ryabuki          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:02:12 by ryabuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static int	handle_execve_error(char *exec_path)
 	if (stat(exec_path, &st) == 0 && S_ISDIR(st.st_mode))
 		print_error(exec_path, "Is a directory");
 	else if (err == EACCES)
-	{
 		print_error(exec_path, "Permission denied");
-		code = 127;
-	}
 	else if (err == ENOENT)
 	{
 		print_error(exec_path, "No such file or directory");
