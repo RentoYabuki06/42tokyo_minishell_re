@@ -1,123 +1,115 @@
-# 42tokyo minishell
-
+# minishell
 ![minishell](https://img.shields.io/badge/Project-minishell-blue)
 
-`minishell` は、bashの基本的な機能を再現するシェルの実装です。このプロジェクトでは、プロセス作成、ファイル操作、シグナルハンドリングなどのUNIXシステムコールを使用して、独自のシェルインタープリタを開発しています。
+A simple shell implementation inspired by bash, developed as part of the 42 curriculum.
 
-## 目次
-1. 機能
-2. コンパイル方法
-3. 使用方法
-4. サポートされているコマンド
-5. プロジェクト構造
-6. テスト
+## Overview
 
-## 機能
+`minishell` is a lightweight shell that replicates basic bash functionality. This project uses UNIX system calls to implement process creation, file manipulation, and signal handling in a custom shell interpreter.
 
-- コマンド実行（外部コマンドとビルトインコマンド）
-- パイプ (`|`) を使用した複数コマンドの連結
-- リダイレクション (`>`, `>>`, `<`) 
-- ヒアドキュメント (`<<`)
-- 環境変数の管理と展開（`$VAR`）
-- シグナルハンドリング（Ctrl+C, Ctrl+D, Ctrl+\）
-- 相対パスと絶対パスの処理
-- クォーテーション処理（シングルクォート `'`、ダブルクォート `"`）
+## Features
 
-## コンパイル方法
+- Command execution (built-in and external commands)
+- Command chaining with pipes (`|`)
+- Input/output redirection (`>`, `>>`, `<`)
+- Here-document support (`<<`)
+- Environment variable expansion (`$VAR`)
+- Signal handling (Ctrl+C, Ctrl+D, Ctrl+\)
+- Path resolution (relative and absolute)
+- Quote handling (single `'` and double `"` quotes)
 
-リポジトリをクローンした後、以下のコマンドを実行してください：
+## Getting Started
+
+### Prerequisites
+
+- GCC or Clang compiler
+- GNU Make
+- Readline library
+
+### Installation
+
+Clone the repository and compile the project:
 
 ```bash
+git clone https://github.com/yourusername/minishell.git
+cd minishell
 make
 ```
 
-## 使用方法
+### Usage
 
-コンパイル後、以下のコマンドでminishellを起動できます：
+Run the shell:
 
 ```bash
 ./minishell
 ```
 
-プロンプト `minishell$` が表示され、コマンドを入力できるようになります。
-
-また、`-c` オプションを使用して、直接コマンドを実行することもできます：
+Execute a command directly:
 
 ```bash
 ./minishell -c "echo hello world"
 ```
 
-## サポートされているコマンド
+## Supported Commands
 
-### ビルトインコマンド
+### Built-in Commands
 
-- `echo` - 文字列を表示（`-n` オプション対応）
-- `cd` - カレントディレクトリを変更
-- `pwd` - 現在のディレクトリを表示
-- `export` - 環境変数を設定
-- `unset` - 環境変数を削除
-- `env` - 環境変数を表示
-- `exit` - シェルを終了
+- `echo` - Display a line of text (with `-n` option support)
+- `cd` - Change the current directory
+- `pwd` - Print the current working directory
+- `export` - Set environment variables
+- `unset` - Remove environment variables
+- `env` - Display environment variables
+- `exit` - Exit the shell
 
-### その他の機能
+### Shell Features
 
-- **パイプ**: `cmd1 | cmd2`
-- **リダイレクション**:
-  - 出力: `cmd > file`, `cmd >> file`
-  - 入力: `cmd < file`
-  - ヒアドキュメント: `cmd << DELIMITER`
-- **環境変数の展開**: `$VAR`, `$?`（直前のコマンドの終了ステータス）
-- **クォーテーション処理**:
-  - シングルクォート (`'`): 全ての特殊文字をリテラルとして扱う
-  - ダブルクォート (`"`): 変数展開を許可する
-  - エスケープシーケンス: `$'...'` 構文で特殊文字対応
+- **Pipes**: `cmd1 | cmd2`
+- **Redirections**:
+  - Output: `cmd > file`, `cmd >> file`
+  - Input: `cmd < file`
+  - Here-document: `cmd << DELIMITER`
+- **Variable Expansion**: `$VAR`, `$?` (previous command's exit status)
+- **Quote Handling**:
+  - Single quotes (`'`): Treat all special characters literally
+  - Double quotes (`"`): Allow variable expansion
 
-## プロジェクト構造
+## Project Structure
 
 ```
 .
-├── includes/
-│   └── minishell.h     # メインヘッダファイル
+├── includes/            # Header files
 ├── srcs/
-│   ├── builtins/       # ビルトインコマンドの実装
-│   ├── executor/       # コマンド実行関連
-│   ├── gnl/            # get_next_line実装
-│   ├── libft/          # 標準ライブラリ関数の再実装
-│   ├── parser/         # 入力解析とトークン化
-│   ├── signals/        # シグナルハンドリング
-│   ├── utils/          # ユーティリティ関数
-│   └── main.c          # メインエントリポイント
-└── minishell_tester/   # 自動テストスイート
+│   ├── builtins/        # Built-in command implementations
+│   ├── executor/        # Command execution handlers
+│   ├── gnl/             # Get_next_line implementation
+│   ├── libft/           # Custom C standard library functions
+│   ├── parser/          # Input parsing and tokenization
+│   ├── signals/         # Signal handling
+│   ├── utils/           # Utility functions
+│   └── main.c           # Main entry point
+├── Makefile             # Build configuration
+└── mytester.sh          # Basic test script
 ```
 
-## テスト
+## Testing
 
-テスト実行用のスクリプトが含まれています：
+Run basic tests:
 
 ```bash
-# 基本テストを実行
 ./mytester.sh
-
-# Tester suiteを使用した詳細テスト
-cd minishell_tester
-./tester
 ```
 
-特定のテストカテゴリのみを実行するには：
-
-```bash
-./minishell_tester/tester builtins
-./minishell_tester/tester pipes
-./minishell_tester/tester redirects
-./minishell_tester/tester extras
-```
-
-メモリリークをチェックするには（valgrindを使用）：
+Check for memory leaks using valgrind:
 
 ```bash
 ./vshell
 ```
 
----
+## Contributing
 
-このプロジェクトは、Unix系システムのシェルの動作を理解し、プロセス制御、ファイル操作、シグナルハンドリングなどの低レベルシステムコールを学ぶための教育的なプロジェクトです。
+This project is an educational exercise. Feel free to fork and use for your own learning.
+
+## License
+
+This project is part of the 42 curriculum and follows its guidelines and licenses.
